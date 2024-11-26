@@ -1,0 +1,15 @@
+<div class="ui-radiobutton">
+    <input 
+        #input
+        focusBlur
+        (onFocus)="onFocus()"
+        (onBlur)="onBlur()"
+        id="radio1"
+        class="ui-radiobutton-input"
+        type="radio"
+        [checked]="isChecked"
+        [disabled]="isDisabled"
+        [attr.aria-invalid]="isError"
+    />
+    <label for="radio1" class="ui-radiobutton-label">{{label}}</label>
+</div>

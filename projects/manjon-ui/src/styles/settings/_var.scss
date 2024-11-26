@@ -1,0 +1,28 @@
+:root {
+
+    //Fonts
+
+    --font-family: "Poppins", sans-serif;
+    --font-size: 16px;
+    --line-height: 1.5;
+
+    // Colors Corporate
+    --corporate-purple: #9D3FE7;
+    --corporate-gradient: 159.13deg, #9D3FE7 -24.13%, #602093 132.21%;
+
+    //Grayscale
+    --grayscale-black: #1A141F;
+    --grayscale-white: #FFFFFF;
+    --grayscale-hint-text: #4B3A5A;
+    --grayscale-border: #ABA7AF;
+    --grayscale-disabled: #D4D2D5;
+    --grayscale-spacer: #D9D1E0;
+    --grayscale-spacer-light: #E5E0EB;
+    --grayscale-bg-light-grey: #F5F3F7;
+
+    //Informing
+    --informing-error: #D51A52;
+    --informing-attention: #FF9500;
+    --informing-approval: #00B998;
+    --informing-link: #0F0BAB;
+}
