@@ -10,6 +10,7 @@
         [checked]="isChecked"
         [disabled]="isDisabled"
         [attr.aria-invalid]="isError"
+        (input)="onInput($event)"
     />
     <label for="radio1" class="ui-radiobutton-label">{{label}}</label>
 </div>
