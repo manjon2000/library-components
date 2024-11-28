@@ -1,15 +1,4 @@
-@mixin hidden() {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  -webkit-clip-path: inset(50%);
-  clip-path: inset(50%);
-  border: 0;
-}
+@use '../../../styles/index.scss' as mixin;
 
 :host {
   --ui-radiobutton-border-default: var(
@@ -24,6 +13,10 @@
     --ui-custom-radiobutton-border-checked,
     var(--corporate-purple)
   );
+  --ui-radiobutton-border-error: var(
+    --ui-custom-radiobutton-border-error,
+    var(--informing-error)
+  );
   --ui-radiobutton-shadow-bg-default: var(
     --ui-custom-radiobutton-shadow-bg-default,
     transparent
@@ -34,7 +27,7 @@
   );
   --ui-radiobutton-shadow-bg-error: var(
     --ui-custom-radiobutton-shadow-bg-error,
-    transparent
+    var(--informing-error)
   );
   --ui-radiobutton-shadow-bg-disabled: var(
     --ui-custom-radiobutton-shadow-bg-disabled,
@@ -42,11 +35,11 @@
   );
   --ui-radiobutton-shadow-width-default: var(
     --ui-custom-radiobutton-shadow-width-default,
-    0px
+    #{mixin.em(0px)}
   );
   --ui-radiobutton-shadow-width-checked: var(
     --ui-custom-radiobutton-shadow-width-checked,
-    4px
+    #{mixin.em(4px)}
   );
 }
 
@@ -59,7 +52,7 @@
   font-family: var(--font-family);
 
   &-input {
-    @include hidden;
+    @include mixin.hidden;
     &:focus {
       & + label {
         &::before {
@@ -71,7 +64,7 @@
       &:not([aria-invalid="true"]) {
         & + label {
           &::before {
-            --radiobutton-shadow: white;
+            --radiobutton-shadow: var(--grayscale-white);
             --radiobutton-shadow-width: var(
               --ui-radiobutton-shadow-width-checked
             );
@@ -85,13 +78,13 @@
       &:checked {
         & + label {
           --radiobutton-shadow: var(--grayscale-white);
-          --radiobutton-bg: var(--informing-error);
-          --radiobutton-shadow-width: 4px;
+          --radiobutton-bg: var(--ui-radiobutton-shadow-bg-error);
+          --radiobutton-shadow-width: var(--ui-radiobutton-shadow-width-checked);
         }
       }
       & + label {
         &::before {
-          --radiobutton-border: var(--informing-error);
+          --radiobutton-border: var(--ui-radiobutton-border-error);
         }
       }
     }
@@ -99,23 +92,23 @@
 
   &-label {
     position: relative;
-    padding-left: calc(18px + (12px / 2));
+    padding-left: calc(mixin.em(18px) + (mixin.em(12px) / 2));
     font-weight: 400;
-    font-size: 16px;
+    font-size: mixin.em(16px);
     line-height: 148%;
     color: var(--grayscale-black);
 
     &::before {
       content: "";
-      width: 18px;
-      height: 18px;
+      width: mixin.em(18px);
+      height: mixin.em(18px);
       border: 1px solid var(--radiobutton-border, var(--grayscale-spacer));
       border-radius: 999px;
       position: absolute;
       left: 0;
       top: 0;
       bottom: 0;
-      margin-top: 2px;
+      margin-top: mixin.em(2px);
       transition: background ease-in-out 0.25s;
       background-color: var(--radiobutton-bg);
       box-shadow: inset 0 0 0 var(--radiobutton-shadow-width)

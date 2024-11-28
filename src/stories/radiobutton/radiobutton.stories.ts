@@ -58,18 +58,4 @@ export const Default: StoryObj<UIRadiobuttonComponent> = {
             }
         }
     }
-}
-
-export const Asdasd: StoryObj<UIRadiobuttonComponent> = {
-    args: {
-        label: "asdasdadasasdasdasd",
-        isChecked: false,
-        isDisabled: false
-    },
-
-    render(args) {
-        return {
-            template: `<ui-radiobutton [label]="label" [isChecked]="isChecked" [isDisabled]="isDisabled"  />`
-        };
-    }
 };

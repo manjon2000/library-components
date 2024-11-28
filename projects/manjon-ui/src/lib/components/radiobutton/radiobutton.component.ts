@@ -26,6 +26,7 @@ export class UIRadiobuttonComponent implements ControlValueAccessor {
   @Input() isChecked!: boolean;
   @Input() isDisabled!: boolean;
   @Input() isError!: boolean;
+  @Input() ariaLabel!: string;
 
   public onChangeCallback?: (checked: boolean) => void;
   private _value!: boolean;
