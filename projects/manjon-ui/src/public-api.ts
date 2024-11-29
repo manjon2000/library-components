@@ -4,3 +4,6 @@
 
 // Radiobutton
 export * from './lib/components/radiobutton/radiobutton.component';
+
+//Toggler
+export * from './lib/components/toggler/toggler.component';

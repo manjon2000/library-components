@@ -10,6 +10,8 @@
   "assets": [
     "src/styles/index.scss",
     "src/styles/settings/_var.scss",
-    "src/styles/settings/_resets.scss"
+    "src/styles/settings/_resets.scss",
+    "src/styles/utils/_utils.scss",
+    "src/styles/utils/_mixins.scss"
   ]
 }
