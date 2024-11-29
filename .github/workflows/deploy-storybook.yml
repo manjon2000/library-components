@@ -32,6 +32,19 @@ jobs:
       - name: List build directory
         run: ls ./dist/storybook/lib-ui
 
+      - name: Create gh-pages branch if it doesn't exist
+        run: |
+            git fetch
+            if ! git show-ref --quiet refs/heads/gh-pages; then
+                git checkout --orphan gh-pages
+                git rm -rf .
+                git commit --allow-empty -m "Initial commit for gh-pages"
+                git push origin gh-pages
+            else
+                git checkout gh-pages
+            fi
+
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
