@@ -48,8 +48,8 @@ jobs:
                 git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/manjon2000/library-components.git gh-pages
             else
                 git fetch origin gh-pages
-                git pull
                 git checkout gh-pages
+                git pull origin gh-pages --rebase
                 git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/manjon2000/library-components.git gh-pages
             fi
 
