@@ -18,6 +18,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Set up Git user identity
+        run: |
+          git config --global user.email "albertmanjon123@gmail.com"
+          git config --global user.name "Albert Manjón"
+
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
