@@ -30,7 +30,7 @@ jobs:
         run: npm run storybook-build
 
       - name: List build directory
-        run: ls
+        run: ls ./dist/storybook
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v2
