@@ -32,4 +32,9 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v2
         with:
-          build_dir: ./storybook-static
+            token: ${{ secrets.GITHUB_TOKEN }}
+            build_dir: ./storybook-static
+            artifact_name: github-pages
+            timeout: 600000
+            error_count: 10
+            reporting_interval: 5000
