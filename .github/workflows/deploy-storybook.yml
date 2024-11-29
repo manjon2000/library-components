@@ -6,7 +6,7 @@ on:
       - master
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -43,11 +43,14 @@ jobs:
             git fetch
             if ! git show-ref --quiet refs/heads/gh-pages; then
                 git checkout --orphan gh-pages
+                git pull origin gh-pages
                 git rm -rf .
                 git commit --allow-empty -m "Initial commit for gh-pages"
                 git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/manjon2000/library-components.git gh-pages            else
             else
+                git fetch origin gh-pages
                 git checkout gh-pages
+                git pull origin gh-page
                 git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/manjon2000/library-components.git gh-pages
             fi
 
