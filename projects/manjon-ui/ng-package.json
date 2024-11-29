@@ -1,0 +1,17 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/manjon-ui",
+  "lib": {
+    "entryFile": "src/public-api.ts",
+    "styleIncludePaths": [
+      "src/styles"
+    ]
+  },
+  "assets": [
+    "src/styles/index.scss",
+    "src/styles/settings/_var.scss",
+    "src/styles/settings/_resets.scss",
+    "src/styles/utils/_utils.scss",
+    "src/styles/utils/_mixins.scss"
+  ]
+}
