@@ -56,7 +56,6 @@ jobs:
 
       - name: Create or update gh-pages branch
         run: |
-            # Asegúrate de estar en la rama gh-pages
             git checkout gh-pages
             git rm -rf .
             cp -r ./dist/storybook/lib-ui/* ./
