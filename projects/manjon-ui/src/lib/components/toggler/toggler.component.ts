@@ -12,6 +12,7 @@ export class UITogglerComponent {
   @Input() isActived!: boolean;
   @Input() isDisabled!: boolean;
   @Input() ariaLabel!: string;
+  @Input() ariaLabelledby!: string;
 
   @Output() outputEvent: EventEmitter<boolean> = new  EventEmitter<boolean>();
 

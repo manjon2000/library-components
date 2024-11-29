@@ -9,7 +9,8 @@
     --ui-toggler-bg-active: 
         var(--ui-custom-toggler-bg-active,
             var(--corporate-purple)
-        );
+        )
+    ;
     --ui-toggler-bg-disabled: 
         var(--ui-custom-toggler-bg-disabled,
             var(--grayscale-disabled)
