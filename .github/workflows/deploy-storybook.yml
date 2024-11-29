@@ -45,16 +45,17 @@ jobs:
                 git checkout --orphan gh-pages
                 git rm -rf .
                 git commit --allow-empty -m "Initial commit for gh-pages"
-                git push origin gh-pages
+                git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/manjon2000/library-components.git gh-pages            else
             else
                 git checkout gh-pages
+                git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/manjon2000/library-components.git gh-pages
             fi
 
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
+            github_token: ${{ secrets.GH_PAT }}            
             publish_dir: ./dist/storybook/lib-ui
             publish_branch: gh-pages
             user_name: manjon2000
