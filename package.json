@@ -6,7 +6,7 @@
     "start": "ng serve",
     "storybook": "ng run lib-ui:storybook",
     "docs:json": "compodoc -p ./tsconfig.json -e json -d .",
-    "storybook-build": "npm run docs:json && build-storybook",
+    "storybook-build": "npm run docs:json && ng run lib-ui:build-storybook",
     "build": "ng build",
     "build-lib": "ng build manjon-ui",
     "watch": "ng build --watch --configuration development",
