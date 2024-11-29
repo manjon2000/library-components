@@ -38,30 +38,27 @@ jobs:
       - name: List build directory
         run: ls ./dist/storybook/lib-ui
 
-      - name: Create gh-pages branch if it doesn't exist
+      - name: Create or update gh-pages branch
         run: |
-            git fetch
-            if ! git show-ref --quiet refs/heads/gh-pages; then
-                git checkout --orphan gh-pages
-                git pull origin gh-pages
-                git rm -rf .
-                git commit --allow-empty -m "Initial commit for gh-pages"
-                git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/manjon2000/library-components.git gh-pages
-            else
-                git fetch origin gh-pages
-                git checkout gh-pages
-                git pull origin gh-pages
-                git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/manjon2000/library-components.git gh-pages
-            fi
-    
-        
+          git fetch
+          # Si la rama gh-pages no existe, crearla
+          if ! git show-ref --quiet refs/heads/gh-pages; then
+              git checkout --orphan gh-pages
+              git rm -rf .  # Eliminar todos los archivos
+              git commit --allow-empty -m "Initial commit for gh-pages"
+              git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/manjon2000/library-components.git gh-pages
+          else
+              git fetch origin gh-pages
+              git checkout gh-pages
+              git pull origin gh-pages
+          fi
 
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-            github_token: ${{ secrets.GH_PAT }}            
-            publish_dir: ./dist/storybook/lib-ui
-            publish_branch: gh-pages
-            user_name: manjon2000
-            user_email: albertmanjon123@gmail.com
+      - name: Create or update gh-pages branch
+        run: |
+            # Asegúrate de estar en la rama gh-pages
+            git checkout gh-pages
+            git rm -rf .
+            cp -r ./dist/storybook/lib-ui/* ./
+            git add .
+            git commit -m "Deploy Storybook to GitHub Pages"
+            git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/manjon2000/library-components.git gh-pages
