@@ -46,7 +46,7 @@ jobs:
                 git pull origin gh-pages
                 git rm -rf .
                 git commit --allow-empty -m "Initial commit for gh-pages"
-                git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/manjon2000/library-components.git gh-pages            else
+                git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/manjon2000/library-components.git gh-pages
             else
                 git fetch origin gh-pages
                 git checkout gh-pages
