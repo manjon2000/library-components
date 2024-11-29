@@ -37,3 +37,6 @@ jobs:
         with:
             github_token: ${{ secrets.GITHUB_TOKEN }}
             publish_dir: ./dist/storybook/lib-ui
+            publish_branch: gh-pages
+            user_name: manjon2000
+            user_email: albertmanjon123@gmail.com
