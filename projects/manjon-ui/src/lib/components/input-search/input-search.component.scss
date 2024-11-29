@@ -1,0 +1,6 @@
+@use '../../../styles/index.scss' as  mixin;
+.ui-input-search {
+    height: mixin.em(44px);
+    border: mixin.em(1px) solid var(--grayscale-spacer-light);
+    border-radius: mixin.em(2px);
+}
