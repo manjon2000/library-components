@@ -9,6 +9,7 @@
     "storybook-build": "npm run docs:json && ng run lib-ui:build-storybook",
     "build": "ng build",
     "build-lib": "ng build manjon-ui",
+    "build:library": "node build-library.js",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

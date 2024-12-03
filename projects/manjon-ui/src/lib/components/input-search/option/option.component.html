@@ -1,0 +1,10 @@
+<button 
+    class="ui-option" 
+    type="button" 
+    [class.ui-option--active]="isActive"
+    [disabled]="isDisabled"
+    [attr.aria-disabled]="isDisabled"
+    (click)="onClick()"
+>
+    {{title}}
+</button>
