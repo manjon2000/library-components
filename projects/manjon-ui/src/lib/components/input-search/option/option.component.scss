@@ -1,0 +1,30 @@
+@use '../../../../styles/index.scss' as  mixin;
+
+
+.ui-option {
+    width: 100%;
+    display: block;
+    text-align: left;
+    padding: mixin.em(12px);
+    font-size: mixin.em(14px);
+    line-height: 140%;
+
+    &:not(&:disabled)  {
+        cursor: pointer;
+    }
+
+    &:disabled {
+        background-color: var(--grayscale-disabled);
+        color: var(--grayscale-border);
+        cursor: not-allowed;
+    }
+    
+    &:focus {
+        border: mixin.em(1px) solid var(--grayscale-black);
+    }
+
+    &--active {
+        background-color: var(--corporate-purple);
+        color: var(--grayscale-white);
+    }
+}

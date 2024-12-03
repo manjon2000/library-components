@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 
 import { moduleMetadata } from '@storybook/angular'
-import { UIRadiobuttonComponent } from '../../../projects/manjon-ui/src/public-api';
+import { UIRadiobuttonComponent } from 'manjon-ui';
 
 
 const meta: Meta<UIRadiobuttonComponent> = {
@@ -44,7 +44,9 @@ export const Default: StoryObj<UIRadiobuttonComponent> = {
         return {
             template: `
             <style>
-                .custom-theme-radio-button {}
+                .custom-theme-radio-button {
+                --ui-radiobutton-border-default: red;
+                }
             </style>
             <ui-radiobutton
                 class="custom-theme-radio-button"

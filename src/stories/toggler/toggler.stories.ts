@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 import { action } from '@storybook/addon-actions';
 
-import { UITogglerComponent } from '../../../projects/manjon-ui/src/public-api';
+import { UITogglerComponent } from 'manjon-ui';
 
 const meta: Meta<UITogglerComponent> = {
     title: 'Components/Toggler',

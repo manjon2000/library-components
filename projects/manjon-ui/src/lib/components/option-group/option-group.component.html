@@ -1,0 +1,18 @@
+<ng-container *ngIf="options">
+    <ul role="listbox">
+        <ng-container *ngIf="isEmpty; then emptyData;"></ng-container>
+        <li *ngFor="let option of options; trackBy: trackByOptionId">
+            <ui-option
+                [title]="option.value" 
+                [isActive]="verifyThisElementIsSelected(option)"
+                [isDisabled]="option.disabled"
+                (outputemit)="onSendOptionSelected(option)" 
+            />
+        </li>
+    </ul>
+</ng-container>
+
+
+<ng-template #emptyData>
+    <li>Empty Data</li>
+</ng-template>

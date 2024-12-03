@@ -1,0 +1,6 @@
+<ui-input-search
+    (isShowSuggestions)="true"
+    [panelSuggestions]="suggestions"
+    (outputWriteInput)="searchValue($event)">
+    <ui-option-group #suggestions [options]="options" />
+</ui-input-search>

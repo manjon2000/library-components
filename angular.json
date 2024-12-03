@@ -99,7 +99,7 @@
           "builder": "@storybook/angular:start-storybook",
           "options": {
             "styles": [
-              "dist/manjon-ui/src/styles/index.scss"
+              "./node_modules/manjon-ui/src/styles/index.scss"
             ],
             "configDir": ".storybook",
             "browserTarget": "lib-ui:build",
