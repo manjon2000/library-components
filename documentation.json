@@ -3,12 +3,12 @@
     "interfaces": [
         {
             "name": "Vehicle",
-            "id": "interface-Vehicle-203dae7f0ddbb7d89a730ff47e22546e23d5ff8c7fed0aec65c6ffa5c80dbf7ef08eb4aded103d039518e79c02c00d9bfc454c0ab079dfde329870929c0c3480",
+            "id": "interface-Vehicle-e9caed79e6a0ef88bd0f3e6e7aa56890d62192ceadfabc908bdc1581871eda80a8925a1184b408e908faafce5b8dc6f95b433423f2230fc32173672bb1719e55",
             "file": "src/stories/input-search/demo-input-search/demo-input-search.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { HttpClient, HttpClientModule } from '@angular/common/http';\nimport { Component } from '@angular/core';\nimport {UIOptionGroupComponent, UIOptionComponent, IUIOptionGroupOptionConfiguration} from 'manjon-ui';\nimport { catchError, filter, map, of } from 'rxjs';\nimport { UIInputSearchComponent } from '../../../../projects/manjon-ui/src/public-api';\n\n\ninterface VehicleData {\n  total_count: number;\n  results: Vehicle[];\n}\n\ninterface Vehicle {\n  make: string;\n  model: string;\n  barrels08: number;\n  barrelsa08: number;\n  charge120: number;\n  charge240: number;\n  city08: number;\n  city08u: number;\n  citya08: number;\n  citya08u: number;\n  citycd: number;\n  citye: number;\n  cityuf: number;\n  co2: number;\n  co2a: number;\n  co2tailpipeagpm: number;\n  co2tailpipegpm: number;\n  comb08: number;\n  comb08u: number;\n  comba08: number;\n  comba08u: number;\n  combe: number;\n  combinedcd: number;\n  combineduf: number;\n  cylinders: number;\n  displ: number;\n  drive: string;\n  engid: string;\n  eng_dscr: string[];\n  fescore: number;\n  fuelcost08: number;\n  fuelcosta08: number;\n  fueltype: string;\n  fueltype1: string;\n  ghgscore: number;\n  ghgscorea: number | null;\n  highway08: number;\n  highway08u: number;\n  highwaya08: number;\n  highwaya08u: number;\n  highwaycd: number;\n  highwaye: number;\n  highwayuf: number;\n  hlv: number;\n  hpv: number;\n  id: string;\n  lv2: number;\n  lv4: number;\n  mpgdata: string;\n  phevblended: string;\n  pv2: number;\n  pv4: number;\n  range: number;\n  rangecity: number;\n  rangecitya: number;\n  rangehwy: number;\n  rangehwya: number;\n  trany: string;\n  ucity: number;\n  ucitya: number;\n  uhighway: number;\n  uhighwaya: number;\n  vclass: string;\n  year: string;\n  yousavespend: number;\n  guzzler: string | null;\n  trans_dscr: string | null;\n  tcharger: string | null;\n  scharger: string | null;\n  atvtype: string | null;\n  fueltype2: string | null;\n  rangea: string | null;\n  evmotor: string | null;\n  mfrcode: string;\n  c240dscr: string | null;\n  charge240b: number;\n  c240bdscr: string | null;\n  createdon: string;\n  modifiedon: string;\n  startstop: string;\n  phevcity: number;\n  phevhwy: number;\n  phevcomb: number;\n  basemodel: string;\n}\n\n\n@Component({\n  selector: 'demo-input-search',\n  standalone: true,\n  imports: [\n    CommonModule,\n    UIInputSearchComponent,\n    UIOptionGroupComponent,\n    HttpClientModule,\n  ],\n  templateUrl: './demo-input-search.component.html',\n  styleUrl: './demo-input-search.component.scss'\n})\nexport class DemoInputSearchComponent {\n\n  countries: IUIOptionGroupOptionConfiguration[] = [\n    { id: '1', value: 'Argentina', disabled: false },\n    { id: '2', value: 'Brazil', disabled: false },\n    { id: '3', value: 'Canada', disabled: false },\n    { id: '4', value: 'Chile', disabled: false },\n    { id: '5', value: 'Colombia', disabled: false },\n    { id: '6', value: 'Germany', disabled: false },\n    { id: '7', value: 'Mexico', disabled: false },\n    { id: '8', value: 'United States', disabled: false },\n    { id: '9', value: 'Spain', disabled: false },\n    { id: '10', value: 'France', disabled: false }\n  ];\n  \n  options: IUIOptionGroupOptionConfiguration[] = [];\n\n  constructor() {}\n\n  searchValue(event: string) {\n    console.log(event);\n    this.options = this.countries.filter((contry) => contry.value.includes(event))\n  }\n}\n",
+            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { Component } from '@angular/core';\nimport { UIInputSearchComponent, UIOptionGroupComponent, IUIOptionGroupOptionConfiguration } from 'manjon-ui';\n\n\ninterface VehicleData {\n  total_count: number;\n  results: Vehicle[];\n}\n\ninterface Vehicle {\n  make: string;\n  model: string;\n  barrels08: number;\n  barrelsa08: number;\n  charge120: number;\n  charge240: number;\n  city08: number;\n  city08u: number;\n  citya08: number;\n  citya08u: number;\n  citycd: number;\n  citye: number;\n  cityuf: number;\n  co2: number;\n  co2a: number;\n  co2tailpipeagpm: number;\n  co2tailpipegpm: number;\n  comb08: number;\n  comb08u: number;\n  comba08: number;\n  comba08u: number;\n  combe: number;\n  combinedcd: number;\n  combineduf: number;\n  cylinders: number;\n  displ: number;\n  drive: string;\n  engid: string;\n  eng_dscr: string[];\n  fescore: number;\n  fuelcost08: number;\n  fuelcosta08: number;\n  fueltype: string;\n  fueltype1: string;\n  ghgscore: number;\n  ghgscorea: number | null;\n  highway08: number;\n  highway08u: number;\n  highwaya08: number;\n  highwaya08u: number;\n  highwaycd: number;\n  highwaye: number;\n  highwayuf: number;\n  hlv: number;\n  hpv: number;\n  id: string;\n  lv2: number;\n  lv4: number;\n  mpgdata: string;\n  phevblended: string;\n  pv2: number;\n  pv4: number;\n  range: number;\n  rangecity: number;\n  rangecitya: number;\n  rangehwy: number;\n  rangehwya: number;\n  trany: string;\n  ucity: number;\n  ucitya: number;\n  uhighway: number;\n  uhighwaya: number;\n  vclass: string;\n  year: string;\n  yousavespend: number;\n  guzzler: string | null;\n  trans_dscr: string | null;\n  tcharger: string | null;\n  scharger: string | null;\n  atvtype: string | null;\n  fueltype2: string | null;\n  rangea: string | null;\n  evmotor: string | null;\n  mfrcode: string;\n  c240dscr: string | null;\n  charge240b: number;\n  c240bdscr: string | null;\n  createdon: string;\n  modifiedon: string;\n  startstop: string;\n  phevcity: number;\n  phevhwy: number;\n  phevcomb: number;\n  basemodel: string;\n}\n\n\n@Component({\n  selector: 'demo-input-search',\n  standalone: true,\n  imports: [\n    CommonModule,\n    UIInputSearchComponent,\n    UIOptionGroupComponent,\n  ],\n  templateUrl: './demo-input-search.component.html',\n  styleUrl: './demo-input-search.component.scss'\n})\nexport class DemoInputSearchComponent {\n\n  countries: IUIOptionGroupOptionConfiguration[] = [\n    { id: '1', value: 'Afghanistan', disabled: false },\n    { id: '2', value: 'Albania', disabled: false },\n    { id: '3', value: 'Algeria', disabled: false },\n    { id: '4', value: 'Andorra', disabled: false },\n    { id: '5', value: 'Angola', disabled: false },\n    { id: '6', value: 'Antigua and Barbuda', disabled: false },\n    { id: '7', value: 'Argentina', disabled: false },\n    { id: '8', value: 'Armenia', disabled: false },\n    { id: '9', value: 'Australia', disabled: false },\n    { id: '10', value: 'Austria', disabled: false },\n    { id: '11', value: 'Azerbaijan', disabled: false },\n    { id: '12', value: 'Bahamas', disabled: false },\n    { id: '13', value: 'Bahrain', disabled: false },\n    { id: '14', value: 'Bangladesh', disabled: false },\n    { id: '15', value: 'Barbados', disabled: false },\n    { id: '16', value: 'Belarus', disabled: false },\n    { id: '17', value: 'Belgium', disabled: false },\n    { id: '18', value: 'Belize', disabled: false },\n    { id: '19', value: 'Benin', disabled: false },\n    { id: '20', value: 'Bhutan', disabled: false },\n    { id: '21', value: 'Bolivia', disabled: false },\n    { id: '22', value: 'Bosnia and Herzegovina', disabled: false },\n    { id: '23', value: 'Botswana', disabled: false },\n    { id: '24', value: 'Brazil', disabled: false },\n    { id: '25', value: 'Brunei', disabled: false },\n    { id: '26', value: 'Bulgaria', disabled: false },\n    { id: '27', value: 'Burkina Faso', disabled: false },\n    { id: '28', value: 'Burundi', disabled: false },\n    { id: '29', value: 'Cabo Verde', disabled: false },\n    { id: '30', value: 'Cambodia', disabled: false },\n    { id: '31', value: 'Cameroon', disabled: false },\n    { id: '32', value: 'Canada', disabled: false },\n    { id: '33', value: 'Central African Republic', disabled: false },\n    { id: '34', value: 'Chad', disabled: false },\n    { id: '35', value: 'Chile', disabled: false },\n    { id: '36', value: 'China', disabled: false },\n    { id: '37', value: 'Colombia', disabled: false },\n    { id: '38', value: 'Comoros', disabled: false },\n    { id: '39', value: 'Congo (Congo-Brazzaville)', disabled: false },\n    { id: '40', value: 'Costa Rica', disabled: false },\n    { id: '41', value: 'Croatia', disabled: false },\n    { id: '42', value: 'Cuba', disabled: false },\n    { id: '43', value: 'Cyprus', disabled: false },\n    { id: '44', value: 'Czechia (Czech Republic)', disabled: false },\n    { id: '45', value: 'Denmark', disabled: false },\n    { id: '46', value: 'Djibouti', disabled: false },\n    { id: '47', value: 'Dominica', disabled: false },\n    { id: '48', value: 'Dominican Republic', disabled: false },\n    { id: '49', value: 'Ecuador', disabled: false },\n    { id: '50', value: 'Egypt', disabled: false }\n  ];\n\n  options: IUIOptionGroupOptionConfiguration[] = [];\n  isEmpty: boolean = false;\n\n  constructor() { }\n\n  searchValue(event: string) {\n    console.log(event);\n    \n    const findElements = this.countries.filter((country) => country.value.includes(event));\n    if(findElements) {\n      this.isEmpty = false;\n      this.options = findElements;\n    }else {\n      this.isEmpty = true;\n      this.options = [];\n    }\n  }\n}\n",
             "properties": [
                 {
                     "name": "atvtype",
@@ -18,7 +18,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 84
+                    "line": 81
                 },
                 {
                     "name": "barrels08",
@@ -28,7 +28,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 17
+                    "line": 14
                 },
                 {
                     "name": "barrelsa08",
@@ -38,7 +38,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 18
+                    "line": 15
                 },
                 {
                     "name": "basemodel",
@@ -48,7 +48,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 98
+                    "line": 95
                 },
                 {
                     "name": "c240bdscr",
@@ -58,7 +58,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 91
+                    "line": 88
                 },
                 {
                     "name": "c240dscr",
@@ -68,7 +68,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 89
+                    "line": 86
                 },
                 {
                     "name": "charge120",
@@ -78,7 +78,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 19
+                    "line": 16
                 },
                 {
                     "name": "charge240",
@@ -88,7 +88,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 20
+                    "line": 17
                 },
                 {
                     "name": "charge240b",
@@ -98,7 +98,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 90
+                    "line": 87
                 },
                 {
                     "name": "city08",
@@ -108,7 +108,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 21
+                    "line": 18
                 },
                 {
                     "name": "city08u",
@@ -118,7 +118,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 22
+                    "line": 19
                 },
                 {
                     "name": "citya08",
@@ -128,7 +128,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 23
+                    "line": 20
                 },
                 {
                     "name": "citya08u",
@@ -138,7 +138,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 24
+                    "line": 21
                 },
                 {
                     "name": "citycd",
@@ -148,7 +148,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 25
+                    "line": 22
                 },
                 {
                     "name": "citye",
@@ -158,7 +158,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 26
+                    "line": 23
                 },
                 {
                     "name": "cityuf",
@@ -168,7 +168,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 27
+                    "line": 24
                 },
                 {
                     "name": "co2",
@@ -178,7 +178,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 28
+                    "line": 25
                 },
                 {
                     "name": "co2a",
@@ -188,7 +188,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 29
+                    "line": 26
                 },
                 {
                     "name": "co2tailpipeagpm",
@@ -198,7 +198,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 30
+                    "line": 27
                 },
                 {
                     "name": "co2tailpipegpm",
@@ -208,7 +208,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 31
+                    "line": 28
                 },
                 {
                     "name": "comb08",
@@ -218,7 +218,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 32
+                    "line": 29
                 },
                 {
                     "name": "comb08u",
@@ -228,7 +228,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 33
+                    "line": 30
                 },
                 {
                     "name": "comba08",
@@ -238,7 +238,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 34
+                    "line": 31
                 },
                 {
                     "name": "comba08u",
@@ -248,7 +248,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 35
+                    "line": 32
                 },
                 {
                     "name": "combe",
@@ -258,7 +258,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 36
+                    "line": 33
                 },
                 {
                     "name": "combinedcd",
@@ -268,7 +268,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 37
+                    "line": 34
                 },
                 {
                     "name": "combineduf",
@@ -278,7 +278,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 38
+                    "line": 35
                 },
                 {
                     "name": "createdon",
@@ -288,7 +288,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 92
+                    "line": 89
                 },
                 {
                     "name": "cylinders",
@@ -298,7 +298,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 39
+                    "line": 36
                 },
                 {
                     "name": "displ",
@@ -308,7 +308,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 40
+                    "line": 37
                 },
                 {
                     "name": "drive",
@@ -318,7 +318,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 41
+                    "line": 38
                 },
                 {
                     "name": "eng_dscr",
@@ -328,7 +328,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 43
+                    "line": 40
                 },
                 {
                     "name": "engid",
@@ -338,7 +338,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 42
+                    "line": 39
                 },
                 {
                     "name": "evmotor",
@@ -348,7 +348,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 87
+                    "line": 84
                 },
                 {
                     "name": "fescore",
@@ -358,7 +358,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 44
+                    "line": 41
                 },
                 {
                     "name": "fuelcost08",
@@ -368,7 +368,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 45
+                    "line": 42
                 },
                 {
                     "name": "fuelcosta08",
@@ -378,7 +378,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 46
+                    "line": 43
                 },
                 {
                     "name": "fueltype",
@@ -388,7 +388,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 47
+                    "line": 44
                 },
                 {
                     "name": "fueltype1",
@@ -398,7 +398,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 48
+                    "line": 45
                 },
                 {
                     "name": "fueltype2",
@@ -408,7 +408,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 85
+                    "line": 82
                 },
                 {
                     "name": "ghgscore",
@@ -418,7 +418,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 49
+                    "line": 46
                 },
                 {
                     "name": "ghgscorea",
@@ -428,7 +428,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 50
+                    "line": 47
                 },
                 {
                     "name": "guzzler",
@@ -438,7 +438,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 80
+                    "line": 77
                 },
                 {
                     "name": "highway08",
@@ -448,7 +448,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 51
+                    "line": 48
                 },
                 {
                     "name": "highway08u",
@@ -458,7 +458,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 52
+                    "line": 49
                 },
                 {
                     "name": "highwaya08",
@@ -468,7 +468,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 53
+                    "line": 50
                 },
                 {
                     "name": "highwaya08u",
@@ -478,7 +478,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 54
+                    "line": 51
                 },
                 {
                     "name": "highwaycd",
@@ -488,7 +488,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 55
+                    "line": 52
                 },
                 {
                     "name": "highwaye",
@@ -498,7 +498,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 56
+                    "line": 53
                 },
                 {
                     "name": "highwayuf",
@@ -508,7 +508,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 57
+                    "line": 54
                 },
                 {
                     "name": "hlv",
@@ -518,7 +518,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 58
+                    "line": 55
                 },
                 {
                     "name": "hpv",
@@ -528,7 +528,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 59
+                    "line": 56
                 },
                 {
                     "name": "id",
@@ -538,7 +538,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 60
+                    "line": 57
                 },
                 {
                     "name": "lv2",
@@ -548,7 +548,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 61
+                    "line": 58
                 },
                 {
                     "name": "lv4",
@@ -558,7 +558,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 62
+                    "line": 59
                 },
                 {
                     "name": "make",
@@ -568,7 +568,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 15
+                    "line": 12
                 },
                 {
                     "name": "mfrcode",
@@ -578,7 +578,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 88
+                    "line": 85
                 },
                 {
                     "name": "model",
@@ -588,7 +588,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 16
+                    "line": 13
                 },
                 {
                     "name": "modifiedon",
@@ -598,7 +598,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 93
+                    "line": 90
                 },
                 {
                     "name": "mpgdata",
@@ -608,7 +608,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 63
+                    "line": 60
                 },
                 {
                     "name": "phevblended",
@@ -618,7 +618,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 64
+                    "line": 61
                 },
                 {
                     "name": "phevcity",
@@ -628,7 +628,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 95
+                    "line": 92
                 },
                 {
                     "name": "phevcomb",
@@ -638,7 +638,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 97
+                    "line": 94
                 },
                 {
                     "name": "phevhwy",
@@ -648,7 +648,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 96
+                    "line": 93
                 },
                 {
                     "name": "pv2",
@@ -658,7 +658,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 65
+                    "line": 62
                 },
                 {
                     "name": "pv4",
@@ -668,7 +668,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 66
+                    "line": 63
                 },
                 {
                     "name": "range",
@@ -678,7 +678,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 67
+                    "line": 64
                 },
                 {
                     "name": "rangea",
@@ -688,7 +688,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 86
+                    "line": 83
                 },
                 {
                     "name": "rangecity",
@@ -698,7 +698,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 68
+                    "line": 65
                 },
                 {
                     "name": "rangecitya",
@@ -708,7 +708,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 69
+                    "line": 66
                 },
                 {
                     "name": "rangehwy",
@@ -718,7 +718,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 70
+                    "line": 67
                 },
                 {
                     "name": "rangehwya",
@@ -728,7 +728,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 71
+                    "line": 68
                 },
                 {
                     "name": "scharger",
@@ -738,7 +738,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 83
+                    "line": 80
                 },
                 {
                     "name": "startstop",
@@ -748,7 +748,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 94
+                    "line": 91
                 },
                 {
                     "name": "tcharger",
@@ -758,7 +758,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 82
+                    "line": 79
                 },
                 {
                     "name": "trans_dscr",
@@ -768,7 +768,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 81
+                    "line": 78
                 },
                 {
                     "name": "trany",
@@ -778,7 +778,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 72
+                    "line": 69
                 },
                 {
                     "name": "ucity",
@@ -788,7 +788,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 73
+                    "line": 70
                 },
                 {
                     "name": "ucitya",
@@ -798,7 +798,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 74
+                    "line": 71
                 },
                 {
                     "name": "uhighway",
@@ -808,7 +808,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 75
+                    "line": 72
                 },
                 {
                     "name": "uhighwaya",
@@ -818,7 +818,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 76
+                    "line": 73
                 },
                 {
                     "name": "vclass",
@@ -828,7 +828,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 77
+                    "line": 74
                 },
                 {
                     "name": "year",
@@ -838,7 +838,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 78
+                    "line": 75
                 },
                 {
                     "name": "yousavespend",
@@ -848,7 +848,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 79
+                    "line": 76
                 }
             ],
             "indexSignatures": [],
@@ -858,12 +858,12 @@
         },
         {
             "name": "VehicleData",
-            "id": "interface-VehicleData-203dae7f0ddbb7d89a730ff47e22546e23d5ff8c7fed0aec65c6ffa5c80dbf7ef08eb4aded103d039518e79c02c00d9bfc454c0ab079dfde329870929c0c3480",
+            "id": "interface-VehicleData-e9caed79e6a0ef88bd0f3e6e7aa56890d62192ceadfabc908bdc1581871eda80a8925a1184b408e908faafce5b8dc6f95b433423f2230fc32173672bb1719e55",
             "file": "src/stories/input-search/demo-input-search/demo-input-search.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { HttpClient, HttpClientModule } from '@angular/common/http';\nimport { Component } from '@angular/core';\nimport {UIOptionGroupComponent, UIOptionComponent, IUIOptionGroupOptionConfiguration} from 'manjon-ui';\nimport { catchError, filter, map, of } from 'rxjs';\nimport { UIInputSearchComponent } from '../../../../projects/manjon-ui/src/public-api';\n\n\ninterface VehicleData {\n  total_count: number;\n  results: Vehicle[];\n}\n\ninterface Vehicle {\n  make: string;\n  model: string;\n  barrels08: number;\n  barrelsa08: number;\n  charge120: number;\n  charge240: number;\n  city08: number;\n  city08u: number;\n  citya08: number;\n  citya08u: number;\n  citycd: number;\n  citye: number;\n  cityuf: number;\n  co2: number;\n  co2a: number;\n  co2tailpipeagpm: number;\n  co2tailpipegpm: number;\n  comb08: number;\n  comb08u: number;\n  comba08: number;\n  comba08u: number;\n  combe: number;\n  combinedcd: number;\n  combineduf: number;\n  cylinders: number;\n  displ: number;\n  drive: string;\n  engid: string;\n  eng_dscr: string[];\n  fescore: number;\n  fuelcost08: number;\n  fuelcosta08: number;\n  fueltype: string;\n  fueltype1: string;\n  ghgscore: number;\n  ghgscorea: number | null;\n  highway08: number;\n  highway08u: number;\n  highwaya08: number;\n  highwaya08u: number;\n  highwaycd: number;\n  highwaye: number;\n  highwayuf: number;\n  hlv: number;\n  hpv: number;\n  id: string;\n  lv2: number;\n  lv4: number;\n  mpgdata: string;\n  phevblended: string;\n  pv2: number;\n  pv4: number;\n  range: number;\n  rangecity: number;\n  rangecitya: number;\n  rangehwy: number;\n  rangehwya: number;\n  trany: string;\n  ucity: number;\n  ucitya: number;\n  uhighway: number;\n  uhighwaya: number;\n  vclass: string;\n  year: string;\n  yousavespend: number;\n  guzzler: string | null;\n  trans_dscr: string | null;\n  tcharger: string | null;\n  scharger: string | null;\n  atvtype: string | null;\n  fueltype2: string | null;\n  rangea: string | null;\n  evmotor: string | null;\n  mfrcode: string;\n  c240dscr: string | null;\n  charge240b: number;\n  c240bdscr: string | null;\n  createdon: string;\n  modifiedon: string;\n  startstop: string;\n  phevcity: number;\n  phevhwy: number;\n  phevcomb: number;\n  basemodel: string;\n}\n\n\n@Component({\n  selector: 'demo-input-search',\n  standalone: true,\n  imports: [\n    CommonModule,\n    UIInputSearchComponent,\n    UIOptionGroupComponent,\n    HttpClientModule,\n  ],\n  templateUrl: './demo-input-search.component.html',\n  styleUrl: './demo-input-search.component.scss'\n})\nexport class DemoInputSearchComponent {\n\n  countries: IUIOptionGroupOptionConfiguration[] = [\n    { id: '1', value: 'Argentina', disabled: false },\n    { id: '2', value: 'Brazil', disabled: false },\n    { id: '3', value: 'Canada', disabled: false },\n    { id: '4', value: 'Chile', disabled: false },\n    { id: '5', value: 'Colombia', disabled: false },\n    { id: '6', value: 'Germany', disabled: false },\n    { id: '7', value: 'Mexico', disabled: false },\n    { id: '8', value: 'United States', disabled: false },\n    { id: '9', value: 'Spain', disabled: false },\n    { id: '10', value: 'France', disabled: false }\n  ];\n  \n  options: IUIOptionGroupOptionConfiguration[] = [];\n\n  constructor() {}\n\n  searchValue(event: string) {\n    console.log(event);\n    this.options = this.countries.filter((contry) => contry.value.includes(event))\n  }\n}\n",
+            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { Component } from '@angular/core';\nimport { UIInputSearchComponent, UIOptionGroupComponent, IUIOptionGroupOptionConfiguration } from 'manjon-ui';\n\n\ninterface VehicleData {\n  total_count: number;\n  results: Vehicle[];\n}\n\ninterface Vehicle {\n  make: string;\n  model: string;\n  barrels08: number;\n  barrelsa08: number;\n  charge120: number;\n  charge240: number;\n  city08: number;\n  city08u: number;\n  citya08: number;\n  citya08u: number;\n  citycd: number;\n  citye: number;\n  cityuf: number;\n  co2: number;\n  co2a: number;\n  co2tailpipeagpm: number;\n  co2tailpipegpm: number;\n  comb08: number;\n  comb08u: number;\n  comba08: number;\n  comba08u: number;\n  combe: number;\n  combinedcd: number;\n  combineduf: number;\n  cylinders: number;\n  displ: number;\n  drive: string;\n  engid: string;\n  eng_dscr: string[];\n  fescore: number;\n  fuelcost08: number;\n  fuelcosta08: number;\n  fueltype: string;\n  fueltype1: string;\n  ghgscore: number;\n  ghgscorea: number | null;\n  highway08: number;\n  highway08u: number;\n  highwaya08: number;\n  highwaya08u: number;\n  highwaycd: number;\n  highwaye: number;\n  highwayuf: number;\n  hlv: number;\n  hpv: number;\n  id: string;\n  lv2: number;\n  lv4: number;\n  mpgdata: string;\n  phevblended: string;\n  pv2: number;\n  pv4: number;\n  range: number;\n  rangecity: number;\n  rangecitya: number;\n  rangehwy: number;\n  rangehwya: number;\n  trany: string;\n  ucity: number;\n  ucitya: number;\n  uhighway: number;\n  uhighwaya: number;\n  vclass: string;\n  year: string;\n  yousavespend: number;\n  guzzler: string | null;\n  trans_dscr: string | null;\n  tcharger: string | null;\n  scharger: string | null;\n  atvtype: string | null;\n  fueltype2: string | null;\n  rangea: string | null;\n  evmotor: string | null;\n  mfrcode: string;\n  c240dscr: string | null;\n  charge240b: number;\n  c240bdscr: string | null;\n  createdon: string;\n  modifiedon: string;\n  startstop: string;\n  phevcity: number;\n  phevhwy: number;\n  phevcomb: number;\n  basemodel: string;\n}\n\n\n@Component({\n  selector: 'demo-input-search',\n  standalone: true,\n  imports: [\n    CommonModule,\n    UIInputSearchComponent,\n    UIOptionGroupComponent,\n  ],\n  templateUrl: './demo-input-search.component.html',\n  styleUrl: './demo-input-search.component.scss'\n})\nexport class DemoInputSearchComponent {\n\n  countries: IUIOptionGroupOptionConfiguration[] = [\n    { id: '1', value: 'Afghanistan', disabled: false },\n    { id: '2', value: 'Albania', disabled: false },\n    { id: '3', value: 'Algeria', disabled: false },\n    { id: '4', value: 'Andorra', disabled: false },\n    { id: '5', value: 'Angola', disabled: false },\n    { id: '6', value: 'Antigua and Barbuda', disabled: false },\n    { id: '7', value: 'Argentina', disabled: false },\n    { id: '8', value: 'Armenia', disabled: false },\n    { id: '9', value: 'Australia', disabled: false },\n    { id: '10', value: 'Austria', disabled: false },\n    { id: '11', value: 'Azerbaijan', disabled: false },\n    { id: '12', value: 'Bahamas', disabled: false },\n    { id: '13', value: 'Bahrain', disabled: false },\n    { id: '14', value: 'Bangladesh', disabled: false },\n    { id: '15', value: 'Barbados', disabled: false },\n    { id: '16', value: 'Belarus', disabled: false },\n    { id: '17', value: 'Belgium', disabled: false },\n    { id: '18', value: 'Belize', disabled: false },\n    { id: '19', value: 'Benin', disabled: false },\n    { id: '20', value: 'Bhutan', disabled: false },\n    { id: '21', value: 'Bolivia', disabled: false },\n    { id: '22', value: 'Bosnia and Herzegovina', disabled: false },\n    { id: '23', value: 'Botswana', disabled: false },\n    { id: '24', value: 'Brazil', disabled: false },\n    { id: '25', value: 'Brunei', disabled: false },\n    { id: '26', value: 'Bulgaria', disabled: false },\n    { id: '27', value: 'Burkina Faso', disabled: false },\n    { id: '28', value: 'Burundi', disabled: false },\n    { id: '29', value: 'Cabo Verde', disabled: false },\n    { id: '30', value: 'Cambodia', disabled: false },\n    { id: '31', value: 'Cameroon', disabled: false },\n    { id: '32', value: 'Canada', disabled: false },\n    { id: '33', value: 'Central African Republic', disabled: false },\n    { id: '34', value: 'Chad', disabled: false },\n    { id: '35', value: 'Chile', disabled: false },\n    { id: '36', value: 'China', disabled: false },\n    { id: '37', value: 'Colombia', disabled: false },\n    { id: '38', value: 'Comoros', disabled: false },\n    { id: '39', value: 'Congo (Congo-Brazzaville)', disabled: false },\n    { id: '40', value: 'Costa Rica', disabled: false },\n    { id: '41', value: 'Croatia', disabled: false },\n    { id: '42', value: 'Cuba', disabled: false },\n    { id: '43', value: 'Cyprus', disabled: false },\n    { id: '44', value: 'Czechia (Czech Republic)', disabled: false },\n    { id: '45', value: 'Denmark', disabled: false },\n    { id: '46', value: 'Djibouti', disabled: false },\n    { id: '47', value: 'Dominica', disabled: false },\n    { id: '48', value: 'Dominican Republic', disabled: false },\n    { id: '49', value: 'Ecuador', disabled: false },\n    { id: '50', value: 'Egypt', disabled: false }\n  ];\n\n  options: IUIOptionGroupOptionConfiguration[] = [];\n  isEmpty: boolean = false;\n\n  constructor() { }\n\n  searchValue(event: string) {\n    console.log(event);\n    \n    const findElements = this.countries.filter((country) => country.value.includes(event));\n    if(findElements) {\n      this.isEmpty = false;\n      this.options = findElements;\n    }else {\n      this.isEmpty = true;\n      this.options = [];\n    }\n  }\n}\n",
             "properties": [
                 {
                     "name": "results",
@@ -873,7 +873,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 11
+                    "line": 8
                 },
                 {
                     "name": "total_count",
@@ -883,7 +883,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 10
+                    "line": 7
                 }
             ],
             "indexSignatures": [],
@@ -954,7 +954,7 @@
         },
         {
             "name": "DemoInputSearchComponent",
-            "id": "component-DemoInputSearchComponent-203dae7f0ddbb7d89a730ff47e22546e23d5ff8c7fed0aec65c6ffa5c80dbf7ef08eb4aded103d039518e79c02c00d9bfc454c0ab079dfde329870929c0c3480",
+            "id": "component-DemoInputSearchComponent-e9caed79e6a0ef88bd0f3e6e7aa56890d62192ceadfabc908bdc1581871eda80a8925a1184b408e908faafce5b8dc6f95b433423f2230fc32173672bb1719e55",
             "file": "src/stories/input-search/demo-input-search/demo-input-search.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -974,14 +974,25 @@
             "propertiesClass": [
                 {
                     "name": "countries",
-                    "defaultValue": "[\n    { id: '1', value: 'Argentina', disabled: false },\n    { id: '2', value: 'Brazil', disabled: false },\n    { id: '3', value: 'Canada', disabled: false },\n    { id: '4', value: 'Chile', disabled: false },\n    { id: '5', value: 'Colombia', disabled: false },\n    { id: '6', value: 'Germany', disabled: false },\n    { id: '7', value: 'Mexico', disabled: false },\n    { id: '8', value: 'United States', disabled: false },\n    { id: '9', value: 'Spain', disabled: false },\n    { id: '10', value: 'France', disabled: false }\n  ]",
+                    "defaultValue": "[\n    { id: '1', value: 'Afghanistan', disabled: false },\n    { id: '2', value: 'Albania', disabled: false },\n    { id: '3', value: 'Algeria', disabled: false },\n    { id: '4', value: 'Andorra', disabled: false },\n    { id: '5', value: 'Angola', disabled: false },\n    { id: '6', value: 'Antigua and Barbuda', disabled: false },\n    { id: '7', value: 'Argentina', disabled: false },\n    { id: '8', value: 'Armenia', disabled: false },\n    { id: '9', value: 'Australia', disabled: false },\n    { id: '10', value: 'Austria', disabled: false },\n    { id: '11', value: 'Azerbaijan', disabled: false },\n    { id: '12', value: 'Bahamas', disabled: false },\n    { id: '13', value: 'Bahrain', disabled: false },\n    { id: '14', value: 'Bangladesh', disabled: false },\n    { id: '15', value: 'Barbados', disabled: false },\n    { id: '16', value: 'Belarus', disabled: false },\n    { id: '17', value: 'Belgium', disabled: false },\n    { id: '18', value: 'Belize', disabled: false },\n    { id: '19', value: 'Benin', disabled: false },\n    { id: '20', value: 'Bhutan', disabled: false },\n    { id: '21', value: 'Bolivia', disabled: false },\n    { id: '22', value: 'Bosnia and Herzegovina', disabled: false },\n    { id: '23', value: 'Botswana', disabled: false },\n    { id: '24', value: 'Brazil', disabled: false },\n    { id: '25', value: 'Brunei', disabled: false },\n    { id: '26', value: 'Bulgaria', disabled: false },\n    { id: '27', value: 'Burkina Faso', disabled: false },\n    { id: '28', value: 'Burundi', disabled: false },\n    { id: '29', value: 'Cabo Verde', disabled: false },\n    { id: '30', value: 'Cambodia', disabled: false },\n    { id: '31', value: 'Cameroon', disabled: false },\n    { id: '32', value: 'Canada', disabled: false },\n    { id: '33', value: 'Central African Republic', disabled: false },\n    { id: '34', value: 'Chad', disabled: false },\n    { id: '35', value: 'Chile', disabled: false },\n    { id: '36', value: 'China', disabled: false },\n    { id: '37', value: 'Colombia', disabled: false },\n    { id: '38', value: 'Comoros', disabled: false },\n    { id: '39', value: 'Congo (Congo-Brazzaville)', disabled: false },\n    { id: '40', value: 'Costa Rica', disabled: false },\n    { id: '41', value: 'Croatia', disabled: false },\n    { id: '42', value: 'Cuba', disabled: false },\n    { id: '43', value: 'Cyprus', disabled: false },\n    { id: '44', value: 'Czechia (Czech Republic)', disabled: false },\n    { id: '45', value: 'Denmark', disabled: false },\n    { id: '46', value: 'Djibouti', disabled: false },\n    { id: '47', value: 'Dominica', disabled: false },\n    { id: '48', value: 'Dominican Republic', disabled: false },\n    { id: '49', value: 'Ecuador', disabled: false },\n    { id: '50', value: 'Egypt', disabled: false }\n  ]",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "IUIOptionGroupOptionConfiguration[]",
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 116
+                    "line": 112
+                },
+                {
+                    "name": "isEmpty",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 166
                 },
                 {
                     "name": "options",
@@ -992,7 +1003,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 129
+                    "line": 165
                 }
             ],
             "methodsClass": [
@@ -1009,7 +1020,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 133,
+                    "line": 170,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -1042,16 +1053,12 @@
                 {
                     "name": "UIOptionGroupComponent",
                     "type": "component"
-                },
-                {
-                    "name": "HttpClientModule",
-                    "type": "module"
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { HttpClient, HttpClientModule } from '@angular/common/http';\nimport { Component } from '@angular/core';\nimport {UIOptionGroupComponent, UIOptionComponent, IUIOptionGroupOptionConfiguration} from 'manjon-ui';\nimport { catchError, filter, map, of } from 'rxjs';\nimport { UIInputSearchComponent } from '../../../../projects/manjon-ui/src/public-api';\n\n\ninterface VehicleData {\n  total_count: number;\n  results: Vehicle[];\n}\n\ninterface Vehicle {\n  make: string;\n  model: string;\n  barrels08: number;\n  barrelsa08: number;\n  charge120: number;\n  charge240: number;\n  city08: number;\n  city08u: number;\n  citya08: number;\n  citya08u: number;\n  citycd: number;\n  citye: number;\n  cityuf: number;\n  co2: number;\n  co2a: number;\n  co2tailpipeagpm: number;\n  co2tailpipegpm: number;\n  comb08: number;\n  comb08u: number;\n  comba08: number;\n  comba08u: number;\n  combe: number;\n  combinedcd: number;\n  combineduf: number;\n  cylinders: number;\n  displ: number;\n  drive: string;\n  engid: string;\n  eng_dscr: string[];\n  fescore: number;\n  fuelcost08: number;\n  fuelcosta08: number;\n  fueltype: string;\n  fueltype1: string;\n  ghgscore: number;\n  ghgscorea: number | null;\n  highway08: number;\n  highway08u: number;\n  highwaya08: number;\n  highwaya08u: number;\n  highwaycd: number;\n  highwaye: number;\n  highwayuf: number;\n  hlv: number;\n  hpv: number;\n  id: string;\n  lv2: number;\n  lv4: number;\n  mpgdata: string;\n  phevblended: string;\n  pv2: number;\n  pv4: number;\n  range: number;\n  rangecity: number;\n  rangecitya: number;\n  rangehwy: number;\n  rangehwya: number;\n  trany: string;\n  ucity: number;\n  ucitya: number;\n  uhighway: number;\n  uhighwaya: number;\n  vclass: string;\n  year: string;\n  yousavespend: number;\n  guzzler: string | null;\n  trans_dscr: string | null;\n  tcharger: string | null;\n  scharger: string | null;\n  atvtype: string | null;\n  fueltype2: string | null;\n  rangea: string | null;\n  evmotor: string | null;\n  mfrcode: string;\n  c240dscr: string | null;\n  charge240b: number;\n  c240bdscr: string | null;\n  createdon: string;\n  modifiedon: string;\n  startstop: string;\n  phevcity: number;\n  phevhwy: number;\n  phevcomb: number;\n  basemodel: string;\n}\n\n\n@Component({\n  selector: 'demo-input-search',\n  standalone: true,\n  imports: [\n    CommonModule,\n    UIInputSearchComponent,\n    UIOptionGroupComponent,\n    HttpClientModule,\n  ],\n  templateUrl: './demo-input-search.component.html',\n  styleUrl: './demo-input-search.component.scss'\n})\nexport class DemoInputSearchComponent {\n\n  countries: IUIOptionGroupOptionConfiguration[] = [\n    { id: '1', value: 'Argentina', disabled: false },\n    { id: '2', value: 'Brazil', disabled: false },\n    { id: '3', value: 'Canada', disabled: false },\n    { id: '4', value: 'Chile', disabled: false },\n    { id: '5', value: 'Colombia', disabled: false },\n    { id: '6', value: 'Germany', disabled: false },\n    { id: '7', value: 'Mexico', disabled: false },\n    { id: '8', value: 'United States', disabled: false },\n    { id: '9', value: 'Spain', disabled: false },\n    { id: '10', value: 'France', disabled: false }\n  ];\n  \n  options: IUIOptionGroupOptionConfiguration[] = [];\n\n  constructor() {}\n\n  searchValue(event: string) {\n    console.log(event);\n    this.options = this.countries.filter((contry) => contry.value.includes(event))\n  }\n}\n",
+            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { Component } from '@angular/core';\nimport { UIInputSearchComponent, UIOptionGroupComponent, IUIOptionGroupOptionConfiguration } from 'manjon-ui';\n\n\ninterface VehicleData {\n  total_count: number;\n  results: Vehicle[];\n}\n\ninterface Vehicle {\n  make: string;\n  model: string;\n  barrels08: number;\n  barrelsa08: number;\n  charge120: number;\n  charge240: number;\n  city08: number;\n  city08u: number;\n  citya08: number;\n  citya08u: number;\n  citycd: number;\n  citye: number;\n  cityuf: number;\n  co2: number;\n  co2a: number;\n  co2tailpipeagpm: number;\n  co2tailpipegpm: number;\n  comb08: number;\n  comb08u: number;\n  comba08: number;\n  comba08u: number;\n  combe: number;\n  combinedcd: number;\n  combineduf: number;\n  cylinders: number;\n  displ: number;\n  drive: string;\n  engid: string;\n  eng_dscr: string[];\n  fescore: number;\n  fuelcost08: number;\n  fuelcosta08: number;\n  fueltype: string;\n  fueltype1: string;\n  ghgscore: number;\n  ghgscorea: number | null;\n  highway08: number;\n  highway08u: number;\n  highwaya08: number;\n  highwaya08u: number;\n  highwaycd: number;\n  highwaye: number;\n  highwayuf: number;\n  hlv: number;\n  hpv: number;\n  id: string;\n  lv2: number;\n  lv4: number;\n  mpgdata: string;\n  phevblended: string;\n  pv2: number;\n  pv4: number;\n  range: number;\n  rangecity: number;\n  rangecitya: number;\n  rangehwy: number;\n  rangehwya: number;\n  trany: string;\n  ucity: number;\n  ucitya: number;\n  uhighway: number;\n  uhighwaya: number;\n  vclass: string;\n  year: string;\n  yousavespend: number;\n  guzzler: string | null;\n  trans_dscr: string | null;\n  tcharger: string | null;\n  scharger: string | null;\n  atvtype: string | null;\n  fueltype2: string | null;\n  rangea: string | null;\n  evmotor: string | null;\n  mfrcode: string;\n  c240dscr: string | null;\n  charge240b: number;\n  c240bdscr: string | null;\n  createdon: string;\n  modifiedon: string;\n  startstop: string;\n  phevcity: number;\n  phevhwy: number;\n  phevcomb: number;\n  basemodel: string;\n}\n\n\n@Component({\n  selector: 'demo-input-search',\n  standalone: true,\n  imports: [\n    CommonModule,\n    UIInputSearchComponent,\n    UIOptionGroupComponent,\n  ],\n  templateUrl: './demo-input-search.component.html',\n  styleUrl: './demo-input-search.component.scss'\n})\nexport class DemoInputSearchComponent {\n\n  countries: IUIOptionGroupOptionConfiguration[] = [\n    { id: '1', value: 'Afghanistan', disabled: false },\n    { id: '2', value: 'Albania', disabled: false },\n    { id: '3', value: 'Algeria', disabled: false },\n    { id: '4', value: 'Andorra', disabled: false },\n    { id: '5', value: 'Angola', disabled: false },\n    { id: '6', value: 'Antigua and Barbuda', disabled: false },\n    { id: '7', value: 'Argentina', disabled: false },\n    { id: '8', value: 'Armenia', disabled: false },\n    { id: '9', value: 'Australia', disabled: false },\n    { id: '10', value: 'Austria', disabled: false },\n    { id: '11', value: 'Azerbaijan', disabled: false },\n    { id: '12', value: 'Bahamas', disabled: false },\n    { id: '13', value: 'Bahrain', disabled: false },\n    { id: '14', value: 'Bangladesh', disabled: false },\n    { id: '15', value: 'Barbados', disabled: false },\n    { id: '16', value: 'Belarus', disabled: false },\n    { id: '17', value: 'Belgium', disabled: false },\n    { id: '18', value: 'Belize', disabled: false },\n    { id: '19', value: 'Benin', disabled: false },\n    { id: '20', value: 'Bhutan', disabled: false },\n    { id: '21', value: 'Bolivia', disabled: false },\n    { id: '22', value: 'Bosnia and Herzegovina', disabled: false },\n    { id: '23', value: 'Botswana', disabled: false },\n    { id: '24', value: 'Brazil', disabled: false },\n    { id: '25', value: 'Brunei', disabled: false },\n    { id: '26', value: 'Bulgaria', disabled: false },\n    { id: '27', value: 'Burkina Faso', disabled: false },\n    { id: '28', value: 'Burundi', disabled: false },\n    { id: '29', value: 'Cabo Verde', disabled: false },\n    { id: '30', value: 'Cambodia', disabled: false },\n    { id: '31', value: 'Cameroon', disabled: false },\n    { id: '32', value: 'Canada', disabled: false },\n    { id: '33', value: 'Central African Republic', disabled: false },\n    { id: '34', value: 'Chad', disabled: false },\n    { id: '35', value: 'Chile', disabled: false },\n    { id: '36', value: 'China', disabled: false },\n    { id: '37', value: 'Colombia', disabled: false },\n    { id: '38', value: 'Comoros', disabled: false },\n    { id: '39', value: 'Congo (Congo-Brazzaville)', disabled: false },\n    { id: '40', value: 'Costa Rica', disabled: false },\n    { id: '41', value: 'Croatia', disabled: false },\n    { id: '42', value: 'Cuba', disabled: false },\n    { id: '43', value: 'Cyprus', disabled: false },\n    { id: '44', value: 'Czechia (Czech Republic)', disabled: false },\n    { id: '45', value: 'Denmark', disabled: false },\n    { id: '46', value: 'Djibouti', disabled: false },\n    { id: '47', value: 'Dominica', disabled: false },\n    { id: '48', value: 'Dominican Republic', disabled: false },\n    { id: '49', value: 'Ecuador', disabled: false },\n    { id: '50', value: 'Egypt', disabled: false }\n  ];\n\n  options: IUIOptionGroupOptionConfiguration[] = [];\n  isEmpty: boolean = false;\n\n  constructor() { }\n\n  searchValue(event: string) {\n    console.log(event);\n    \n    const findElements = this.countries.filter((country) => country.value.includes(event));\n    if(findElements) {\n      this.isEmpty = false;\n      this.options = findElements;\n    }else {\n      this.isEmpty = true;\n      this.options = [];\n    }\n  }\n}\n",
             "styleUrl": "./demo-input-search.component.scss",
             "assetsDirs": [],
             "styleUrlsData": "",
@@ -1062,10 +1069,10 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "args": [],
-                "line": 129
+                "line": 166
             },
             "extends": [],
-            "templateData": "<ui-input-search (outputWriteInput)=\"searchValue($event)\">\n    <ui-option-group [options]=\"options\" />\n</ui-input-search>"
+            "templateData": "<ui-input-search\n    (isShowSuggestions)=\"true\"\n    [panelSuggestions]=\"suggestions\"\n    (outputWriteInput)=\"searchValue($event)\">\n    <ui-option-group #suggestions [options]=\"options\" />\n</ui-input-search>"
         }
     ],
     "modules": [],
@@ -1133,7 +1140,7 @@
                 "linktype": "component",
                 "name": "DemoInputSearchComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/5",
+                "coverageCount": "0/6",
                 "status": "low"
             },
             {

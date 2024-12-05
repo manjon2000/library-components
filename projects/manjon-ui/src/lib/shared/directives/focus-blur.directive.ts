@@ -16,7 +16,7 @@ export class FocusBlurDirective {
         this.onFocus.emit()
     }
 
-    @HostListener('window:blur') blur() {
+    @HostListener('blur') blur() {
         this.onBlur.emit();
       }
 }

@@ -16,3 +16,6 @@ export * from './lib/components/option-group/option-group.component';
 
 // Option
 export * from './lib/components/input-search/option/option.component';
+
+// Checkbox
+export * from './lib/components/checkbox/checkbox.component';
