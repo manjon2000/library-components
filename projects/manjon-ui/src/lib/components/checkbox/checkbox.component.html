@@ -1,21 +1,22 @@
 <div class="ui-checkbox">
     <input 
-        id="check01" 
+        [id]="id" 
         class="ui-checkbox-input" 
         type="checkbox" 
         role="checkbox"
         [attr.aria-disabled]="isDisabled"
         [attr.aria-label]="ariaLabel"
-        [attr.aria-checked]="checked"
-        [checked]="checked" 
+        [attr.aria-checked]="isCheckated"
+        [checked]="isCheckated" 
         [disabled]="isDisabled"
         [tabIndex]="isDisabled ? -1 : tabIndex"
-        (change)="onChange($event)"
+        [(ngModel)]="isCheckated"
+        (ngModelChange)="modelChangeFn($event)"
     />
     <label 
         class="ui-checkbox-label" 
         [class.ui-checkbox-label--not-text]="!label" 
-        for="check01">
+        [for]="id">
         <svg viewBox="0 0 100 100">
             <path fill="none" stroke="#000" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"
                 stroke-miterlimit="10" d="M12.1 52.1l24.4 24.4 53-53" />

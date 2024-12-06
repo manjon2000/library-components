@@ -65,7 +65,7 @@
         &:disabled {
             &+label {
                 --checkbox-label-color: var(--ui-checkbox-label-color-disabled);
-                --checkbox-border-color: var(--corporate-purple);
+                --checkbox-border-color: var(--ui-checkbox-border-disabled);
             }
         }
 

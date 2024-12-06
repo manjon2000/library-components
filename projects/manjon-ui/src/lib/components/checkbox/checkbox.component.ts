@@ -1,33 +1,62 @@
-import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output, ViewEncapsulation } from '@angular/core';
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'ui-checkbox',
   standalone: true,
-  imports: [],
+  imports: [
+    FormsModule
+  ],
   templateUrl: './checkbox.component.html',
   styleUrl: './checkbox.component.scss',
-  encapsulation: ViewEncapsulation.None
-})
-export class UICheckboxComponent {
-  @Input() label!: string;
-  @Input() ariaLabel: string = '';
-  @Input() set isChecked(value: boolean) {
-    if(value !== null) {
-      this.checked = value;
+  encapsulation: ViewEncapsulation.None,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => UICheckboxComponent),
+      multi: true
     }
+  ]
+
+})
+export class UICheckboxComponent implements ControlValueAccessor {
+
+  @Input() id!: string;
+  @Input() name!: string;
+  @Input() label!: string;
+  @Input() ariaLabel!: string
+  @Input() 
+  set isChecked(value: boolean) {
+    this.isCheckated = value;
   };
-  @Input() isDisabled: boolean = false;
+  @Input() isDisabled!: boolean;
 
   @Output() outputChecked: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  public checked!: boolean;
+  public isCheckated!: boolean;
   public tabIndex: number = 0;
+  public onChangeCallback?: (checked: boolean) => void;
+  public onTouch = () => {};
 
+  writeValue(checked: boolean): void {
+    this.isChecked = checked;
+  }
 
-  public onChange(event: Event): void {
-    const { checked } = (event.currentTarget) as HTMLInputElement
-    this.checked = checked;
+  registerOnChange(fn: any): void {
+    this.onChangeCallback = fn;
+  }
 
+  registerOnTouched(fn: any): void {
+    this.onTouch = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    this.isDisabled = isDisabled;
+  }
+  
+  modelChangeFn(checked: boolean) {
+    this.onChangeCallback?.(checked);
     this.outputChecked.emit(checked);
   }
+
 }

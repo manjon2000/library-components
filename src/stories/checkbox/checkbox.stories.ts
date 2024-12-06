@@ -7,6 +7,8 @@ import { UICheckboxComponent } from '../../../projects/manjon-ui/src/public-api'
 const meta: Meta<UICheckboxComponent> = {
     title: 'Components/Forms/Checkbox',
     args: {
+        id: 'checked01',
+        name: 'layout',
         label: 'Label Checkbox',
         ariaLabel: 'Aria Label Checkbox',
         isChecked: false,
@@ -30,6 +32,8 @@ export default meta;
 
 const templateDefault = `
 <ui-checkbox
+    [id]="id"
+    [name]="name"
     [label]="label"
     [ariaLabel]="ariaLabel"
     [isChecked]="isChecked"
