@@ -31,34 +31,23 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+      
+      - name: Build Angular Library
+        run: npm run build-lib
 
       - name: Build Storybook
         run: npm run storybook-build
 
-      - name: List build directory
-        run: ls ./dist/storybook/lib-ui
-
-      - name: Create or update gh-pages branch
+      - name: Prepare deployment
         run: |
-          git fetch
-          # Si la rama gh-pages no existe, crearla
-          if ! git show-ref --quiet refs/heads/gh-pages; then
-              git checkout --orphan gh-pages
-              git rm -rf .  # Eliminar todos los archivos
-              git pull origin gh-pages
-              git commit --allow-empty -m "Initial commit for gh-pages"
-              git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/manjon2000/library-components.git gh-pages
-          else
-              git fetch origin gh-pages
-              git checkout gh-pages
-              git pull origin gh-pages
-          fi
-
-      - name: Create or update gh-pages branch
-        run: |
-            git checkout gh-pages
-            git rm -rf .
-            cp -r ./dist/storybook/lib-ui/* ./
-            git add .
-            git commit -m "Deploy Storybook to GitHub Pages"
-            git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/manjon2000/library-components.git gh-pages
+          mkdir gh-pages
+          cp -R dist/manjon-ui gh-pages/library
+          cp -R storybook-static gh-pages/storybook
+          echo '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0;url=storybook/index.html"></head><body></body></html>' > gh-pages/index.html
+      
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: gh-pages

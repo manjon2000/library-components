@@ -125,7 +125,7 @@
               "-d",
               "."
             ],
-            "outputDir": "dist/storybook/lib-ui"
+            "outputDir": "storybook-static"
           }
         }
       }
