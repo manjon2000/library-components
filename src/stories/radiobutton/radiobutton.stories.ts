@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 
 import { moduleMetadata } from '@storybook/angular'
-import { UIRadiobuttonComponent } from 'manjon-ui';
+import { UIRadiobuttonComponent } from '../../../projects/manjon-ui/src/public-api';;
 
 
 const meta: Meta<UIRadiobuttonComponent> = {

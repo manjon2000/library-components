@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
-import { UIInputSearchComponent, UIOptionComponent, UIOptionGroupComponent } from 'manjon-ui';
+import { UIInputSearchComponent, UIOptionComponent, UIOptionGroupComponent } from '../../../projects/manjon-ui/src/public-api';;
 import { DemoInputSearchComponent } from './demo-input-search/demo-input-search.component';
 
 const meta: Meta<UIInputSearchComponent> = {
