@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'ui-option',
   standalone: true,
   imports: [],
   templateUrl: './option.component.html',
-  styleUrl: './option.component.scss'
+  styleUrl: './option.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class UIOptionComponent {
 

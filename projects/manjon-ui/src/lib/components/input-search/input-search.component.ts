@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component , ElementRef, EventEmitter, HostListener, Input, OnDestroy, Output, ViewChild } from '@angular/core';
+import { AfterContentInit, AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component , ElementRef, EventEmitter, HostListener, Input, OnDestroy, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FocusBlurDirective } from '../../shared/directives/focus-blur.directive';
 import { CommonModule } from '@angular/common';
 import { IUIOptionGroupOptionConfiguration, UIOptionGroupComponent } from '../option-group/option-group.component';
@@ -15,6 +15,7 @@ import { distinctUntilChanged, filter, Subject, takeUntil } from 'rxjs';
   ],
   templateUrl: './input-search.component.html',
   styleUrl: './input-search.component.scss',
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UIInputSearchComponent implements AfterContentInit, AfterViewInit, AfterViewChecked, OnDestroy {

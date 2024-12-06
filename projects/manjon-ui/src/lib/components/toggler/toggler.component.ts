@@ -1,11 +1,12 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'ui-toggler',
   standalone: true,
   imports: [],
   templateUrl: './toggler.component.html',
-  styleUrl: './toggler.component.scss'
+  styleUrl: './toggler.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class UITogglerComponent {
 
