@@ -43,13 +43,7 @@ export const Default: StoryObj<UIRadiobuttonComponent> = {
     render(args) {
         return {
             template: `
-            <style>
-                .custom-theme-radio-button {
-                --ui-radiobutton-border-default: red;
-                }
-            </style>
             <ui-radiobutton
-                class="custom-theme-radio-button"
                 [label]="label" 
                 [isChecked]="isChecked" 
                 [isDisabled]="isDisabled"
