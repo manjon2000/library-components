@@ -1,0 +1,30 @@
+import { AfterContentInit, AfterViewChecked, AfterViewInit, ChangeDetectorRef, ElementRef, EventEmitter, OnDestroy } from '@angular/core';
+import { IUIOptionGroupOptionConfiguration, UIOptionGroupComponent } from '../option-group/option-group.component';
+import * as i0 from "@angular/core";
+export declare class UIInputSearchComponent implements AfterContentInit, AfterViewInit, AfterViewChecked, OnDestroy {
+    private readonly cdr;
+    container: ElementRef;
+    panel: ElementRef;
+    panelSuggestions: UIOptionGroupComponent | null;
+    placeholder: string;
+    isShowSuggestions: boolean;
+    outputWriteInput: EventEmitter<string>;
+    outputSuggestions: EventEmitter<IUIOptionGroupOptionConfiguration>;
+    isFocusin: boolean;
+    isShowPanel: boolean;
+    value: string;
+    private _unsubcribes$;
+    constructor(cdr: ChangeDetectorRef);
+    onResize(): void;
+    onDocumentClick(event: MouseEvent): void;
+    ngAfterViewInit(): void;
+    ngAfterContentInit(): void;
+    ngAfterViewChecked(): void;
+    ngOnDestroy(): void;
+    onInput(event: Event): void;
+    onFocus(): void;
+    onBlur(): void;
+    private adjustPositionPanel;
+    static ɵfac: i0.ɵɵFactoryDeclaration<UIInputSearchComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<UIInputSearchComponent, "ui-input-search", never, { "panelSuggestions": { "alias": "panelSuggestions"; "required": false; }; "placeholder": { "alias": "placeholder"; "required": false; }; "isShowSuggestions": { "alias": "isShowSuggestions"; "required": false; }; }, { "outputWriteInput": "outputWriteInput"; "outputSuggestions": "outputSuggestions"; }, never, ["*"], true, never>;
+}
