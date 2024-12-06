@@ -1,6 +1,6 @@
 @use '../../../styles/index.scss' as mixin;
 
-:host {
+:root {
     --ui-toggler-bg-default: 
         var(--ui-custom-toggler-bg-default, 
             var(--grayscale-bg-light-grey)
