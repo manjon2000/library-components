@@ -19,3 +19,6 @@ export * from './lib/components/input-search/option/option.component';
 
 // Checkbox
 export * from './lib/components/checkbox/checkbox.component';
+
+// TreeView
+export * from './lib/components/tree-view/tree-view.component';

@@ -1,0 +1,57 @@
+@use '../../../styles/index.scss' as mixin;
+
+.ui-tree-view {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+
+    padding-left: 1rem;
+
+    &-item {
+        font-weight: 400;
+        font-size: mixin.em(16px);
+        line-height: 148%;
+        color: var(--grayscale-black);
+
+        &-group {
+            display: flex;
+            align-items: center;
+            gap: mixin.em(8px);
+
+            & svg {
+                cursor: pointer;
+            }
+        }
+
+        &-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        & ul {
+            max-height: 0;
+            animation: collapseAnimation 0.25s ease-in-out forwards;
+        }
+
+        &--expanded {
+            & ul {
+                min-height: 50px;
+                animation: expandAnimation 0.25s ease-in-out forwards;
+            }
+        }
+
+        &--child {
+            padding-left: calc(1rem + 8px);
+        }
+        
+    }
+
+    &-icon {
+        transition: transform ease-in-out 0.25s;
+        &--rotate {
+            transform: rotate(90deg);
+        }
+    }
+}
