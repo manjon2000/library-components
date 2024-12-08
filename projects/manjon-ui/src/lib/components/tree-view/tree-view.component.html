@@ -11,6 +11,7 @@
                 *ngIf="item.children" 
                 class="ui-tree-view-item-btn" 
                 type="button"
+                [attr.aria-label]="item.label"
                 (click)="isExpanded(item)">
                 <svg 
                     aria-hidden="true" 
@@ -26,12 +27,26 @@
                         fill="#9D3FE7" />
                 </svg>
             </button>
-            {{ item.label }}
+            <span *ngIf="item.children">
+                {{ item.label }}
+            </span>
+            <button 
+                *ngIf="!item.children && withItemsSelected" 
+                class="ui-tree-view-item-select"
+                [attr.aria-label]="item.label"
+                (click)="selectItem(item)">
+                {{ item.label }}
+            </button>
+            <span >
+                
+            </span>
         </p>
         <ui-tree-view
-            *ngIf="item.children" 
-            [nodesSelected]="itemSelected"
-            [items]="item.children" 
+            *ngIf="item.children && isNodeSelected(item.id)"
+            [class.ui-tree-view--collapse]="!isNodeSelected(item.id)"
+            [config]="config"
+            [items]="item.children"
+            (outputSelectItem)="selectItem($event)"
         />
     </li>
 </ul>
