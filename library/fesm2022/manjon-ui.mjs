@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { EventEmitter, Directive, Output, HostListener, forwardRef, Component, ViewEncapsulation, ViewChild, Input, ChangeDetectionStrategy, ViewChildren } from '@angular/core';
+import { EventEmitter, Directive, Output, HostListener, forwardRef, Component, ViewEncapsulation, ViewChild, Input, ChangeDetectionStrategy, NgModule } from '@angular/core';
 import * as i1$1 from '@angular/forms';
 import { NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import * as i1 from '@angular/common';
@@ -443,6 +443,24 @@ class UITreeViewComponent {
                     },
                 ]
             },
+            {
+                id: '313',
+                label: 'Countries',
+                children: [
+                    {
+                        id: '411',
+                        label: 'Spain'
+                    },
+                    {
+                        id: '111',
+                        label: 'Franch'
+                    },
+                    {
+                        id: '311',
+                        label: 'Italy'
+                    }
+                ]
+            }
         ];
         this.outputSelectItem = new EventEmitter();
         this.itemSelected = [];
@@ -454,28 +472,17 @@ class UITreeViewComponent {
                 true :
                 false);
         }
-        console.log(this.withItemsSelected);
-    }
-    ngAfterViewInit() {
-        this.item.forEach((i) => {
-            //console.log(i.nativeElement)
-        });
     }
     selectItem(node) {
         this.outputSelectItem.emit(node);
     }
     isExpanded(node) {
-        console.log(node);
-        this.findNode(node);
+        //this.findNode(node);
         this.cdr.markForCheck();
     }
     isNodeSelected(idNode) {
         return this.itemSelected.find((node) => node.selected.id === idNode);
     }
-    /**
-     *
-     * @return ITreeViewSelected
-    */
     findNode(node) {
         const visited = new Set();
         for (const currentNode of this.items) {
@@ -492,7 +499,6 @@ class UITreeViewComponent {
         visited.add(currentNode.id);
         if (currentNode.id === node.id) {
             if (this.verifyThisExistElementSelected(currentNode.id)) {
-                console.log('Repeat Element');
                 this.deletedNode(currentNode.id);
             }
             else {
@@ -509,7 +515,6 @@ class UITreeViewComponent {
         // Process Childrens
         if (currentNode.children) {
             for (const child of currentNode.children) {
-                console.log(child);
                 if (this.processNode(node, child, visited)) {
                     return true;
                 }
@@ -520,30 +525,171 @@ class UITreeViewComponent {
     verifyThisExistElementSelected(nodeId) {
         return !!this.itemSelected.find((node) => node.selected.id === nodeId);
     }
-    verifyParent(node) {
-    }
     deletedNode(nodeId) {
         this.itemSelected = this.itemSelected?.filter((node) => node.selected.id !== nodeId);
         this.cdr.detectChanges();
     }
     static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.3.12", ngImport: i0, type: UITreeViewComponent, deps: [{ token: i0.ChangeDetectorRef }], target: i0.ɵɵFactoryTarget.Component }); }
-    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "17.3.12", type: UITreeViewComponent, isStandalone: true, selector: "ui-tree-view", inputs: { config: "config", items: "items" }, outputs: { outputSelectItem: "outputSelectItem" }, viewQueries: [{ propertyName: "item", predicate: ["item"], descendants: true }], ngImport: i0, template: "<ul class=\"ui-tree-view\">\n        <li \n        *ngFor=\"let item of items\"\n        #item \n        class=\"ui-tree-view-item\"\n        [class.ui-tree-view-item--expanded]=\"isNodeSelected(item.id)\" \n        [class.ui-tree-view-item--child]=\"!item.children\"\n        >\n        <p class=\"ui-tree-view-item-group\">\n            <button \n                *ngIf=\"item.children\" \n                class=\"ui-tree-view-item-btn\" \n                type=\"button\"\n                [attr.aria-label]=\"item.label\"\n                (click)=\"isExpanded(item)\">\n                <svg \n                    aria-hidden=\"true\" \n                    width=\"16\" \n                    height=\"16\" \n                    viewBox=\"0 0 16 16\" \n                    fill=\"none\"\n                    xmlns=\"http://www.w3.org/2000/svg\"\n                    class=\"ui-tree-view-icon\"\n                    [class.ui-tree-view-icon--rotate]=\"isNodeSelected(item.id)\">\n                    <path\n                        d=\"M4.74666 14.08C5.07333 14.4067 5.6 14.4067 5.92666 14.08L11.5333 8.47333C11.5951 8.41165 11.6442 8.33839 11.6776 8.25774C11.7111 8.17709 11.7283 8.09064 11.7283 8.00333C11.7283 7.91601 11.7111 7.82956 11.6776 7.74891C11.6442 7.66826 11.5951 7.595 11.5333 7.53333L5.92 1.91999C5.6 1.59999 5.06666 1.59999 4.74666 1.91999C4.66906 1.9974 4.60749 2.08936 4.56548 2.1906C4.52347 2.29185 4.50184 2.40038 4.50184 2.50999C4.50184 2.6196 4.52347 2.72814 4.56548 2.82938C4.60749 2.93062 4.66906 3.02258 4.74666 3.09999L9.64 7.99999L4.74 12.9C4.42 13.2267 4.42 13.7533 4.74666 14.08Z\"\n                        fill=\"#9D3FE7\" />\n                </svg>\n            </button>\n            <span *ngIf=\"item.children\">\n                {{ item.label }}\n            </span>\n            <button \n                *ngIf=\"!item.children && withItemsSelected\" \n                class=\"ui-tree-view-item-select\"\n                [attr.aria-label]=\"item.label\"\n                (click)=\"selectItem(item)\">\n                {{ item.label }}\n            </button>\n            <span >\n                \n            </span>\n        </p>\n        <ui-tree-view\n            *ngIf=\"item.children && isNodeSelected(item.id)\"\n            [class.ui-tree-view--collapse]=\"!isNodeSelected(item.id)\"\n            [config]=\"config\"\n            [items]=\"item.children\"\n            (outputSelectItem)=\"selectItem($event)\"\n        />\n    </li>\n</ul>", styles: ["@import\"https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap\";:root{--font-family: \"Poppins\", sans-serif;--font-size: 16px;--line-height: 1.5;--corporate-purple: #9D3FE7;--corporate-gradient: 159.13deg, #9D3FE7 -24.13%, #602093 132.21%;--grayscale-black: #1A141F;--grayscale-white: #FFFFFF;--grayscale-hint-text: #4B3A5A;--grayscale-border: #ABA7AF;--grayscale-disabled: #D4D2D5;--grayscale-spacer: #D9D1E0;--grayscale-spacer-light: #E5E0EB;--grayscale-bg-light-grey: #F5F3F7;--informing-error: #D51A52;--informing-attention: #FF9500;--informing-approval: #00B998;--informing-link: #0F0BAB}*,*:before,*:after{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}main{height:max-content}body{font-family:var(--font-family);font-size:var(--font-size);line-height:var(--line-height);min-height:100vh;vertical-align:middle}a{text-decoration:none}ul{padding:0;list-style:none}input[type=\"*\"]{outline:none;border:none;font-family:inherit;font-size:inherit}img{display:inline-block;max-width:100%}button{border:none;outline:none;background-color:transparent}@keyframes collapseAnimation{0%{clip-path:polygon(0 0,100% 0,100% 100%,0% 100%)}99%{clip-path:polygon(0 0,100% 0,100% 0,0 0)}to{clip-path:polygon(0 0,100% 0,100% 0,0 0)}}@keyframes expandAnimation{0%{clip-path:polygon(0 0,100% 0,100% 0,0 0)}99%{clip-path:polygon(0 0,100% 0,100% 100%,0% 100%)}to{clip-path:none}}.ui-tree-view{width:fit-content;display:flex;flex-direction:column;padding-left:1rem}.ui-tree-view-item{font-weight:400;font-size:1em;line-height:148%;color:var(--grayscale-black)}.ui-tree-view-item-group{display:flex;align-items:center;gap:.5em}.ui-tree-view-item-group svg{cursor:pointer}.ui-tree-view-item-btn{display:flex;align-items:center;justify-content:center;padding:0}.ui-tree-view-item-btn:focus-within{outline-width:2px;outline-style:solid;outline-color:var(--corporate-purple);outline-offset:2px}.ui-tree-view-item-select{font:inherit}.ui-tree-view-item-select:focus-within{outline-width:2px;outline-style:solid;outline-color:var(--corporate-purple);outline-offset:1px}.ui-tree-view-item ul{overflow:hidden;height:0;animation:collapseAnimation .25s ease-in-out forwards}@media (prefers-reduced-motion: reduce){.ui-tree-view-item ul{animation:collapseAnimation forwards}}.ui-tree-view-item--expanded ul{height:auto;animation:expandAnimation .25s ease-in-out forwards}@media (prefers-reduced-motion: reduce){.ui-tree-view-item--expanded ul{animation:expandAnimation forwards}}.ui-tree-view-item--child{padding-left:calc(1rem - 8px);padding-top:.25rem;padding-bottom:.25rem}.ui-tree-view-icon{transition:transform ease-in-out .25s}@media (prefers-reduced-motion: reduce){.ui-tree-view-icon{transition:none}}.ui-tree-view-icon--rotate{transform:rotate(90deg)}\n"], dependencies: [{ kind: "component", type: UITreeViewComponent, selector: "ui-tree-view", inputs: ["config", "items"], outputs: ["outputSelectItem"] }, { kind: "ngmodule", type: CommonModule }, { kind: "directive", type: i1.NgForOf, selector: "[ngFor][ngForOf]", inputs: ["ngForOf", "ngForTrackBy", "ngForTemplate"] }, { kind: "directive", type: i1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }], changeDetection: i0.ChangeDetectionStrategy.OnPush, encapsulation: i0.ViewEncapsulation.None }); }
+    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "17.3.12", type: UITreeViewComponent, selector: "ui-tree-view", inputs: { config: "config", nodes: "nodes", items: "items" }, outputs: { outputSelectItem: "outputSelectItem" }, ngImport: i0, template: "<!-- <ul class=\"ui-tree-view\">\n        <li\n        *ngFor=\"let item of items\"\n        class=\"ui-tree-view-item\"\n        [class.ui-tree-view-item--expanded]=\"isNodeSelected(item.id)\"\n        [class.ui-tree-view-item--child]=\"!item.children\"\n        >\n        <p class=\"ui-tree-view-item-group\">\n            <button\n                *ngIf=\"item.children\"\n                class=\"ui-tree-view-item-btn\"\n                type=\"button\"\n                [attr.aria-label]=\"item.label\"\n                (click)=\"isExpanded(item)\">\n                <svg\n                    aria-hidden=\"true\"\n                    width=\"16\"\n                    height=\"16\"\n                    viewBox=\"0 0 16 16\"\n                    fill=\"none\"\n                    xmlns=\"http://www.w3.org/2000/svg\"\n                    class=\"ui-tree-view-icon\"\n                    [class.ui-tree-view-icon--rotate]=\"isNodeSelected(item.id)\">\n                    <path\n                        d=\"M4.74666 14.08C5.07333 14.4067 5.6 14.4067 5.92666 14.08L11.5333 8.47333C11.5951 8.41165 11.6442 8.33839 11.6776 8.25774C11.7111 8.17709 11.7283 8.09064 11.7283 8.00333C11.7283 7.91601 11.7111 7.82956 11.6776 7.74891C11.6442 7.66826 11.5951 7.595 11.5333 7.53333L5.92 1.91999C5.6 1.59999 5.06666 1.59999 4.74666 1.91999C4.66906 1.9974 4.60749 2.08936 4.56548 2.1906C4.52347 2.29185 4.50184 2.40038 4.50184 2.50999C4.50184 2.6196 4.52347 2.72814 4.56548 2.82938C4.60749 2.93062 4.66906 3.02258 4.74666 3.09999L9.64 7.99999L4.74 12.9C4.42 13.2267 4.42 13.7533 4.74666 14.08Z\"\n                        fill=\"#9D3FE7\" />\n                </svg>\n            </button>\n            <span *ngIf=\"item.children\">\n                {{ item.label }}\n            </span>\n            <button\n                *ngIf=\"!item.children && withItemsSelected\"\n                class=\"ui-tree-view-item-select\"\n                [attr.aria-label]=\"item.label\"\n                (click)=\"selectItem(item)\">\n                {{ item.label }}\n            </button>\n            <span >\n\n            </span>\n        </p>\n        <ui-tree-view\n            *ngIf=\"item.children && isNodeSelected(item.id)\"\n            [class.ui-tree-view--collapse]=\"!isNodeSelected(item.id)\"\n            [config]=\"config\"\n            [items]=\"item.children\"\n            (outputSelectItem)=\"selectItem($event)\"\n        />\n    </li>\n</ul>\n\n<ng-container *ngFor=\"let item of nodes\">\n    <ul *ngFor=\"let node of item\" class=\"ui-tree-view\">\n        <li>\n            <p class=\"ui-tree-view-item-group\">\n                <button\n                    *ngIf=\"node.children\"\n                    class=\"ui-tree-view-item-btn\"\n                    type=\"button\"\n                    [attr.aria-label]=\"node.label\"\n                    (click)=\"isExpanded(node)\">\n                    <svg\n                        aria-hidden=\"true\"\n                        width=\"16\"\n                        height=\"16\"\n                        viewBox=\"0 0 16 16\"\n                        fill=\"none\"\n                        xmlns=\"http://www.w3.org/2000/svg\"\n                        class=\"ui-tree-view-icon\"\n                        [class.ui-tree-view-icon--rotate]=\"isNodeSelected(item.id)\">\n                        <path\n                            d=\"M4.74666 14.08C5.07333 14.4067 5.6 14.4067 5.92666 14.08L11.5333 8.47333C11.5951 8.41165 11.6442 8.33839 11.6776 8.25774C11.7111 8.17709 11.7283 8.09064 11.7283 8.00333C11.7283 7.91601 11.7111 7.82956 11.6776 7.74891C11.6442 7.66826 11.5951 7.595 11.5333 7.53333L5.92 1.91999C5.6 1.59999 5.06666 1.59999 4.74666 1.91999C4.66906 1.9974 4.60749 2.08936 4.56548 2.1906C4.52347 2.29185 4.50184 2.40038 4.50184 2.50999C4.50184 2.6196 4.52347 2.72814 4.56548 2.82938C4.60749 2.93062 4.66906 3.02258 4.74666 3.09999L9.64 7.99999L4.74 12.9C4.42 13.2267 4.42 13.7533 4.74666 14.08Z\"\n                            fill=\"#9D3FE7\" />\n                    </svg>\n                </button>\n            </p>\n        </li>\n    </ul>\n</ng-container> -->\n", styles: ["@import\"https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap\";:root{--font-family: \"Poppins\", sans-serif;--font-size: 16px;--line-height: 1.5;--corporate-purple: #9D3FE7;--corporate-gradient: 159.13deg, #9D3FE7 -24.13%, #602093 132.21%;--grayscale-black: #1A141F;--grayscale-white: #FFFFFF;--grayscale-hint-text: #4B3A5A;--grayscale-border: #ABA7AF;--grayscale-disabled: #D4D2D5;--grayscale-spacer: #D9D1E0;--grayscale-spacer-light: #E5E0EB;--grayscale-bg-light-grey: #F5F3F7;--informing-error: #D51A52;--informing-attention: #FF9500;--informing-approval: #00B998;--informing-link: #0F0BAB}*,*:before,*:after{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}main{height:max-content}body{font-family:var(--font-family);font-size:var(--font-size);line-height:var(--line-height);min-height:100vh;vertical-align:middle}a{text-decoration:none}ul{padding:0;list-style:none}input[type=\"*\"]{outline:none;border:none;font-family:inherit;font-size:inherit}img{display:inline-block;max-width:100%}button{border:none;outline:none;background-color:transparent}@keyframes collapseAnimation{0%{clip-path:polygon(0 0,100% 0,100% 100%,0% 100%)}99%{clip-path:polygon(0 0,100% 0,100% 0,0 0)}to{clip-path:polygon(0 0,100% 0,100% 0,0 0)}}@keyframes expandAnimation{0%{clip-path:polygon(0 0,100% 0,100% 0,0 0)}99%{clip-path:polygon(0 0,100% 0,100% 100%,0% 100%)}to{clip-path:none}}.ui-tree-view{width:fit-content;display:flex;flex-direction:column;padding-left:1rem}.ui-tree-view-item{font-weight:400;font-size:1em;line-height:148%;color:var(--grayscale-black)}.ui-tree-view-item-group{display:flex;align-items:center;gap:.5em}.ui-tree-view-item-group svg{cursor:pointer}.ui-tree-view-item-btn{display:flex;align-items:center;justify-content:center;padding:0}.ui-tree-view-item-btn:focus-within{outline-width:2px;outline-style:solid;outline-color:var(--corporate-purple);outline-offset:2px}.ui-tree-view-item-select{font:inherit}.ui-tree-view-item-select:focus-within{outline-width:2px;outline-style:solid;outline-color:var(--corporate-purple);outline-offset:1px}.ui-tree-view-item ul{overflow:hidden;height:0;animation:collapseAnimation .25s ease-in-out forwards}@media (prefers-reduced-motion: reduce){.ui-tree-view-item ul{animation:collapseAnimation forwards}}.ui-tree-view-item--expanded ul{height:auto;animation:expandAnimation .25s ease-in-out forwards}@media (prefers-reduced-motion: reduce){.ui-tree-view-item--expanded ul{animation:expandAnimation forwards}}.ui-tree-view-item--child{padding-left:calc(1rem - 8px);padding-top:.25rem;padding-bottom:.25rem}.ui-tree-view-icon{transition:transform ease-in-out .25s}@media (prefers-reduced-motion: reduce){.ui-tree-view-icon{transition:none}}.ui-tree-view-icon--rotate{transform:rotate(90deg)}\n"], changeDetection: i0.ChangeDetectionStrategy.OnPush, encapsulation: i0.ViewEncapsulation.None }); }
 }
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.3.12", ngImport: i0, type: UITreeViewComponent, decorators: [{
             type: Component,
-            args: [{ selector: 'ui-tree-view', standalone: true, imports: [
-                        CommonModule
-                    ], changeDetection: ChangeDetectionStrategy.OnPush, encapsulation: ViewEncapsulation.None, template: "<ul class=\"ui-tree-view\">\n        <li \n        *ngFor=\"let item of items\"\n        #item \n        class=\"ui-tree-view-item\"\n        [class.ui-tree-view-item--expanded]=\"isNodeSelected(item.id)\" \n        [class.ui-tree-view-item--child]=\"!item.children\"\n        >\n        <p class=\"ui-tree-view-item-group\">\n            <button \n                *ngIf=\"item.children\" \n                class=\"ui-tree-view-item-btn\" \n                type=\"button\"\n                [attr.aria-label]=\"item.label\"\n                (click)=\"isExpanded(item)\">\n                <svg \n                    aria-hidden=\"true\" \n                    width=\"16\" \n                    height=\"16\" \n                    viewBox=\"0 0 16 16\" \n                    fill=\"none\"\n                    xmlns=\"http://www.w3.org/2000/svg\"\n                    class=\"ui-tree-view-icon\"\n                    [class.ui-tree-view-icon--rotate]=\"isNodeSelected(item.id)\">\n                    <path\n                        d=\"M4.74666 14.08C5.07333 14.4067 5.6 14.4067 5.92666 14.08L11.5333 8.47333C11.5951 8.41165 11.6442 8.33839 11.6776 8.25774C11.7111 8.17709 11.7283 8.09064 11.7283 8.00333C11.7283 7.91601 11.7111 7.82956 11.6776 7.74891C11.6442 7.66826 11.5951 7.595 11.5333 7.53333L5.92 1.91999C5.6 1.59999 5.06666 1.59999 4.74666 1.91999C4.66906 1.9974 4.60749 2.08936 4.56548 2.1906C4.52347 2.29185 4.50184 2.40038 4.50184 2.50999C4.50184 2.6196 4.52347 2.72814 4.56548 2.82938C4.60749 2.93062 4.66906 3.02258 4.74666 3.09999L9.64 7.99999L4.74 12.9C4.42 13.2267 4.42 13.7533 4.74666 14.08Z\"\n                        fill=\"#9D3FE7\" />\n                </svg>\n            </button>\n            <span *ngIf=\"item.children\">\n                {{ item.label }}\n            </span>\n            <button \n                *ngIf=\"!item.children && withItemsSelected\" \n                class=\"ui-tree-view-item-select\"\n                [attr.aria-label]=\"item.label\"\n                (click)=\"selectItem(item)\">\n                {{ item.label }}\n            </button>\n            <span >\n                \n            </span>\n        </p>\n        <ui-tree-view\n            *ngIf=\"item.children && isNodeSelected(item.id)\"\n            [class.ui-tree-view--collapse]=\"!isNodeSelected(item.id)\"\n            [config]=\"config\"\n            [items]=\"item.children\"\n            (outputSelectItem)=\"selectItem($event)\"\n        />\n    </li>\n</ul>", styles: ["@import\"https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap\";:root{--font-family: \"Poppins\", sans-serif;--font-size: 16px;--line-height: 1.5;--corporate-purple: #9D3FE7;--corporate-gradient: 159.13deg, #9D3FE7 -24.13%, #602093 132.21%;--grayscale-black: #1A141F;--grayscale-white: #FFFFFF;--grayscale-hint-text: #4B3A5A;--grayscale-border: #ABA7AF;--grayscale-disabled: #D4D2D5;--grayscale-spacer: #D9D1E0;--grayscale-spacer-light: #E5E0EB;--grayscale-bg-light-grey: #F5F3F7;--informing-error: #D51A52;--informing-attention: #FF9500;--informing-approval: #00B998;--informing-link: #0F0BAB}*,*:before,*:after{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}main{height:max-content}body{font-family:var(--font-family);font-size:var(--font-size);line-height:var(--line-height);min-height:100vh;vertical-align:middle}a{text-decoration:none}ul{padding:0;list-style:none}input[type=\"*\"]{outline:none;border:none;font-family:inherit;font-size:inherit}img{display:inline-block;max-width:100%}button{border:none;outline:none;background-color:transparent}@keyframes collapseAnimation{0%{clip-path:polygon(0 0,100% 0,100% 100%,0% 100%)}99%{clip-path:polygon(0 0,100% 0,100% 0,0 0)}to{clip-path:polygon(0 0,100% 0,100% 0,0 0)}}@keyframes expandAnimation{0%{clip-path:polygon(0 0,100% 0,100% 0,0 0)}99%{clip-path:polygon(0 0,100% 0,100% 100%,0% 100%)}to{clip-path:none}}.ui-tree-view{width:fit-content;display:flex;flex-direction:column;padding-left:1rem}.ui-tree-view-item{font-weight:400;font-size:1em;line-height:148%;color:var(--grayscale-black)}.ui-tree-view-item-group{display:flex;align-items:center;gap:.5em}.ui-tree-view-item-group svg{cursor:pointer}.ui-tree-view-item-btn{display:flex;align-items:center;justify-content:center;padding:0}.ui-tree-view-item-btn:focus-within{outline-width:2px;outline-style:solid;outline-color:var(--corporate-purple);outline-offset:2px}.ui-tree-view-item-select{font:inherit}.ui-tree-view-item-select:focus-within{outline-width:2px;outline-style:solid;outline-color:var(--corporate-purple);outline-offset:1px}.ui-tree-view-item ul{overflow:hidden;height:0;animation:collapseAnimation .25s ease-in-out forwards}@media (prefers-reduced-motion: reduce){.ui-tree-view-item ul{animation:collapseAnimation forwards}}.ui-tree-view-item--expanded ul{height:auto;animation:expandAnimation .25s ease-in-out forwards}@media (prefers-reduced-motion: reduce){.ui-tree-view-item--expanded ul{animation:expandAnimation forwards}}.ui-tree-view-item--child{padding-left:calc(1rem - 8px);padding-top:.25rem;padding-bottom:.25rem}.ui-tree-view-icon{transition:transform ease-in-out .25s}@media (prefers-reduced-motion: reduce){.ui-tree-view-icon{transition:none}}.ui-tree-view-icon--rotate{transform:rotate(90deg)}\n"] }]
-        }], ctorParameters: () => [{ type: i0.ChangeDetectorRef }], propDecorators: { item: [{
-                type: ViewChildren,
-                args: ['item']
-            }], config: [{
+            args: [{ selector: 'ui-tree-view', standalone: false, changeDetection: ChangeDetectionStrategy.OnPush, encapsulation: ViewEncapsulation.None, template: "<!-- <ul class=\"ui-tree-view\">\n        <li\n        *ngFor=\"let item of items\"\n        class=\"ui-tree-view-item\"\n        [class.ui-tree-view-item--expanded]=\"isNodeSelected(item.id)\"\n        [class.ui-tree-view-item--child]=\"!item.children\"\n        >\n        <p class=\"ui-tree-view-item-group\">\n            <button\n                *ngIf=\"item.children\"\n                class=\"ui-tree-view-item-btn\"\n                type=\"button\"\n                [attr.aria-label]=\"item.label\"\n                (click)=\"isExpanded(item)\">\n                <svg\n                    aria-hidden=\"true\"\n                    width=\"16\"\n                    height=\"16\"\n                    viewBox=\"0 0 16 16\"\n                    fill=\"none\"\n                    xmlns=\"http://www.w3.org/2000/svg\"\n                    class=\"ui-tree-view-icon\"\n                    [class.ui-tree-view-icon--rotate]=\"isNodeSelected(item.id)\">\n                    <path\n                        d=\"M4.74666 14.08C5.07333 14.4067 5.6 14.4067 5.92666 14.08L11.5333 8.47333C11.5951 8.41165 11.6442 8.33839 11.6776 8.25774C11.7111 8.17709 11.7283 8.09064 11.7283 8.00333C11.7283 7.91601 11.7111 7.82956 11.6776 7.74891C11.6442 7.66826 11.5951 7.595 11.5333 7.53333L5.92 1.91999C5.6 1.59999 5.06666 1.59999 4.74666 1.91999C4.66906 1.9974 4.60749 2.08936 4.56548 2.1906C4.52347 2.29185 4.50184 2.40038 4.50184 2.50999C4.50184 2.6196 4.52347 2.72814 4.56548 2.82938C4.60749 2.93062 4.66906 3.02258 4.74666 3.09999L9.64 7.99999L4.74 12.9C4.42 13.2267 4.42 13.7533 4.74666 14.08Z\"\n                        fill=\"#9D3FE7\" />\n                </svg>\n            </button>\n            <span *ngIf=\"item.children\">\n                {{ item.label }}\n            </span>\n            <button\n                *ngIf=\"!item.children && withItemsSelected\"\n                class=\"ui-tree-view-item-select\"\n                [attr.aria-label]=\"item.label\"\n                (click)=\"selectItem(item)\">\n                {{ item.label }}\n            </button>\n            <span >\n\n            </span>\n        </p>\n        <ui-tree-view\n            *ngIf=\"item.children && isNodeSelected(item.id)\"\n            [class.ui-tree-view--collapse]=\"!isNodeSelected(item.id)\"\n            [config]=\"config\"\n            [items]=\"item.children\"\n            (outputSelectItem)=\"selectItem($event)\"\n        />\n    </li>\n</ul>\n\n<ng-container *ngFor=\"let item of nodes\">\n    <ul *ngFor=\"let node of item\" class=\"ui-tree-view\">\n        <li>\n            <p class=\"ui-tree-view-item-group\">\n                <button\n                    *ngIf=\"node.children\"\n                    class=\"ui-tree-view-item-btn\"\n                    type=\"button\"\n                    [attr.aria-label]=\"node.label\"\n                    (click)=\"isExpanded(node)\">\n                    <svg\n                        aria-hidden=\"true\"\n                        width=\"16\"\n                        height=\"16\"\n                        viewBox=\"0 0 16 16\"\n                        fill=\"none\"\n                        xmlns=\"http://www.w3.org/2000/svg\"\n                        class=\"ui-tree-view-icon\"\n                        [class.ui-tree-view-icon--rotate]=\"isNodeSelected(item.id)\">\n                        <path\n                            d=\"M4.74666 14.08C5.07333 14.4067 5.6 14.4067 5.92666 14.08L11.5333 8.47333C11.5951 8.41165 11.6442 8.33839 11.6776 8.25774C11.7111 8.17709 11.7283 8.09064 11.7283 8.00333C11.7283 7.91601 11.7111 7.82956 11.6776 7.74891C11.6442 7.66826 11.5951 7.595 11.5333 7.53333L5.92 1.91999C5.6 1.59999 5.06666 1.59999 4.74666 1.91999C4.66906 1.9974 4.60749 2.08936 4.56548 2.1906C4.52347 2.29185 4.50184 2.40038 4.50184 2.50999C4.50184 2.6196 4.52347 2.72814 4.56548 2.82938C4.60749 2.93062 4.66906 3.02258 4.74666 3.09999L9.64 7.99999L4.74 12.9C4.42 13.2267 4.42 13.7533 4.74666 14.08Z\"\n                            fill=\"#9D3FE7\" />\n                    </svg>\n                </button>\n            </p>\n        </li>\n    </ul>\n</ng-container> -->\n", styles: ["@import\"https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap\";:root{--font-family: \"Poppins\", sans-serif;--font-size: 16px;--line-height: 1.5;--corporate-purple: #9D3FE7;--corporate-gradient: 159.13deg, #9D3FE7 -24.13%, #602093 132.21%;--grayscale-black: #1A141F;--grayscale-white: #FFFFFF;--grayscale-hint-text: #4B3A5A;--grayscale-border: #ABA7AF;--grayscale-disabled: #D4D2D5;--grayscale-spacer: #D9D1E0;--grayscale-spacer-light: #E5E0EB;--grayscale-bg-light-grey: #F5F3F7;--informing-error: #D51A52;--informing-attention: #FF9500;--informing-approval: #00B998;--informing-link: #0F0BAB}*,*:before,*:after{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}main{height:max-content}body{font-family:var(--font-family);font-size:var(--font-size);line-height:var(--line-height);min-height:100vh;vertical-align:middle}a{text-decoration:none}ul{padding:0;list-style:none}input[type=\"*\"]{outline:none;border:none;font-family:inherit;font-size:inherit}img{display:inline-block;max-width:100%}button{border:none;outline:none;background-color:transparent}@keyframes collapseAnimation{0%{clip-path:polygon(0 0,100% 0,100% 100%,0% 100%)}99%{clip-path:polygon(0 0,100% 0,100% 0,0 0)}to{clip-path:polygon(0 0,100% 0,100% 0,0 0)}}@keyframes expandAnimation{0%{clip-path:polygon(0 0,100% 0,100% 0,0 0)}99%{clip-path:polygon(0 0,100% 0,100% 100%,0% 100%)}to{clip-path:none}}.ui-tree-view{width:fit-content;display:flex;flex-direction:column;padding-left:1rem}.ui-tree-view-item{font-weight:400;font-size:1em;line-height:148%;color:var(--grayscale-black)}.ui-tree-view-item-group{display:flex;align-items:center;gap:.5em}.ui-tree-view-item-group svg{cursor:pointer}.ui-tree-view-item-btn{display:flex;align-items:center;justify-content:center;padding:0}.ui-tree-view-item-btn:focus-within{outline-width:2px;outline-style:solid;outline-color:var(--corporate-purple);outline-offset:2px}.ui-tree-view-item-select{font:inherit}.ui-tree-view-item-select:focus-within{outline-width:2px;outline-style:solid;outline-color:var(--corporate-purple);outline-offset:1px}.ui-tree-view-item ul{overflow:hidden;height:0;animation:collapseAnimation .25s ease-in-out forwards}@media (prefers-reduced-motion: reduce){.ui-tree-view-item ul{animation:collapseAnimation forwards}}.ui-tree-view-item--expanded ul{height:auto;animation:expandAnimation .25s ease-in-out forwards}@media (prefers-reduced-motion: reduce){.ui-tree-view-item--expanded ul{animation:expandAnimation forwards}}.ui-tree-view-item--child{padding-left:calc(1rem - 8px);padding-top:.25rem;padding-bottom:.25rem}.ui-tree-view-icon{transition:transform ease-in-out .25s}@media (prefers-reduced-motion: reduce){.ui-tree-view-icon{transition:none}}.ui-tree-view-icon--rotate{transform:rotate(90deg)}\n"] }]
+        }], ctorParameters: () => [{ type: i0.ChangeDetectorRef }], propDecorators: { config: [{
+                type: Input
+            }], nodes: [{
                 type: Input
             }], items: [{
                 type: Input
             }], outputSelectItem: [{
                 type: Output
             }] } });
+
+class UITreeComponent {
+    constructor(cdr) {
+        this.cdr = cdr;
+        this.items = [
+            {
+                id: '1',
+                label: 'Frutas',
+                children: [
+                    {
+                        id: '2',
+                        label: 'Tropicales',
+                        children: [
+                            {
+                                id: '3',
+                                label: 'Piña'
+                            },
+                            {
+                                id: '3',
+                                label: 'Melocoton'
+                            },
+                        ]
+                    },
+                    {
+                        id: '4',
+                        label: 'Nacionales',
+                        children: [
+                            {
+                                id: '5',
+                                label: 'Naranjas'
+                            },
+                            {
+                                id: '6',
+                                label: 'Sandias'
+                            },
+                        ]
+                    },
+                ]
+            },
+            {
+                id: '313',
+                label: 'Countries',
+                children: [
+                    {
+                        id: '411',
+                        label: 'Spain'
+                    },
+                    {
+                        id: '111',
+                        label: 'Franch'
+                    },
+                    {
+                        id: '311',
+                        label: 'Italy'
+                    }
+                ]
+            }
+        ];
+        this.nodes = [];
+        this.withItemsSelected = false;
+    }
+    ngOnInit() {
+        if (this.config) {
+            this.withItemsSelected = (this.config.withSelected ?
+                true :
+                false);
+        }
+        this.buildNodes(this.items);
+        console.log(this.nodes);
+    }
+    buildNodes(nodes) {
+        const levelIndexes = {};
+        for (let level = 0; level < nodes.length; level++) {
+            if (!this.nodes[level]) {
+                this.nodes[level] = [];
+            }
+            levelIndexes[level] = 0;
+            const children = nodes[level]?.children;
+            this.nodes[level].push({
+                ...nodes[level],
+                children: false,
+                level,
+                index: levelIndexes[level],
+                isFather: true,
+                contentChildren: (children ? true : false),
+            });
+            if (children) {
+                this.processBuildNodes(level, levelIndexes, children);
+            }
+        }
+    }
+    processBuildNodes(level, levelIndexes, node) {
+        if (!levelIndexes[level]) {
+            levelIndexes[level] = 1;
+        }
+        node.map((eL, index) => {
+            this.nodes[level].push({
+                ...eL,
+                children: true,
+                level,
+                index: levelIndexes[level]++,
+                isFather: false,
+                contentChildren: (eL?.children ? true : false),
+            });
+            if (eL?.children) {
+                this.processBuildNodes(level, levelIndexes, eL.children);
+            }
+        });
+    }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.3.12", ngImport: i0, type: UITreeComponent, deps: [{ token: i0.ChangeDetectorRef }], target: i0.ɵɵFactoryTarget.Component }); }
+    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "17.3.12", type: UITreeComponent, selector: "ui-tree", inputs: { config: "config", items: "items" }, ngImport: i0, template: "<!-- <ui-tree-view\n    [config]=\"config\"\n    [nodes]=\"nodes\"\n/> -->\n", styles: [""], changeDetection: i0.ChangeDetectionStrategy.OnPush }); }
+}
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.3.12", ngImport: i0, type: UITreeComponent, decorators: [{
+            type: Component,
+            args: [{ selector: 'ui-tree', standalone: false, changeDetection: ChangeDetectionStrategy.OnPush, template: "<!-- <ui-tree-view\n    [config]=\"config\"\n    [nodes]=\"nodes\"\n/> -->\n" }]
+        }], ctorParameters: () => [{ type: i0.ChangeDetectorRef }], propDecorators: { config: [{
+                type: Input
+            }], items: [{
+                type: Input
+            }] } });
+
+class UITreeModule {
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.3.12", ngImport: i0, type: UITreeModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule }); }
+    static { this.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "17.3.12", ngImport: i0, type: UITreeModule, declarations: [UITreeComponent,
+            UITreeViewComponent], imports: [CommonModule], exports: [CommonModule,
+            UITreeComponent,
+            UITreeViewComponent] }); }
+    static { this.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "17.3.12", ngImport: i0, type: UITreeModule, imports: [CommonModule, CommonModule] }); }
+}
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.3.12", ngImport: i0, type: UITreeModule, decorators: [{
+            type: NgModule,
+            args: [{
+                    imports: [
+                        CommonModule
+                    ],
+                    declarations: [
+                        UITreeComponent,
+                        UITreeViewComponent
+                    ],
+                    exports: [
+                        CommonModule,
+                        UITreeComponent,
+                        UITreeViewComponent
+                    ]
+                }]
+        }] });
 
 /*
  * Public API Surface of manjon-ui
@@ -554,5 +700,5 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.3.12", ngImpo
  * Generated bundle index. Do not edit.
  */
 
-export { UICheckboxComponent, UIInputSearchComponent, UIOptionComponent, UIOptionGroupComponent, UIRadiobuttonComponent, UITogglerComponent, UITreeViewComponent };
+export { UICheckboxComponent, UIInputSearchComponent, UIOptionComponent, UIOptionGroupComponent, UIRadiobuttonComponent, UITogglerComponent, UITreeComponent, UITreeModule, UITreeViewComponent };
 //# sourceMappingURL=manjon-ui.mjs.map

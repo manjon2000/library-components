@@ -4,4 +4,6 @@ export * from './lib/components/input-search/input-search.component';
 export * from './lib/components/option-group/option-group.component';
 export * from './lib/components/input-search/option/option.component';
 export * from './lib/components/checkbox/checkbox.component';
-export * from './lib/components/tree-view/tree-view.component';
+export * from './lib/components/tree/tree-view.component';
+export * from './lib/components/tree/tree.module';
+export * from './lib/components/tree/tree.component';
