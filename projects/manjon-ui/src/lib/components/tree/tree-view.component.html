@@ -1,22 +1,22 @@
-<ul class="ui-tree-view">
-        <li 
+<!-- <ul class="ui-tree-view">
+        <li
         *ngFor="let item of items"
         class="ui-tree-view-item"
-        [class.ui-tree-view-item--expanded]="isNodeSelected(item.id)" 
+        [class.ui-tree-view-item--expanded]="isNodeSelected(item.id)"
         [class.ui-tree-view-item--child]="!item.children"
         >
         <p class="ui-tree-view-item-group">
-            <button 
-                *ngIf="item.children" 
-                class="ui-tree-view-item-btn" 
+            <button
+                *ngIf="item.children"
+                class="ui-tree-view-item-btn"
                 type="button"
                 [attr.aria-label]="item.label"
                 (click)="isExpanded(item)">
-                <svg 
-                    aria-hidden="true" 
-                    width="16" 
-                    height="16" 
-                    viewBox="0 0 16 16" 
+                <svg
+                    aria-hidden="true"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                     class="ui-tree-view-icon"
@@ -29,15 +29,15 @@
             <span *ngIf="item.children">
                 {{ item.label }}
             </span>
-            <button 
-                *ngIf="!item.children && withItemsSelected" 
+            <button
+                *ngIf="!item.children && withItemsSelected"
                 class="ui-tree-view-item-select"
                 [attr.aria-label]="item.label"
                 (click)="selectItem(item)">
                 {{ item.label }}
             </button>
             <span >
-                
+
             </span>
         </p>
         <ui-tree-view
@@ -54,17 +54,17 @@
     <ul *ngFor="let node of item" class="ui-tree-view">
         <li>
             <p class="ui-tree-view-item-group">
-                <button 
-                    *ngIf="node.children" 
-                    class="ui-tree-view-item-btn" 
+                <button
+                    *ngIf="node.children"
+                    class="ui-tree-view-item-btn"
                     type="button"
                     [attr.aria-label]="node.label"
                     (click)="isExpanded(node)">
-                    <svg 
-                        aria-hidden="true" 
-                        width="16" 
-                        height="16" 
-                        viewBox="0 0 16 16" 
+                    <svg
+                        aria-hidden="true"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                         class="ui-tree-view-icon"
@@ -77,4 +77,4 @@
             </p>
         </li>
     </ul>
-</ng-container>
+</ng-container> -->
