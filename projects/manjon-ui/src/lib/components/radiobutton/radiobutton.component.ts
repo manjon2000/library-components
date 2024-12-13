@@ -17,7 +17,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       multi: true
     }
   ],
-  encapsulation: ViewEncapsulation.None,
 })
 export class UIRadiobuttonComponent implements ControlValueAccessor {
 
@@ -38,7 +37,7 @@ export class UIRadiobuttonComponent implements ControlValueAccessor {
 
   onInput(event: Event): void {
     const { checked } = (event.currentTarget) as HTMLInputElement
-   
+
     this._value = checked;
     this.onChangeCallback?.(checked);
 

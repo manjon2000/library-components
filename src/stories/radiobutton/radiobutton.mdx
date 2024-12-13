@@ -1,0 +1,49 @@
+import { Meta, Controls } from '@storybook/blocks';
+import { UIRadiobuttonComponent } from '../../../projects/manjon-ui/src/public-api';
+
+<Meta title="Components/Forms/radiobutton" />
+
+# Radio Button
+Use radio buttons when you have a group of mutually exclusive choices and only one selection from the group is allowed.
+
+## When to use
+
+### Form
+Can be used in tiles, data tables, modals, side panels, and in forms on full pages.
+
+### Settings
+Used to change from one setting to another in a menu, page, or component. It can often act as a filtering mechanism.
+
+
+### Customize component
+To give custom styles using CSS variables, we have the following variables:
+
+
+For sizes it is recommended to use `em` units.
+```CSS
+.custom-radiobutton {
+  --ui-custom-radiobutton-border-default: #000;
+  --ui-custom-radiobutton-border-focus: green;
+  --ui-custom-radiobutton-border-checked: red;
+  --ui-custom-radiobutton-shadow-bg-checked: blue;
+  --ui-custom-radiobutton-border-error: red;
+  --ui-custom-radiobutton-shadow-bg-default: transparent;
+  --ui-custom-radiobutton-shadow-bg-checked: violet;
+  --ui-custom-radiobutton-shadow-bg-error: red;
+  --ui-custom-radiobutton-shadow-bg-disabled: transparent;
+  --ui-custom-radiobutton-shadow-width-default: 0px;
+  --ui-custom-radiobutton-shadow-width-checked: 5px;
+}
+```
+#### Use case custom component
+
+```html
+<ui-radiobutton
+  class="custom-radiobutton"
+  [label]="label"
+  [isChecked]="isChecked"
+  [isDisabled]="isDisabled"
+  [isError]="isError"
+/>
+```
+

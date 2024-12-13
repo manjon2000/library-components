@@ -44,8 +44,8 @@ export const Default: StoryObj<UIRadiobuttonComponent> = {
         return {
             template: `
             <ui-radiobutton
-                [label]="label" 
-                [isChecked]="isChecked" 
+                [label]="label"
+                [isChecked]="isChecked"
                 [isDisabled]="isDisabled"
                 [isError]="isError"
             />`,

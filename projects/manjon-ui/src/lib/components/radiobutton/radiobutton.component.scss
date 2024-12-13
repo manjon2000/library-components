@@ -1,6 +1,6 @@
 @use '../../../styles/index.scss' as mixin;
 
-:root {
+:host {
   --ui-radiobutton-border-default: var(
     --ui-custom-radiobutton-border-default,
     var(--grayscale-spacer)

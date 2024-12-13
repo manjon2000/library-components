@@ -46,7 +46,14 @@ export default meta;
 export const Default: StoryObj<UITogglerComponent> = {
     render(args) {
         return {
-            template: `<ui-toggler
+            template: `
+            <style>
+              .aaas {
+                --ui-custom-toggler-bg-default: red;
+              }
+            </style>
+                        <ui-toggler
+                            class="aaas"
                             [isActived]="isActived"
                             [isDisabled]="isDisabled"
                             [ariaLabel]="ariaLabel"
