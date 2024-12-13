@@ -1,39 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren, ViewEncapsulation } from '@angular/core';
-
-
-export interface ITreeViewConfiguration {
-  withCheckbox?: boolean,
-  withSelected?: boolean
-}
-
-export interface ITreeViewSelected {
-  parent?: ITreeView | null;
-  selected: ITreeView;
-}
-
-export interface ITreeView {
-  id: string;
-  label: string;
-  children?: ITreeView[]
-}
+import { ITreeView, ITreeViewConfiguration, ITreeViewNodes, ITreeViewSelected } from './tree.interface';
 
 @Component({
   selector: 'ui-tree-view',
-  standalone: true,
-  imports: [
-    CommonModule
-  ],
+  standalone: false,
   templateUrl: './tree-view.component.html',
   styleUrl: './tree-view.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class UITreeViewComponent implements OnInit, AfterViewInit {
-
-  @ViewChildren('item') item!: QueryList<ElementRef>;
+export class UITreeViewComponent implements OnInit {
 
   @Input() config!: ITreeViewConfiguration;
+  @Input() nodes!: ITreeViewNodes[][];
   @Input() items: ITreeView[] = [
     {
       id: '1',
@@ -44,13 +24,13 @@ export class UITreeViewComponent implements OnInit, AfterViewInit {
           label: 'Tropicales',
           children: [
             {
-             id: '3',
-             label: 'Piña'
+              id: '3',
+              label: 'Piña'
             },
             {
               id: '3',
               label: 'Melocoton'
-             },
+            },
           ]
         },
         {
@@ -58,8 +38,8 @@ export class UITreeViewComponent implements OnInit, AfterViewInit {
           label: 'Nacionales',
           children: [
             {
-             id: '5',
-             label: 'Naranjas'
+              id: '5',
+              label: 'Naranjas'
             },
             {
               id: '6',
@@ -69,7 +49,26 @@ export class UITreeViewComponent implements OnInit, AfterViewInit {
         },
       ]
     },
-  ]
+    {
+      id: '313',
+      label: 'Countries',
+      children: [
+        {
+          id: '411',
+          label: 'Spain'
+        },
+        {
+          id: '111',
+          label: 'Franch'
+        },
+        {
+          id: '311',
+          label: 'Italy'
+        }
+      ]
+    }
+  ];
+
   @Output() outputSelectItem: EventEmitter<ITreeView> = new EventEmitter<ITreeView>();
 
   public itemSelected: ITreeViewSelected[] = [];
@@ -80,30 +79,22 @@ export class UITreeViewComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    if(this.config) {
+    if (this.config) {
       this.withItemsSelected = (
-        this.config.withSelected ? 
-        true : 
-        false
+        this.config.withSelected ?
+          true :
+          false
       );
     }
-
-    console.log(this.withItemsSelected)
-  }
-
-  ngAfterViewInit(): void {
-    this.item.forEach((i) => {
-      //console.log(i.nativeElement)
-    });
   }
 
   public selectItem(node: ITreeView) {
     this.outputSelectItem.emit(node);
   }
 
-  public isExpanded(node: ITreeView): void {
-    console.log(node);
-    this.findNode(node);
+
+  public isExpanded(node: ITreeViewNodes): void {
+    //this.findNode(node);
     this.cdr.markForCheck();
   }
 
@@ -112,11 +103,6 @@ export class UITreeViewComponent implements OnInit, AfterViewInit {
       (node: ITreeViewSelected) => node.selected.id === idNode
     );
   }
-
-  /**
-   * 
-   * @return ITreeViewSelected
-  */
 
   private findNode(node: ITreeView) {
     const visited = new Set<string>();
@@ -148,7 +134,6 @@ export class UITreeViewComponent implements OnInit, AfterViewInit {
       if (
         this.verifyThisExistElementSelected(currentNode.id)
       ) {
-        console.log('Repeat Element')
         this.deletedNode(currentNode.id);
       } else {
         if (!this.itemSelected) {
@@ -166,7 +151,6 @@ export class UITreeViewComponent implements OnInit, AfterViewInit {
     // Process Childrens
     if (currentNode.children) {
       for (const child of currentNode.children) {
-        console.log(child)
         if (this.processNode(node, child, visited)) {
           return true;
         }
@@ -182,10 +166,6 @@ export class UITreeViewComponent implements OnInit, AfterViewInit {
     return !!this.itemSelected.find(
       (node: ITreeViewSelected) => node.selected.id === nodeId
     );
-  }
-
-  private verifyParent(node: ITreeView): void {
-
   }
 
   private deletedNode(nodeId: String): void {

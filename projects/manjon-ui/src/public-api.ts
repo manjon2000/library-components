@@ -20,5 +20,11 @@ export * from './lib/components/input-search/option/option.component';
 // Checkbox
 export * from './lib/components/checkbox/checkbox.component';
 
+// Tree
+export * from './lib/components/tree/tree-view.component';
+
+// Tree Module
+export * from './lib/components/tree/tree.module';
+
 // TreeView
-export * from './lib/components/tree-view/tree-view.component';
+export * from './lib/components/tree/tree.component';
