@@ -17,6 +17,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       multi: true
     }
   ],
+  encapsulation: ViewEncapsulation.None
 })
 export class UIRadiobuttonComponent implements ControlValueAccessor {
 
