@@ -1,7 +1,10 @@
-import { Meta, Controls } from '@storybook/blocks';
-import { UIRadiobuttonComponent } from '../../../projects/manjon-ui/src/public-api';
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
+import * as RadioButtonUseCase from './radiobutton-use-case.stories';
 
-<Meta title="Components/Forms/radiobutton" />
+<Meta
+  component={RadioButtonUseCase}
+  title="Components/Forms/radiobutton" 
+/>
 
 # Radio Button
 Use radio buttons when you have a group of mutually exclusive choices and only one selection from the group is allowed.
@@ -50,4 +53,4 @@ For sizes it is recommended to use `em` units.
   [isError]="isError"
 />
 ```
-
+<Canvas of={RadioButtonUseCase.CustomStyles} />
