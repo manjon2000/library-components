@@ -1,9 +1,9 @@
-@use '../../../styles/index.scss' as mixin;
+@use "../../../styles/index.scss" as mixin;
 
 :root {
   --ui-radiobutton-border-default: var(
     --ui-custom-radiobutton-border-default,
-    var(--grayscale-spacer)
+    var(--grayscale-black)
   );
   --ui-radiobutton-border-focus: var(
     --ui-custom-radiobutton-border-focus,
@@ -41,6 +41,22 @@
     --ui-custom-radiobutton-shadow-width-checked,
     #{mixin.em(4px)}
   );
+  --ui-radiobutton-focus-outline-width: var(
+    --ui-custom-radiobutton-focus-outline-width,
+    #{mixin.em(1px)}
+  );
+  --ui-radiobutton-focus-outline-style: var(
+    --ui-custom-radiobutton-focus-outline-style,
+    solid
+  );
+  --ui-radiobutton-focus-outline-color: var(
+    --ui-custom-radiobutton-focus-outline-color,
+    var(--grayscale-black)
+  );
+  --ui-radiobutton-focus-outline-offset: var(
+    --ui-custom-radiobutton-focus-outline-offset,
+    #{mixin.em(2px)}
+  );
 }
 
 .ui-radiobutton {
@@ -48,6 +64,10 @@
   --radiobutton-border: var(--ui-radiobutton-border-default);
   --radiobutton-shadow: var(--ui-radiobutton-shadow-bg-default);
   --radiobutton-shadow-width: var(--ui-radiobutton-shadow-width-default);
+  --radiobutton-outline-width: #{mixin.em(0px)};
+  --radiobutton-outline-style: none;
+  --radiobutton-outline-color: transparent;
+  --radiobutton-outline-offset: #{mixin.em(0px)};
 
   font-family: var(--font-family);
 
@@ -57,6 +77,18 @@
       & + label {
         &::before {
           --radiobutton-border: var(--ui-radiobutton-border-focus);
+          --radiobutton-outline-width: var(
+            --ui-radiobutton-focus-outline-width
+          );
+          --radiobutton-outline-style: var(
+            --ui-radiobutton-focus-outline-style
+          );
+          --radiobutton-outline-color: var(
+            --ui-radiobutton-focus-outline-color
+          );
+          --radiobutton-outline-offset: var(
+            --ui-radiobutton-focus-outline-offset
+          );
         }
       }
     }
@@ -79,7 +111,9 @@
         & + label {
           --radiobutton-shadow: var(--grayscale-white);
           --radiobutton-bg: var(--ui-radiobutton-shadow-bg-error);
-          --radiobutton-shadow-width: var(--ui-radiobutton-shadow-width-checked);
+          --radiobutton-shadow-width: var(
+            --ui-radiobutton-shadow-width-checked
+          );
         }
       }
       & + label {
@@ -113,6 +147,10 @@
       background-color: var(--radiobutton-bg);
       box-shadow: inset 0 0 0 var(--radiobutton-shadow-width)
         var(--radiobutton-shadow, transparent);
+      outline-width: var(--radiobutton-outline-width);
+      outline-style: var(--radiobutton-outline-style);
+      outline-color: var(--radiobutton-outline-color);
+      outline-offset: var(--radiobutton-outline-offset);
     }
   }
 }
