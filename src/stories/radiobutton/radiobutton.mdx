@@ -9,6 +9,7 @@ import * as RadioButtonUseCase from './radiobutton-use-case.stories';
 # Radio Button
 Use radio buttons when you have a group of mutually exclusive choices and only one selection from the group is allowed.
 
+
 ## When to use
 
 ### Form
@@ -25,24 +26,25 @@ To give custom styles using CSS variables, we have the following variables:
 For sizes it is recommended to use `em` units.
 ```CSS
 :root {
-  --ui-custom-radiobutton-border-default: red;
   --ui-custom-radiobutton-border-default: #505050;
   --ui-custom-radiobutton-border-focus: green;
-  --ui-custom-radiobutton-border-checked:#7a86ff;
+  --ui-custom-radiobutton-border-checked: #7a86ff;
   --ui-custom-radiobutton-shadow-bg-checked: blue;
-  --ui-custom-radiobutton-border-error:#7a86ff;
+  --ui-custom-radiobutton-border-error: #7a86ff;
   --ui-custom-radiobutton-shadow-bg-default: transparent;
-  --ui-custom-radiobutton-shadow-bg-checked:#7a86ff;
+  --ui-custom-radiobutton-shadow-bg-checked: #7a86ff;
   --ui-custom-radiobutton-shadow-bg-error: red;
   --ui-custom-radiobutton-shadow-bg-disabled: transparent;
   --ui-custom-radiobutton-shadow-width-default: 0px;
   --ui-custom-radiobutton-shadow-width-checked: 2px;
   --ui-custom-radiobutton-focus-outline-width: 2px;
   --ui-custom-radiobutton-focus-outline-style: solid;
-  --ui-custom-radiobutton-focus-outline-color:#7a86ff;
+  --ui-custom-radiobutton-focus-outline-color: #7a86ff;
   --ui-custom-radiobutton-focus-outline-offset: 2px;
 }
 ```
+<Canvas of={RadioButtonUseCase.CustomStyles} />
+
 #### Use case custom component
 
 ```html
@@ -53,4 +55,3 @@ For sizes it is recommended to use `em` units.
   [isError]="isError"
 />
 ```
-<Canvas of={RadioButtonUseCase.CustomStyles} />
