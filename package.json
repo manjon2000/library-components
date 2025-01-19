@@ -52,7 +52,6 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "ng-packagr": "^17.3.0",
-    "ng-samurai": "^3.0.0",
     "postcss-loader": "^8.1.1",
     "resolve-url-loader": "^5.0.0",
     "sass": "^1.81.0",

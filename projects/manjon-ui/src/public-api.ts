@@ -2,6 +2,9 @@
  * Public API Surface of manjon-ui
  */
 
+// Calendar
+export * from './lib/components/calendar/calendar.component';
+
 // Radiobutton
 export * from './lib/components/radiobutton/radiobutton.component';
 
