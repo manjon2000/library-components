@@ -42,7 +42,7 @@
       </tr>
     </thead>
     <tbody class="ui-calendar-table-body">
-      @for (week of weeks | async; track $index; let idx = $index) {
+      @for (week of weeks | async; let idx = $index; track trackByIndex;) {
       <tr role="row">
         @for (day of week; track day.ISO8601) {
           <td

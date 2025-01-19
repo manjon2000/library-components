@@ -108,6 +108,10 @@ export class UICalendarComponent implements OnInit, OnChanges, OnDestroy {
       );
   }
 
+  public trackByIndex(index: number, item: any): number {
+    return index; // Rastrea por índice
+  }
+
   public setCellAspectRatio(numCols: number): void {
     const padding = (100 * this.cellAspectRatio) / numCols / 2;
     this._cellPadding = `${padding.toFixed(2)}%`;
