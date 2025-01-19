@@ -1,3 +1,4 @@
+export * from './lib/components/calendar/calendar.component';
 export * from './lib/components/radiobutton/radiobutton.component';
 export * from './lib/components/toggler/toggler.component';
 export * from './lib/components/input-search/input-search.component';

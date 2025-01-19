@@ -1,10 +1,376 @@
 import * as i0 from '@angular/core';
-import { EventEmitter, Directive, Output, HostListener, forwardRef, Component, ViewEncapsulation, ViewChild, Input, ChangeDetectionStrategy, NgModule } from '@angular/core';
-import * as i1$1 from '@angular/forms';
-import { NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
+import { Injectable, EventEmitter, booleanAttribute, Component, ChangeDetectionStrategy, Input, Output, Directive, HostListener, forwardRef, ViewEncapsulation, ViewChild, NgModule } from '@angular/core';
 import * as i1 from '@angular/common';
 import { CommonModule } from '@angular/common';
-import { Subject, filter, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, filter, takeUntil } from 'rxjs';
+import * as i1$1 from '@angular/forms';
+import { NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
+
+class CalendarService {
+    constructor() {
+        this._initWeeks = new BehaviorSubject([]);
+        this.initWeeks$ = this._initWeeks.asObservable();
+    }
+    decomposeMonthIntoWeeks(year, month, type, isShowDaysOtherMonth, startDate, endDate) {
+        const getTotalDaysInMonth = (year, month) => {
+            const daysInMonth = [31, this.isLeapYear(year) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            return daysInMonth[month - 1];
+        };
+        const diffDaysOfFirstWeek = this.getDiffDaysOfWeek(year, month);
+        const totalDaysInMonth = getTotalDaysInMonth(year, month);
+        const weeks = [];
+        let currentWeek = [];
+        if (isShowDaysOtherMonth) {
+            const prevMonth = month - 1 < 1 ? 12 : month - 1;
+            const prevYear = month - 1 < 1 ? year - 1 : year;
+            const totalDaysInPrevMonth = getTotalDaysInMonth(prevYear, prevMonth);
+            for (let i = diffDaysOfFirstWeek; i > 0; i--) {
+                const prevDate = new Date(prevYear, prevMonth - 1, totalDaysInPrevMonth - i + 1);
+                currentWeek.push({
+                    isAnotherMonth: true,
+                    day: prevDate.getDate(),
+                    month: prevDate.getMonth() + 1,
+                    year: prevDate.getFullYear(),
+                    unix: Math.floor(prevDate.getTime() / 1000),
+                    ISO8601: `${prevDate.getFullYear()}-${prevDate.getMonth() + 1}-${prevDate.getDate()}`,
+                });
+            }
+        }
+        else {
+            for (let i = 0; i < diffDaysOfFirstWeek; i++) {
+                currentWeek.push({ day: -1 });
+            }
+        }
+        for (let day = 1; day <= totalDaysInMonth; day++) {
+            const currentDate = new Date(year, month - 1, day);
+            let buildCurrentWeek = {
+                isAnotherMonth: false,
+                day: currentDate.getDate(),
+                month: currentDate.getMonth() + 1,
+                year: currentDate.getFullYear(),
+                unix: Math.floor(currentDate.getTime() / 1000),
+                ISO8601: `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`,
+            };
+            if (type === 'range' && endDate !== undefined) {
+                const startDateToUnix = this.formatToUnix(startDate);
+                const endDateToUnix = this.formatToUnix(endDate);
+                const currentDateToUnix = this.formatToUnix(currentDate);
+                if (currentDateToUnix >= startDateToUnix &&
+                    currentDateToUnix <= endDateToUnix) {
+                    buildCurrentWeek.isSelected = true;
+                }
+            }
+            else {
+                buildCurrentWeek.isSelected = false;
+            }
+            currentWeek.push(buildCurrentWeek);
+            if (currentWeek.length === 7) {
+                weeks.push(currentWeek);
+                currentWeek = [];
+            }
+        }
+        if (currentWeek.length > 0) {
+            const nextMonth = month + 1 > 12 ? 1 : month + 1;
+            const nextYear = month + 1 > 12 ? year + 1 : year;
+            let nextDay = 1;
+            while (currentWeek.length < 7) {
+                const nextDate = new Date(nextYear, nextMonth - 1, nextDay);
+                currentWeek.push({
+                    isAnotherMonth: true,
+                    day: nextDate.getDate(),
+                    month: nextDate.getMonth() + 1,
+                    year: nextDate.getFullYear(),
+                    unix: Math.floor(nextDate.getTime() / 1000),
+                    ISO8601: `${nextDate.getFullYear()}-${nextDate.getMonth() + 1}-${nextDate.getDate()}`,
+                });
+                nextDay++;
+            }
+            weeks.push(currentWeek);
+        }
+        this._initWeeks.next(weeks);
+    }
+    onSelectedDateSingle(ISO8601) {
+        const newDate = new Date(ISO8601);
+        newDate.setHours(0, 0, 0, 0);
+        return newDate;
+    }
+    getDayOfWeek(date) {
+        return date.getDay();
+    }
+    getDaysFromAnotherMonth(event, date, index) {
+        switch (event) {
+            case 'prev':
+                return new Date(new Date(date).setDate(date.getDate() - (index + 1)));
+            case 'next':
+                return new Date(new Date(date).setDate(date.getDate() + (index + 1)));
+        }
+    }
+    getDiffDaysOfWeek(year, month) {
+        const m = month < 3 ? month + 12 : month;
+        const y = month < 3 ? year - 1 : year;
+        const k = Math.floor(y / 100);
+        const j = y % 100;
+        const dayOfWeek = (1 +
+            Math.floor((13 * (m + 1)) / 5) +
+            j +
+            Math.floor(j / 4) +
+            Math.floor(k / 4) -
+            2 * k) %
+            7;
+        return (dayOfWeek + 5) % 7;
+    }
+    getFirstDayOfMonth(year, month) {
+        return new Date(year, (month - 1), 1);
+    }
+    getLastDayOfMonth(year, month) {
+        const firstDayMonth = new Date(year, month + 1, 1);
+        return new Date(new Date(firstDayMonth).setDate(firstDayMonth.getDate() - 1));
+    }
+    getDaysInMonth(date, index) {
+        const prevDate = new Date(date).setDate(date.getDate() - index);
+        console.log('Date:', prevDate);
+        const day = this.getDay(new Date(prevDate));
+        const month = this.getMonth(new Date(prevDate));
+        const year = this.getYear(new Date(prevDate));
+        return parseInt(new Date(prevDate).toLocaleString('es-ES', { day: '2-digit' }));
+    }
+    formatToUnix(date) {
+        const newDate = new Date(date);
+        newDate.setHours(0, 0, 0, 0);
+        return Math.floor(newDate.getTime() / 1000);
+    }
+    getTotalDaysInMonth(year, month) {
+        // El mes siguiente al actual, y el día 0 del mes siguiente devuelve el último día del mes actual.
+        return new Date(year, month + 1, 0).getDate();
+    }
+    getDay(date) {
+        return parseInt(date.toLocaleString('es-ES', { day: '2-digit' }));
+    }
+    getDayToString(date) {
+        return date.toLocaleString('es-ES', { day: '2-digit' });
+    }
+    getMonth(date) {
+        return parseInt(date.toLocaleString('es-ES', { month: '2-digit' }));
+    }
+    getMonthToString(date) {
+        return date.toLocaleString('es-ES', { month: '2-digit' });
+    }
+    getYear(date) {
+        return date.getFullYear();
+    }
+    isLeapYear(year) {
+        return (year % 4 === 0 &&
+            (year % 100 !== 0 || year % 400 === 0));
+    }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.3.12", ngImport: i0, type: CalendarService, deps: [], target: i0.ɵɵFactoryTarget.Injectable }); }
+    static { this.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "17.3.12", ngImport: i0, type: CalendarService, providedIn: 'root' }); }
+}
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.3.12", ngImport: i0, type: CalendarService, decorators: [{
+            type: Injectable,
+            args: [{
+                    providedIn: 'root'
+                }]
+        }], ctorParameters: () => [] });
+
+class UICalendarComponent {
+    set startDate(start) {
+        const startDate = new Date(start);
+        startDate.setHours(0, 0, 0, 0);
+        this._startDate = startDate;
+        this.cdr.markForCheck();
+    }
+    ;
+    set endDate(end) {
+        const endDate = new Date(end);
+        endDate.setHours(0, 0, 0, 0);
+        console.log(endDate);
+        this._endDate = endDate;
+        this.cdr.markForCheck();
+    }
+    constructor(cdr, calendarService) {
+        this.cdr = cdr;
+        this.calendarService = calendarService;
+        this.type = 'single';
+        this.cellAspectRatio = 1;
+        this.isShowDaysOtherMonth = true;
+        this.dateSelect = new EventEmitter();
+        this.dateRangeSelect = new EventEmitter();
+        this.dateMultipleSelect = new EventEmitter();
+        this.currentDate = new Date();
+        this._currentOptionDate = 'start';
+    }
+    ngOnInit() {
+        const date = this._startDate || new Date();
+        this.setYearMonth(date);
+        this.initWeeks();
+        this.weeks = this.calendarService.initWeeks$;
+    }
+    ngOnChanges(changes) {
+        if (changes['type'] && (changes['type'].previousValue !== changes['type'].currentValue)) {
+            this.initWeeks();
+        }
+        if (changes['endDate'] && (changes['endDate'].previousValue !== changes['endDate'].currentValue)) {
+            const endDate = new Date(changes['endDate'].currentValue);
+            endDate.setHours(0, 0, 0, 0);
+            this._endDate = endDate;
+            this.setYearMonth(endDate);
+            this.initWeeks();
+        }
+        if (changes['startDate'] && (changes['startDate'].previousValue !== changes['startDate'].currentValue)) {
+            const startDate = new Date(changes['startDate'].currentValue);
+            startDate.setHours(0, 0, 0, 0);
+            this._startDate = startDate;
+            this.setYearMonth(startDate);
+            this.initWeeks();
+        }
+    }
+    ngOnDestroy() {
+        if (this._subscriptionWeeks) {
+            this._subscriptionWeeks.unsubscribe();
+        }
+    }
+    initWeeks() {
+        this.calendarService
+            .decomposeMonthIntoWeeks(this.currentYear, this.currentMonth, this.type, this.isShowDaysOtherMonth, this._startDate, this._endDate);
+    }
+    trackByIndex(index, item) {
+        return index; // Rastrea por índice
+    }
+    setCellAspectRatio(numCols) {
+        const padding = (100 * this.cellAspectRatio) / numCols / 2;
+        this._cellPadding = `${padding.toFixed(2)}%`;
+        this._cellWidth = `${100 / numCols}%`;
+        this.cdr.markForCheck();
+    }
+    onPrevMonth() {
+        if (this.currentMonth === 1) {
+            this.currentMonth = 12;
+            this.currentYear--;
+        }
+        else {
+            this.currentMonth--;
+        }
+        this.initWeeks();
+        this.cdr.markForCheck();
+    }
+    onNextMonth() {
+        if ((this.currentMonth + 1) === 12) {
+            this.currentMonth = 1;
+            this.currentYear++;
+        }
+        else {
+            this.currentMonth++;
+        }
+        this.initWeeks();
+        this.cdr.markForCheck();
+    }
+    isDateSelected(dateUnix) {
+        const initialDate = this.calendarService.formatToUnix(this._startDate);
+        return dateUnix === initialDate;
+    }
+    isCurrentDate(dateUnix) {
+        const currentDateToUnix = this.calendarService.formatToUnix(new Date());
+        return (dateUnix ? dateUnix === currentDateToUnix : false);
+    }
+    onSelectedDate(option) {
+        switch (this.type) {
+            case 'single':
+                const startDate = this.calendarService.onSelectedDateSingle(option?.ISO8601);
+                this._startDate = startDate;
+                this.dateSelect.emit(startDate);
+                break;
+            case 'range':
+                this.onSelectedDateRange(option?.ISO8601);
+                this.toggleOptionDate();
+                break;
+        }
+        this.cdr.markForCheck();
+    }
+    onSelectedDateRange(ISO8601) {
+        switch (this._currentOptionDate) {
+            case 'start':
+                const startDate = this.calendarService.onSelectedDateSingle(ISO8601);
+                this._startDate = startDate;
+                this.initWeeks();
+                break;
+            case 'end':
+                const endDate = this.calendarService.onSelectedDateSingle(ISO8601);
+                this._endDate = endDate;
+                this.initWeeks();
+                if (this.verifyDateRange()) {
+                    this.dateRangeSelect.emit({ start: this._startDate, end: this._endDate });
+                }
+                break;
+        }
+    }
+    isEndDateRange(dateUnix) {
+        return (this._endDate ?
+            dateUnix === this.calendarService.formatToUnix(this._endDate) :
+            false);
+    }
+    setYearMonth(date) {
+        const currentDate = new Date(date);
+        this.currentYear = currentDate.getFullYear();
+        this.currentMonth = (currentDate.getMonth() + 1);
+    }
+    toggleOptionDate() {
+        if (this._currentOptionDate === 'start') {
+            if (this._endDate) {
+                this._endDate = undefined;
+            }
+            this._currentOptionDate = 'end';
+        }
+        else {
+            this.initWeeks();
+            this._currentOptionDate = 'start';
+        }
+    }
+    verifyDateRange() {
+        if (!this._endDate)
+            return false;
+        const startDateToUnix = this.calendarService
+            .formatToUnix(this._startDate);
+        const endDateToUnix = this.calendarService
+            .formatToUnix(this._endDate);
+        return !!(endDateToUnix >= startDateToUnix);
+    }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "17.3.12", ngImport: i0, type: UICalendarComponent, deps: [{ token: i0.ChangeDetectorRef }, { token: CalendarService }], target: i0.ɵɵFactoryTarget.Component }); }
+    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "17.0.0", version: "17.3.12", type: UICalendarComponent, isStandalone: true, selector: "ui-calendar", inputs: { startDate: "startDate", endDate: "endDate", type: "type", limitYearsPreview: "limitYearsPreview", cellAspectRatio: "cellAspectRatio", isShowDaysOtherMonth: ["isShowDaysOtherMonth", "isShowDaysOtherMonth", booleanAttribute], isResponsive: ["isResponsive", "isResponsive", booleanAttribute], isSelectable: ["isSelectable", "isSelectable", booleanAttribute], isSelectCurrentDay: ["isSelectCurrentDay", "isSelectCurrentDay", booleanAttribute] }, outputs: { dateSelect: "dateSelect", dateRangeSelect: "dateRangeSelect", dateMultipleSelect: "dateMultipleSelect" }, usesOnChanges: true, ngImport: i0, template: "<div class=\"ui-calendar\">\n  <div class=\"ui-calendar-controls\">\n    <button aria-label=\"Preview Month\" (click)=\"onPrevMonth()\">\n      <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M15.8326 4.18024C16.0558 4.42056 16.0558 4.8102 15.8326 5.05053L9.37955 12L15.8326 18.9495C16.0558 19.1898 16.0558 19.5794 15.8326 19.8198C15.6095 20.0601 15.2477 20.0601 15.0245 19.8198L8.16737 12.4351C7.94421 12.1948 7.94421 11.8052 8.16737 11.5649L15.0245 4.18024C15.2477 3.93992 15.6095 3.93992 15.8326 4.18024Z\" fill=\"black\"/>\n      </svg>\n    </button>\n    <div class=\"ui-calendar-controls-others\">\n      <button>Enero</button>\n      <button>2025</button>\n    </div>\n    <button aria-label=\"Next Month\" (click)=\"onNextMonth()\">\n      <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M8.16737 4.18024C8.39052 3.93992 8.75233 3.93992 8.97549 4.18024L15.8326 11.5649C15.9398 11.6803 16 11.8368 16 12C16 12.1632 15.9398 12.3197 15.8326 12.4351L8.97549 19.8198C8.75233 20.0601 8.39052 20.0601 8.16737 19.8198C7.94421 19.5794 7.94421 19.1898 8.16737 18.9495L14.6204 12L8.16737 5.05053C7.94421 4.8102 7.94421 4.42056 8.16737 4.18024Z\" fill=\"black\"/>\n      </svg>\n    </button>\n  </div>\n  <table role=\"grid\" class=\"ui-calendar-table\">\n    <thead class=\"ui-calendar-table-head\">\n      <tr>\n        <th scope=\"col\">\n          <span>L</span>\n        </th>\n        <th scope=\"col\">\n          <span>M</span>\n        </th>\n        <th scope=\"col\">\n          <span>X</span>\n        </th>\n        <th scope=\"col\">\n          <span>J</span>\n        </th>\n        <th scope=\"col\">\n          <span>V</span>\n        </th>\n        <th scope=\"col\">\n          <span>S</span>\n        </th>\n        <th scope=\"col\">\n          <span>D</span>\n        </th>\n      </tr>\n    </thead>\n    <tbody class=\"ui-calendar-table-body\">\n      @for (week of weeks | async; let idx = $index; track trackByIndex;) {\n      <tr role=\"row\">\n        @for (day of week; track day.ISO8601) {\n          <td\n            role=\"gridcell\"\n            [style.width]=\"_cellWidth\"\n            [style.paddingTop]=\"_cellPadding\"\n            [style.paddingBottom]=\"_cellPadding\"\n            >\n            <button\n              role=\"option\"\n              [class.readonly]=\"day.isAnotherMonth\"\n              [attr.disabled]=\"day.isAnotherMonth || null\"\n              [class.range]=\"day.isSelected && _endDate && type === 'range'\"\n              [class.end-date]=\"isEndDateRange(day.unix)\"\n              [attr.tabIndex]=\"day.isAnotherMonth ? -1 : 0\"\n              [attr.aria-current]=\"isSelectCurrentDay && type === 'single' ? (isCurrentDate(day.unix) ? 'date' : null) : null\"\n              [attr.aria-selected]=\"isDateSelected(day.unix)\"\n              [attr.data-date]=\"day.ISO8601 || null\"\n              (click)=\"onSelectedDate(day)\">\n              {{ day.day }}\n            </button>\n          </td>\n        }\n      </tr>\n      }\n    </tbody>\n  </table>\n</div>\n", styles: [".ui-calendar{width:280px;border:1px solid #DEDEDE;padding:4px 0;border-radius:4px}.ui-calendar-controls{display:flex;align-items:center;justify-content:space-between;padding:.24rem .75rem}.ui-calendar-controls button{height:max-content;display:flex;align-items:center;justify-content:center}.ui-calendar-controls button:focus{border-radius:8px;outline-offset:2px;outline:1px solid red}.ui-calendar-controls-others{display:flex;gap:.25rem}.ui-calendar-controls-others button{font:inherit;font-size:14px;line-height:16px}.ui-calendar-table{width:100%;border-collapse:collapse;table-layout:fixed}.ui-calendar-table-head{margin-bottom:1rem;border-bottom:1px solid #DEDEDE}.ui-calendar-table-head th{-webkit-user-select:none;user-select:none}.ui-calendar-table-head th:hover{cursor:default}.ui-calendar-table-head th span{font-weight:500;font-size:14px;line-height:16px}.ui-calendar-table-body tr{margin:0;padding:0;height:0;position:relative;text-align:center}.ui-calendar-table-body tr td button{width:100%;height:auto;display:flex;align-items:center;justify-content:center;margin:0;padding:0;aspect-ratio:1;font-weight:500;font-size:14px;line-height:16px;margin:.15rem 0;color:var(--grayscale-black)}.ui-calendar-table-body tr td button:focus{border-radius:999px;outline:1px solid var(--corporate-purple)}.ui-calendar-table-body tr td button.range{background-color:var(--corporate-purple);color:var(--grayscale-white)}.ui-calendar-table-body tr td button.range:is([aria-selected=true]){border-radius:999px 0 0 999px}.ui-calendar-table-body tr td button.range:is(.ui-calendar-table-body tr td button.end-date){border-radius:0 999px 999px 0}.ui-calendar-table-body tr td button[aria-selected=true]:has(.ui-calendar-table-body tr td button.range){border-radius:999px 0 0 999px}.ui-calendar-table-body tr td button:not(.ui-calendar-table-body tr td button[disabled]):not(.ui-calendar-table-body tr td button[aria-current]):not(.ui-calendar-table-body tr td button.range):hover{border-radius:999px;border:1px solid var(--corporate-purple);background-color:#9e3fe731;cursor:pointer}.ui-calendar-table-body tr td button[aria-current]{background-color:var(--corporate-purple);color:var(--grayscale-white);border-radius:999px}.ui-calendar-table-body tr td button:not(.ui-calendar-table-body tr td button[disabled]):not(.ui-calendar-table-body tr td button.range):is(.ui-calendar-table-body tr td button[aria-selected=true]){border-radius:999px;border:1px solid var(--corporate-purple);background-color:#9e3fe731;cursor:pointer}.ui-calendar-table-body tr td button.readonly{font-weight:400;color:#707070;pointer-events:none}.ui-calendar-table-body tr td button.readonly:hover{cursor:default}\n"], dependencies: [{ kind: "ngmodule", type: CommonModule }, { kind: "pipe", type: i1.AsyncPipe, name: "async" }], changeDetection: i0.ChangeDetectionStrategy.OnPush }); }
+}
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.3.12", ngImport: i0, type: UICalendarComponent, decorators: [{
+            type: Component,
+            args: [{ selector: 'ui-calendar', standalone: true, imports: [
+                        CommonModule,
+                    ], changeDetection: ChangeDetectionStrategy.OnPush, template: "<div class=\"ui-calendar\">\n  <div class=\"ui-calendar-controls\">\n    <button aria-label=\"Preview Month\" (click)=\"onPrevMonth()\">\n      <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M15.8326 4.18024C16.0558 4.42056 16.0558 4.8102 15.8326 5.05053L9.37955 12L15.8326 18.9495C16.0558 19.1898 16.0558 19.5794 15.8326 19.8198C15.6095 20.0601 15.2477 20.0601 15.0245 19.8198L8.16737 12.4351C7.94421 12.1948 7.94421 11.8052 8.16737 11.5649L15.0245 4.18024C15.2477 3.93992 15.6095 3.93992 15.8326 4.18024Z\" fill=\"black\"/>\n      </svg>\n    </button>\n    <div class=\"ui-calendar-controls-others\">\n      <button>Enero</button>\n      <button>2025</button>\n    </div>\n    <button aria-label=\"Next Month\" (click)=\"onNextMonth()\">\n      <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n        <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M8.16737 4.18024C8.39052 3.93992 8.75233 3.93992 8.97549 4.18024L15.8326 11.5649C15.9398 11.6803 16 11.8368 16 12C16 12.1632 15.9398 12.3197 15.8326 12.4351L8.97549 19.8198C8.75233 20.0601 8.39052 20.0601 8.16737 19.8198C7.94421 19.5794 7.94421 19.1898 8.16737 18.9495L14.6204 12L8.16737 5.05053C7.94421 4.8102 7.94421 4.42056 8.16737 4.18024Z\" fill=\"black\"/>\n      </svg>\n    </button>\n  </div>\n  <table role=\"grid\" class=\"ui-calendar-table\">\n    <thead class=\"ui-calendar-table-head\">\n      <tr>\n        <th scope=\"col\">\n          <span>L</span>\n        </th>\n        <th scope=\"col\">\n          <span>M</span>\n        </th>\n        <th scope=\"col\">\n          <span>X</span>\n        </th>\n        <th scope=\"col\">\n          <span>J</span>\n        </th>\n        <th scope=\"col\">\n          <span>V</span>\n        </th>\n        <th scope=\"col\">\n          <span>S</span>\n        </th>\n        <th scope=\"col\">\n          <span>D</span>\n        </th>\n      </tr>\n    </thead>\n    <tbody class=\"ui-calendar-table-body\">\n      @for (week of weeks | async; let idx = $index; track trackByIndex;) {\n      <tr role=\"row\">\n        @for (day of week; track day.ISO8601) {\n          <td\n            role=\"gridcell\"\n            [style.width]=\"_cellWidth\"\n            [style.paddingTop]=\"_cellPadding\"\n            [style.paddingBottom]=\"_cellPadding\"\n            >\n            <button\n              role=\"option\"\n              [class.readonly]=\"day.isAnotherMonth\"\n              [attr.disabled]=\"day.isAnotherMonth || null\"\n              [class.range]=\"day.isSelected && _endDate && type === 'range'\"\n              [class.end-date]=\"isEndDateRange(day.unix)\"\n              [attr.tabIndex]=\"day.isAnotherMonth ? -1 : 0\"\n              [attr.aria-current]=\"isSelectCurrentDay && type === 'single' ? (isCurrentDate(day.unix) ? 'date' : null) : null\"\n              [attr.aria-selected]=\"isDateSelected(day.unix)\"\n              [attr.data-date]=\"day.ISO8601 || null\"\n              (click)=\"onSelectedDate(day)\">\n              {{ day.day }}\n            </button>\n          </td>\n        }\n      </tr>\n      }\n    </tbody>\n  </table>\n</div>\n", styles: [".ui-calendar{width:280px;border:1px solid #DEDEDE;padding:4px 0;border-radius:4px}.ui-calendar-controls{display:flex;align-items:center;justify-content:space-between;padding:.24rem .75rem}.ui-calendar-controls button{height:max-content;display:flex;align-items:center;justify-content:center}.ui-calendar-controls button:focus{border-radius:8px;outline-offset:2px;outline:1px solid red}.ui-calendar-controls-others{display:flex;gap:.25rem}.ui-calendar-controls-others button{font:inherit;font-size:14px;line-height:16px}.ui-calendar-table{width:100%;border-collapse:collapse;table-layout:fixed}.ui-calendar-table-head{margin-bottom:1rem;border-bottom:1px solid #DEDEDE}.ui-calendar-table-head th{-webkit-user-select:none;user-select:none}.ui-calendar-table-head th:hover{cursor:default}.ui-calendar-table-head th span{font-weight:500;font-size:14px;line-height:16px}.ui-calendar-table-body tr{margin:0;padding:0;height:0;position:relative;text-align:center}.ui-calendar-table-body tr td button{width:100%;height:auto;display:flex;align-items:center;justify-content:center;margin:0;padding:0;aspect-ratio:1;font-weight:500;font-size:14px;line-height:16px;margin:.15rem 0;color:var(--grayscale-black)}.ui-calendar-table-body tr td button:focus{border-radius:999px;outline:1px solid var(--corporate-purple)}.ui-calendar-table-body tr td button.range{background-color:var(--corporate-purple);color:var(--grayscale-white)}.ui-calendar-table-body tr td button.range:is([aria-selected=true]){border-radius:999px 0 0 999px}.ui-calendar-table-body tr td button.range:is(.ui-calendar-table-body tr td button.end-date){border-radius:0 999px 999px 0}.ui-calendar-table-body tr td button[aria-selected=true]:has(.ui-calendar-table-body tr td button.range){border-radius:999px 0 0 999px}.ui-calendar-table-body tr td button:not(.ui-calendar-table-body tr td button[disabled]):not(.ui-calendar-table-body tr td button[aria-current]):not(.ui-calendar-table-body tr td button.range):hover{border-radius:999px;border:1px solid var(--corporate-purple);background-color:#9e3fe731;cursor:pointer}.ui-calendar-table-body tr td button[aria-current]{background-color:var(--corporate-purple);color:var(--grayscale-white);border-radius:999px}.ui-calendar-table-body tr td button:not(.ui-calendar-table-body tr td button[disabled]):not(.ui-calendar-table-body tr td button.range):is(.ui-calendar-table-body tr td button[aria-selected=true]){border-radius:999px;border:1px solid var(--corporate-purple);background-color:#9e3fe731;cursor:pointer}.ui-calendar-table-body tr td button.readonly{font-weight:400;color:#707070;pointer-events:none}.ui-calendar-table-body tr td button.readonly:hover{cursor:default}\n"] }]
+        }], ctorParameters: () => [{ type: i0.ChangeDetectorRef }, { type: CalendarService }], propDecorators: { startDate: [{
+                type: Input
+            }], endDate: [{
+                type: Input
+            }], type: [{
+                type: Input
+            }], limitYearsPreview: [{
+                type: Input
+            }], cellAspectRatio: [{
+                type: Input
+            }], isShowDaysOtherMonth: [{
+                type: Input,
+                args: [{ transform: booleanAttribute }]
+            }], isResponsive: [{
+                type: Input,
+                args: [{ transform: booleanAttribute }]
+            }], isSelectable: [{
+                type: Input,
+                args: [{ transform: booleanAttribute }]
+            }], isSelectCurrentDay: [{
+                type: Input,
+                args: [{ transform: booleanAttribute }]
+            }], dateSelect: [{
+                type: Output
+            }], dateRangeSelect: [{
+                type: Output
+            }], dateMultipleSelect: [{
+                type: Output
+            }] } });
 
 class FocusBlurDirective {
     constructor(el) {
@@ -694,11 +1060,11 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "17.3.12", ngImpo
 /*
  * Public API Surface of manjon-ui
  */
-// Radiobutton
+// Calendar
 
 /**
  * Generated bundle index. Do not edit.
  */
 
-export { UICheckboxComponent, UIInputSearchComponent, UIOptionComponent, UIOptionGroupComponent, UIRadiobuttonComponent, UITogglerComponent, UITreeComponent, UITreeModule, UITreeViewComponent };
+export { UICalendarComponent, UICheckboxComponent, UIInputSearchComponent, UIOptionComponent, UIOptionGroupComponent, UIRadiobuttonComponent, UITogglerComponent, UITreeComponent, UITreeModule, UITreeViewComponent };
 //# sourceMappingURL=manjon-ui.mjs.map
