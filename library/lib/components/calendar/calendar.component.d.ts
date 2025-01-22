@@ -2,6 +2,8 @@ import { ChangeDetectorRef, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleCh
 import { IDatesRange, IWeeks, TTypeCalendar } from './calendar.interface';
 import { CalendarService } from './calendar.service';
 import { Observable } from 'rxjs';
+import { ITranslation, TPrefixLanguage } from '../../../api/translation';
+import { CoreManjonUI } from '../../../config/core.config';
 import * as i0 from "@angular/core";
 export declare class UICalendarComponent implements OnInit, OnChanges, OnDestroy {
     private cdr;
@@ -9,6 +11,7 @@ export declare class UICalendarComponent implements OnInit, OnChanges, OnDestroy
     set startDate(start: Date);
     set endDate(end: Date);
     type: TTypeCalendar;
+    locale: TPrefixLanguage;
     limitYearsPreview: number;
     cellAspectRatio: number;
     isShowDaysOtherMonth: boolean;
@@ -18,8 +21,10 @@ export declare class UICalendarComponent implements OnInit, OnChanges, OnDestroy
     dateSelect: EventEmitter<Date>;
     dateRangeSelect: EventEmitter<IDatesRange>;
     dateMultipleSelect: EventEmitter<Array<Date>>;
+    config: CoreManjonUI;
     _startDate: Date;
     _endDate: Date | undefined;
+    dayNames: string[];
     currentDate: Date;
     currentYear: number;
     currentMonth: number;
@@ -30,10 +35,14 @@ export declare class UICalendarComponent implements OnInit, OnChanges, OnDestroy
     private _subscriptionWeeks;
     constructor(cdr: ChangeDetectorRef, calendarService: CalendarService);
     ngOnInit(): void;
+    getDayNames(): void;
     ngOnChanges(changes: SimpleChanges): void;
     ngOnDestroy(): void;
+    getDayName(index: number): string;
+    getTranslation(key: keyof ITranslation): string | string[] | undefined;
     initWeeks(): void;
     trackByIndex(index: number, item: any): number;
+    trackByIndexToDayNames(index: number, item: any): number;
     setCellAspectRatio(numCols: number): void;
     onPrevMonth(): void;
     onNextMonth(): void;
@@ -46,7 +55,7 @@ export declare class UICalendarComponent implements OnInit, OnChanges, OnDestroy
     private toggleOptionDate;
     private verifyDateRange;
     static ɵfac: i0.ɵɵFactoryDeclaration<UICalendarComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<UICalendarComponent, "ui-calendar", never, { "startDate": { "alias": "startDate"; "required": false; }; "endDate": { "alias": "endDate"; "required": false; }; "type": { "alias": "type"; "required": false; }; "limitYearsPreview": { "alias": "limitYearsPreview"; "required": false; }; "cellAspectRatio": { "alias": "cellAspectRatio"; "required": false; }; "isShowDaysOtherMonth": { "alias": "isShowDaysOtherMonth"; "required": false; }; "isResponsive": { "alias": "isResponsive"; "required": false; }; "isSelectable": { "alias": "isSelectable"; "required": false; }; "isSelectCurrentDay": { "alias": "isSelectCurrentDay"; "required": false; }; }, { "dateSelect": "dateSelect"; "dateRangeSelect": "dateRangeSelect"; "dateMultipleSelect": "dateMultipleSelect"; }, never, never, true, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<UICalendarComponent, "ui-calendar", never, { "startDate": { "alias": "startDate"; "required": false; }; "endDate": { "alias": "endDate"; "required": false; }; "type": { "alias": "type"; "required": false; }; "locale": { "alias": "locale"; "required": false; }; "limitYearsPreview": { "alias": "limitYearsPreview"; "required": false; }; "cellAspectRatio": { "alias": "cellAspectRatio"; "required": false; }; "isShowDaysOtherMonth": { "alias": "isShowDaysOtherMonth"; "required": false; }; "isResponsive": { "alias": "isResponsive"; "required": false; }; "isSelectable": { "alias": "isSelectable"; "required": false; }; "isSelectCurrentDay": { "alias": "isSelectCurrentDay"; "required": false; }; }, { "dateSelect": "dateSelect"; "dateRangeSelect": "dateRangeSelect"; "dateMultipleSelect": "dateMultipleSelect"; }, never, never, true, never>;
     static ngAcceptInputType_isShowDaysOtherMonth: unknown;
     static ngAcceptInputType_isResponsive: unknown;
     static ngAcceptInputType_isSelectable: unknown;
