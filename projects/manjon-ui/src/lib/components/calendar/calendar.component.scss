@@ -1,3 +1,5 @@
+@use "../../../styles/index.scss" as *;
+
 .ui-calendar {
   width: 280px;
   border: 1px solid #DEDEDE;
@@ -45,8 +47,8 @@
         }
         & span {
           font-weight: 500;
-          font-size: 14px;
-          line-height: 16px;
+          font-size: 12px;
+          line-height: 14px;
         }
       }
     }

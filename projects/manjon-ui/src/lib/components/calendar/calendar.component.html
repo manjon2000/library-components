@@ -17,29 +17,16 @@
   </div>
   <table role="grid" class="ui-calendar-table">
     <thead class="ui-calendar-table-head">
-      <tr>
-        <th scope="col">
-          <span>L</span>
-        </th>
-        <th scope="col">
-          <span>M</span>
-        </th>
-        <th scope="col">
-          <span>X</span>
-        </th>
-        <th scope="col">
-          <span>J</span>
-        </th>
-        <th scope="col">
-          <span>V</span>
-        </th>
-        <th scope="col">
-          <span>S</span>
-        </th>
-        <th scope="col">
-          <span>D</span>
-        </th>
-      </tr>
+      @if (getTranslation('dayNamesShort')) {
+        <tr>
+          @for (name of getTranslation('dayNamesShort'); track $index; let idx = $index) {
+            <th scope="col">
+              <span class="visually-hidden"> {{ getDayName(idx) | titlecase }} </span>
+              <span aria-hidden="true">{{ name | uppercase }}</span>
+            </th>
+          }
+        </tr>
+      }
     </thead>
     <tbody class="ui-calendar-table-body">
       @for (week of weeks | async; let idx = $index; track trackByIndex;) {
