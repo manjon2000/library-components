@@ -83,14 +83,6 @@ export class UICalendarComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  getDayName(index: number): string {
-    return this.dayNames[index];
-  }
-
-  getTranslation(key: keyof ITranslation): string | string[] | undefined {
-    return this.config.getTranslation(this.locale, key);
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['type'] && (changes['type'].previousValue !== changes['type'].currentValue)) {
       this.initWeeks();
@@ -122,6 +114,14 @@ export class UICalendarComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  public getDayName(index: number): string {
+    return this.dayNames[index];
+  }
+
+  public getTranslation(key: keyof ITranslation): string | string[] | undefined {
+    return this.config.getTranslation(this.locale, key);
+  }
+
   public initWeeks(): void {
     this.calendarService
       .decomposeMonthIntoWeeks(
@@ -135,6 +135,9 @@ export class UICalendarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public trackByIndex(index: number, item: any): number {
+    return index;
+  }
+  public trackByIndexToDayNames(index: number, item: any): number {
     return index;
   }
 

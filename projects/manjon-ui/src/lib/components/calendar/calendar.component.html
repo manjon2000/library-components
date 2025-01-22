@@ -19,7 +19,7 @@
     <thead class="ui-calendar-table-head">
       @if (getTranslation('dayNamesShort')) {
         <tr>
-          @for (name of getTranslation('dayNamesShort'); track $index; let idx = $index) {
+          @for (name of getTranslation('dayNamesShort'); let idx = $index; track trackByIndexToDayNames;) {
             <th scope="col">
               <span class="visually-hidden"> {{ getDayName(idx) | titlecase }} </span>
               <span aria-hidden="true">{{ name | uppercase }}</span>
