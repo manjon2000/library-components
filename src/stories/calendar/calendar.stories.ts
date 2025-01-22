@@ -6,6 +6,7 @@ import { moduleMetadata } from '@storybook/angular';
 const meta: Meta<UICalendarComponent> = {
   title: 'Components/Calendar',
   args: {
+    locale: 'en-US',
     type: 'single',
     startDate: new Date('2025/01/01'),
     endDate: new Date('2025/01/05'),
@@ -14,6 +15,10 @@ const meta: Meta<UICalendarComponent> = {
     dateRangeSelect: action('Date selected'),
   },
   argTypes: {
+    locale: {
+      control: 'select',
+      options: ['es-ES', 'en-US', 'ca-CA'],
+    },
     type: {
       control: 'select',
       options: ['single', 'range']
@@ -45,6 +50,7 @@ export const Default: StoryObj<UICalendarComponent> = {
   render(args) {
     return {
       template: `<ui-calendar
+                  [locale]="locale"
                   [type]="type"
                   [startDate]="startDate"
                   [endDate]="endDate"
