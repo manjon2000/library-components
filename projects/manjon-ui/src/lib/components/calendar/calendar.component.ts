@@ -61,6 +61,7 @@ export class UICalendarComponent implements OnInit, OnChanges, OnDestroy {
   public _cellWidth!: string;
   private _currentOptionDate: 'start' | 'end' = 'start';
   private _subscriptionWeeks!: Subscription;
+  private allmonth = this.config.getTranslation(this.locale, 'monthNames');
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -73,6 +74,7 @@ export class UICalendarComponent implements OnInit, OnChanges, OnDestroy {
     this.initWeeks();
     this.weeks = this.calendarService.initWeeks$;
     this.getDayNames();
+    console.log(this.allmonth)
   }
 
   getDayNames(): void {
@@ -105,6 +107,9 @@ export class UICalendarComponent implements OnInit, OnChanges, OnDestroy {
     }
     if (changes['locale'] && (changes['locale'].previousValue !== changes['locale'].currentValue)) {
       this.getDayNames();
+        this.allmonth = this.config.getTranslation(this.locale, 'monthNames');
+        console.log(this.allmonth)
+
     }
   }
 
@@ -228,6 +233,14 @@ export class UICalendarComponent implements OnInit, OnChanges, OnDestroy {
         dateUnix === this.calendarService.formatToUnix(this._endDate) :
         false
     );
+  }
+
+  public getCurrentMonth(): string  {
+    return this.allmonth![new Date(this._startDate || new Date()).getMonth()] ?? '0';
+  }
+
+  public getCurrentYear(): number {
+    return this._startDate.getFullYear() ??  new Date().getFullYear();
   }
 
   private setYearMonth(date: Date): void {

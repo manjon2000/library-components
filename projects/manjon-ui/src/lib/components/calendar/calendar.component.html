@@ -6,8 +6,10 @@
       </svg>
     </button>
     <div class="ui-calendar-controls-others">
-      <button>Enero</button>
-      <button>2025</button>
+      <button>{{ getCurrentMonth() }}</button>
+      <button>
+        {{ getCurrentYear() }}
+      </button>
     </div>
     <button aria-label="Next Month" (click)="onNextMonth()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
