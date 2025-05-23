@@ -33,6 +33,7 @@ export declare class UICalendarComponent implements OnInit, OnChanges, OnDestroy
     _cellWidth: string;
     private _currentOptionDate;
     private _subscriptionWeeks;
+    private allmonth;
     constructor(cdr: ChangeDetectorRef, calendarService: CalendarService);
     ngOnInit(): void;
     getDayNames(): void;
@@ -51,6 +52,8 @@ export declare class UICalendarComponent implements OnInit, OnChanges, OnDestroy
     onSelectedDate(option: IWeeks): void;
     onSelectedDateRange(ISO8601: string | undefined): void;
     isEndDateRange(dateUnix: number | undefined): boolean;
+    getCurrentMonth(): string;
+    getCurrentYear(): number;
     private setYearMonth;
     private toggleOptionDate;
     private verifyDateRange;
