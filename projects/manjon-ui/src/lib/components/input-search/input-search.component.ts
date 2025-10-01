@@ -29,7 +29,7 @@ export class UIInputSearchComponent implements AfterContentInit, AfterViewInit, 
   @Input() isShowSuggestions: boolean = true;
 
   @Output() outputWriteInput: EventEmitter<string> = new EventEmitter<string>();
-  @Output() outputSuggestions: EventEmitter<IUIOptionGroupOptionConfiguration> = new EventEmitter<IUIOptionGroupOptionConfiguration>(); 
+  @Output() outputSuggestions: EventEmitter<IUIOptionGroupOptionConfiguration> = new EventEmitter<IUIOptionGroupOptionConfiguration>();
 
   public isFocusin: boolean = false;
   public isShowPanel: boolean = false;

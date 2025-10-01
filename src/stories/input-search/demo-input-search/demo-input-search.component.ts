@@ -168,8 +168,6 @@ export class DemoInputSearchComponent {
   constructor() { }
 
   searchValue(event: string) {
-    console.log(event);
-    
     const findElements = this.countries.filter((country) => country.value.includes(event));
     if(findElements) {
       this.isEmpty = false;
