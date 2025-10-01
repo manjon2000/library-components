@@ -1,15 +1,15 @@
-<div class="ui-calendar">
+<div #calendarElement class="ui-calendar">
   <div class="ui-calendar-controls">
-    <button aria-label="Preview Month" (click)="onPrevMonth()">
+    <button [attr.aria-label]="getTranslation('prevMonth')" (click)="onPrevMonth()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" clip-rule="evenodd" d="M15.8326 4.18024C16.0558 4.42056 16.0558 4.8102 15.8326 5.05053L9.37955 12L15.8326 18.9495C16.0558 19.1898 16.0558 19.5794 15.8326 19.8198C15.6095 20.0601 15.2477 20.0601 15.0245 19.8198L8.16737 12.4351C7.94421 12.1948 7.94421 11.8052 8.16737 11.5649L15.0245 4.18024C15.2477 3.93992 15.6095 3.93992 15.8326 4.18024Z" fill="black"/>
       </svg>
     </button>
     <div class="ui-calendar-controls-others">
-      <button>Enero</button>
-      <button>2025</button>
+      <button (click)="onSelectOptionMonth()">Enero</button>
+      <button (click)="onSelectOptionYear()">{{ currentYear }}</button>
     </div>
-    <button aria-label="Next Month" (click)="onNextMonth()">
+    <button [attr.aria-label]="getTranslation('nextMonth')" (click)="onNextMonth()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" clip-rule="evenodd" d="M8.16737 4.18024C8.39052 3.93992 8.75233 3.93992 8.97549 4.18024L15.8326 11.5649C15.9398 11.6803 16 11.8368 16 12C16 12.1632 15.9398 12.3197 15.8326 12.4351L8.97549 19.8198C8.75233 20.0601 8.39052 20.0601 8.16737 19.8198C7.94421 19.5794 7.94421 19.1898 8.16737 18.9495L14.6204 12L8.16737 5.05053C7.94421 4.8102 7.94421 4.42056 8.16737 4.18024Z" fill="black"/>
       </svg>
@@ -58,3 +58,17 @@
     </tbody>
   </table>
 </div>
+
+<ui-period-content-display
+  [isHidden]="isHiddenPeriodContent"
+  [options]="showContent()"
+  [content]="content"
+  [elementRef]="_elementRef">
+  <ng-template #content let-option let-index="index">
+    <li role="listitem" class="ui-calendar-option">
+      <button (click)="onSelectMonth(index)">
+        {{ option | uppercase }}
+      </button>
+    </li>
+  </ng-template>
+</ui-period-content-display>

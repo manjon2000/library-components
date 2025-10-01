@@ -1,23 +1,29 @@
-import { booleanAttribute, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { AfterViewChecked, booleanAttribute, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import { IDatesRange, IWeeks, TTypeCalendar } from './calendar.interface';
 import { CommonModule } from '@angular/common';
 import { CalendarService } from './calendar.service';
 import { Observable, Subscription } from 'rxjs';
 import { ITranslation, TPrefixLanguage } from '../../../api/translation';
 import { CoreManjonUI } from '../../../config/core.config';
+import { UIPeriodContentDisplayComponent } from './period-content-display/period-content-display.component';
+import { CalendarPeriodService } from './calendar-period.service';
 
 @Component({
   selector: 'ui-calendar',
   standalone: true,
   imports: [
     CommonModule,
+    UIPeriodContentDisplayComponent
   ],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class UICalendarComponent implements OnInit, OnChanges, OnDestroy {
+export class UICalendarComponent implements OnInit, OnChanges, OnDestroy, AfterViewChecked {
+
+  @ViewChild('calendarElement', { static: true }) calendarElement!: ElementRef;
+
   @Input()
   set startDate(start: Date) {
     const startDate = new Date(start);
@@ -30,8 +36,6 @@ export class UICalendarComponent implements OnInit, OnChanges, OnDestroy {
   set endDate(end: Date) {
     const endDate = new Date(end);
     endDate.setHours(0, 0, 0, 0);
-
-    console.log(endDate)
 
     this._endDate = endDate;
     this.cdr.markForCheck();
@@ -49,38 +53,38 @@ export class UICalendarComponent implements OnInit, OnChanges, OnDestroy {
   @Output() dateRangeSelect: EventEmitter<IDatesRange> = new EventEmitter<IDatesRange>();
   @Output() dateMultipleSelect: EventEmitter<Array<Date>> = new EventEmitter<Array<Date>>();
 
+  public optionSelectedPeriodContent: 'month' | 'year' | null = null;
+  public _elementRef!: ElementRef;
   public config = inject(CoreManjonUI);
-  public _startDate!: Date;
-  public _endDate!: Date | undefined;
   public dayNames!: string[];
+  public monthsNames!: string[];
   public currentDate: Date = new Date();
   public currentYear!: number;
   public currentMonth!: number;
   public weeks!: Observable<IWeeks[][]>;
   public _cellPadding!: string;
   public _cellWidth!: string;
+  public _startDate!: Date;
+  public _endDate!: Date | undefined;
+  public isHiddenPeriodContent: boolean = true
   private _currentOptionDate: 'start' | 'end' = 'start';
   private _subscriptionWeeks!: Subscription;
 
   constructor(
     private cdr: ChangeDetectorRef,
-    private calendarService: CalendarService
+    private calendarService: CalendarService,
+    private calendarPeriodService: CalendarPeriodService,
+    private elementRef: ElementRef
   ) { }
 
   ngOnInit(): void {
     const date = this._startDate || new Date()
     this.setYearMonth(date);
     this.initWeeks();
-    this.weeks = this.calendarService.initWeeks$;
     this.getDayNames();
-  }
-
-  getDayNames(): void {
-    const dayNames = this.config
-      .getTranslation(this.locale, 'dayNames');
-    if(Array.isArray(dayNames)) {
-      this.dayNames = dayNames;
-    }
+    this.getMonthName();
+    this.weeks = this.calendarService.initWeeks$;
+    this._elementRef = this.elementRef.nativeElement;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -105,7 +109,17 @@ export class UICalendarComponent implements OnInit, OnChanges, OnDestroy {
     }
     if (changes['locale'] && (changes['locale'].previousValue !== changes['locale'].currentValue)) {
       this.getDayNames();
+      this.getMonthName();
     }
+  }
+
+  ngAfterViewChecked(): void {
+    const positionsDOM: DOMRect = this.calendarElement.nativeElement.getClientRects()[0];
+    this._elementRef = this.elementRef.nativeElement;
+
+    this.calendarPeriodService.setBoundingRect(positionsDOM)
+
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy(): void {
@@ -114,8 +128,24 @@ export class UICalendarComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  public getDayNames(): void {
+    const dayNames = this.config
+      .getTranslation(this.locale, 'dayNames');
+    if(Array.isArray(dayNames)) {
+      this.dayNames = dayNames;
+    }
+  }
+
   public getDayName(index: number): string {
     return this.dayNames[index];
+  }
+
+  public getMonthName(): void {
+    const monthNamesShort = this.getTranslation('monthNamesShort');
+
+    if(Array.isArray(monthNamesShort)) {
+      this.monthsNames = monthNamesShort;
+    }
   }
 
   public getTranslation(key: keyof ITranslation): string | string[] | undefined {
@@ -137,6 +167,7 @@ export class UICalendarComponent implements OnInit, OnChanges, OnDestroy {
   public trackByIndex(index: number, item: any): number {
     return index;
   }
+
   public trackByIndexToDayNames(index: number, item: any): number {
     return index;
   }
@@ -220,6 +251,32 @@ export class UICalendarComponent implements OnInit, OnChanges, OnDestroy {
 
         break;
     }
+  }
+
+  public onSelectMonth(idx: number): void {
+    console.log(this.monthsNames[idx]);
+    this.isHiddenPeriodContent = true;
+  }
+
+  public onSelectOptionMonth(): void {
+    this.isHiddenPeriodContent = false;
+    this.optionSelectedPeriodContent = 'month';
+  }
+
+  public onSelectOptionYear(): void {
+    this.isHiddenPeriodContent = false;
+    this.optionSelectedPeriodContent = 'year';
+  }
+
+  public showContent(): string[] {
+    switch(this.optionSelectedPeriodContent) {
+      case 'month':
+        return this.monthsNames;
+      case 'year':
+        return ['2025', '2026', '2027', '2028'];
+    }
+
+    return [];
   }
 
   public isEndDateRange(dateUnix: number | undefined): boolean {

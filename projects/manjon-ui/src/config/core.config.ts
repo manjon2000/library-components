@@ -1,12 +1,8 @@
 import { Injectable } from "@angular/core";
 import { ITranslation, TPrefixLanguage } from "../api/translation";
-import { Subject } from "rxjs";
 
 @Injectable( { providedIn: 'root'} )
 export class CoreManjonUI {
-
-  private translationSource = new Subject<ITranslation>();
-  translationObserver = this.translationSource.asObservable();
 
   public translation: Record<TPrefixLanguage, ITranslation> = {
     'es-ES': {
@@ -41,7 +37,7 @@ export class CoreManjonUI {
     },
     'ca-CA': {
       dayNames: ['dilluns', 'dimarts', 'dimecres', 'dijous', 'divendres', 'dissabte', 'diumenge'],
-      dayNamesShort: ['dil', 'dit', 'dic', 'dij', 'div', 'dis', 'dig'],
+      dayNamesShort: ['dil', 'dim', 'dix', 'dij', 'div', 'dis', 'diu'],
       dayNamesMin: ['L', 'M', 'X', 'J', 'V', 'S', 'D'],
       monthNames: [
         'gener', 'febrer', 'març', 'abril', 'maig', 'juny',

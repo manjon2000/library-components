@@ -1,0 +1,12 @@
+.period-content-display {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  padding: 0.5rem 1rem;
+  border: 1px solid #DEDEDE;
+  border-radius: 4px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, max-content);
+  gap: 0.25rem;
+}

@@ -1,0 +1,7 @@
+<ul #periodContentElement role="list" class="period-content-display visually-hidden">
+  <ng-template
+    *ngFor="let option of options; let i = index"
+    [ngTemplateOutlet]="content"
+    [ngTemplateOutletContext]="{ $implicit: option, index: i }">
+  </ng-template>
+</ul>
