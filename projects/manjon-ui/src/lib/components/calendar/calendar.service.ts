@@ -173,7 +173,6 @@ export class CalendarService {
 
   public getDaysInMonth(date: Date, index: number): number {
     const prevDate = new Date(date).setDate(date.getDate() - index);
-    console.log('Date:', prevDate)
     const day = this.getDay(new Date(prevDate));
     const month = this.getMonth(new Date(prevDate));
     const year = this.getYear(new Date(prevDate));

@@ -31,8 +31,6 @@ export class UICalendarComponent implements OnInit, OnChanges, OnDestroy {
     const endDate = new Date(end);
     endDate.setHours(0, 0, 0, 0);
 
-    console.log(endDate)
-
     this._endDate = endDate;
     this.cdr.markForCheck();
   }
@@ -74,7 +72,6 @@ export class UICalendarComponent implements OnInit, OnChanges, OnDestroy {
     this.initWeeks();
     this.weeks = this.calendarService.initWeeks$;
     this.getDayNames();
-    console.log(this.allmonth)
   }
 
   getDayNames(): void {
@@ -108,8 +105,6 @@ export class UICalendarComponent implements OnInit, OnChanges, OnDestroy {
     if (changes['locale'] && (changes['locale'].previousValue !== changes['locale'].currentValue)) {
       this.getDayNames();
         this.allmonth = this.config.getTranslation(this.locale, 'monthNames');
-        console.log(this.allmonth)
-
     }
   }
 

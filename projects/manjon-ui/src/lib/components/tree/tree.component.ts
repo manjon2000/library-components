@@ -82,7 +82,6 @@ export class UITreeComponent implements OnInit {
     }
 
     this.buildNodes(this.items);
-    console.log(this.nodes)
   }
 
   private buildNodes(nodes: ITreeView[]) {
@@ -94,7 +93,7 @@ export class UITreeComponent implements OnInit {
       }
 
       levelIndexes[level] = 0;
-      
+
       const children = nodes[level]?.children;
 
       this.nodes[level].push({
@@ -113,7 +112,7 @@ export class UITreeComponent implements OnInit {
   }
 
   private processBuildNodes(
-    level: number, 
+    level: number,
     levelIndexes: { [level: number]: number },
     node: ITreeView[]
   ) {
@@ -126,7 +125,7 @@ export class UITreeComponent implements OnInit {
         ...eL,
         children: true,
         level,
-        index: levelIndexes[level]++,        
+        index: levelIndexes[level]++,
         isFather: false,
         contentChildren: (eL?.children ? true : false),
       })

@@ -18,20 +18,20 @@ const meta: Meta<UIInputSearchComponent> = {
         }),
     ],
     parameters: {
-        component: UIInputSearchComponent 
+        component: UIInputSearchComponent
     }
 }
 
 export default meta;
 
 
-export const Default: StoryObj<UIInputSearchComponent> = {
-    render(args) {
-        return {
-            template: `<demo-input-search />`,
-            props: {
-                ...args
-            }
-        }
-    }
-} 
+// export const Default: StoryObj<UIInputSearchComponent> = {
+//     render(args) {
+//         return {
+//             template: `<demo-input-search />`,
+//             props: {
+//                 ...args
+//             }
+//         }
+//     }
+// }
