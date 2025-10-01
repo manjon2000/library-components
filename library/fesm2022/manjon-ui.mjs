@@ -194,7 +194,6 @@ class CalendarService {
     }
     getDaysInMonth(date, index) {
         const prevDate = new Date(date).setDate(date.getDate() - index);
-        console.log('Date:', prevDate);
         const day = this.getDay(new Date(prevDate));
         const month = this.getMonth(new Date(prevDate));
         const year = this.getYear(new Date(prevDate));
@@ -249,7 +248,6 @@ class UICalendarComponent {
     set endDate(end) {
         const endDate = new Date(end);
         endDate.setHours(0, 0, 0, 0);
-        console.log(endDate);
         this._endDate = endDate;
         this.cdr.markForCheck();
     }
@@ -274,7 +272,6 @@ class UICalendarComponent {
         this.initWeeks();
         this.weeks = this.calendarService.initWeeks$;
         this.getDayNames();
-        console.log(this.allmonth);
     }
     getDayNames() {
         const dayNames = this.config
@@ -304,7 +301,6 @@ class UICalendarComponent {
         if (changes['locale'] && (changes['locale'].previousValue !== changes['locale'].currentValue)) {
             this.getDayNames();
             this.allmonth = this.config.getTranslation(this.locale, 'monthNames');
-            console.log(this.allmonth);
         }
     }
     ngOnDestroy() {
@@ -1078,7 +1074,6 @@ class UITreeComponent {
                 false);
         }
         this.buildNodes(this.items);
-        console.log(this.nodes);
     }
     buildNodes(nodes) {
         const levelIndexes = {};
