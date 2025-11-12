@@ -1,6 +1,6 @@
-import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren, ViewEncapsulation } from '@angular/core';
-import { ITreeView, ITreeViewConfiguration, ITreeViewNodes, ITreeViewSelected } from './tree.interface';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { TreeNode } from './tree-node/tree-node';
+import { NodeUI } from './tree.model';
 
 @Component({
   selector: 'ui-tree-view',
@@ -12,167 +12,89 @@ import { ITreeView, ITreeViewConfiguration, ITreeViewNodes, ITreeViewSelected } 
 })
 export class UITreeViewComponent implements OnInit {
 
-  @Input() config!: ITreeViewConfiguration;
-  @Input() nodes!: ITreeViewNodes[][];
-  @Input() items: ITreeView[] = [
-    {
-      id: '1',
-      label: 'Frutas',
-      children: [
-        {
-          id: '2',
-          label: 'Tropicales',
-          children: [
-            {
-              id: '3',
-              label: 'Piña'
-            },
-            {
-              id: '3',
-              label: 'Melocoton'
-            },
-          ]
-        },
-        {
-          id: '4',
-          label: 'Nacionales',
-          children: [
-            {
-              id: '5',
-              label: 'Naranjas'
-            },
-            {
-              id: '6',
-              label: 'Sandias'
-            },
-          ]
-        },
-      ]
-    },
-    {
-      id: '313',
-      label: 'Countries',
-      children: [
-        {
-          id: '411',
-          label: 'Spain'
-        },
-        {
-          id: '111',
-          label: 'Franch'
-        },
-        {
-          id: '311',
-          label: 'Italy'
-        }
-      ]
-    }
-  ];
+  @Input({ required: true })
+  set data(nodes: NodeUI[]) {
+    this._nodes = nodes;
+  }
 
-  @Output() outputSelectItem: EventEmitter<ITreeView> = new EventEmitter<ITreeView>();
+  get data(): NodeUI[] {
+    return this._nodes;
+  }
 
-  public itemSelected: ITreeViewSelected[] = [];
-  public withItemsSelected: boolean = false;
+  public treeRoots: TreeNode[] = [];
+  private _nodes: NodeUI[] = [];
 
   constructor(
     private readonly cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
-    if (this.config) {
-      this.withItemsSelected = (
-        this.config.withSelected ?
-          true :
-          false
-      );
-    }
+    this.mountNodes();
   }
 
-  public selectItem(node: ITreeView) {
-    this.outputSelectItem.emit(node);
-  }
-
-
-  public isExpanded(node: ITreeViewNodes): void {
-    //this.findNode(node);
+  toggle(node: TreeNode) {
+    (node as any).expanded = !(node as any).expanded;
     this.cdr.markForCheck();
   }
 
-  public isNodeSelected(idNode: string): ITreeViewSelected | undefined {
-    return this.itemSelected.find(
-      (node: ITreeViewSelected) => node.selected.id === idNode
-    );
-  }
+  @HostListener('keydown', ['$event'])
+  onKeydown(event: KeyboardEvent) {
+    const flatNodes = this.flattenVisibleNodes(this.treeRoots);
+    const active = document.activeElement as HTMLElement;
+    const index = flatNodes.findIndex(n => n.el === active);
 
-  private findNode(node: ITreeView) {
-    const visited = new Set<string>();
-
-    for (const currentNode of this.items) {
-      if (this.processNode(node, currentNode, visited)) {
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault();
+        flatNodes[index + 1]?.el.focus();
         break;
-      }
+      case 'ArrowUp':
+        event.preventDefault();
+        flatNodes[index - 1]?.el.focus();
+        break;
+      case 'ArrowRight':
+        if (!flatNodes[index].node.isLeaf() && !flatNodes[index].node.expanded) {
+          this.toggle(flatNodes[index].node);
+        }
+        break;
+      case 'ArrowLeft':
+        if (flatNodes[index].node.expanded) {
+          this.toggle(flatNodes[index].node);
+        } else if (flatNodes[index].node.parentNode) {
+          flatNodes[index - 1]?.el.focus();
+        }
+        break;
     }
-
-    this.cdr.detectChanges();
   }
 
-  private processNode(
-    node: ITreeView,
-    currentNode: ITreeView,
-    visited: Set<string>
-  ): boolean {
-
-
-
-    if (visited.has(currentNode.id)) {
-      return false;
-    }
-
-    visited.add(currentNode.id);
-
-    if (currentNode.id === node.id) {
-      if (
-        this.verifyThisExistElementSelected(currentNode.id)
-      ) {
-        this.deletedNode(currentNode.id);
-      } else {
-        if (!this.itemSelected) {
-          this.itemSelected = [{ selected: currentNode }];
-        } else {
-          this.itemSelected.push({ selected: currentNode });
-        }
-      }
-
-      this.cdr.markForCheck();
-      return true;
-
-    }
-
-    // Process Childrens
-    if (currentNode.children) {
-      for (const child of currentNode.children) {
-        if (this.processNode(node, child, visited)) {
-          return true;
-        }
+  private flattenVisibleNodes(nodes: TreeNode[], result: any[] = []): any[] {
+    for (const node of nodes) {
+      const el = document.querySelector(`[aria-label="${node.getName()}"]`);
+      result.push({ node, el });
+      if (node.expanded && node.children.length) {
+        this.flattenVisibleNodes(node.children, result);
       }
     }
-
-    return false;
+    return result;
   }
 
-  private verifyThisExistElementSelected(
-    nodeId: string
-  ) {
-    return !!this.itemSelected.find(
-      (node: ITreeViewSelected) => node.selected.id === nodeId
+
+  private mountNodes() {
+    this.treeRoots = this._nodes.map(
+      node => this.recursiveNodes(node, 0, null)
     );
   }
 
-  private deletedNode(nodeId: String): void {
-    this.itemSelected = this.itemSelected?.filter(
-      (node: ITreeViewSelected) => node.selected.id !== nodeId
-    );
+  private recursiveNodes(node: NodeUI, level = 0, parent: TreeNode | null = null): TreeNode {
+    const createNode = new TreeNode(node.value, level, parent);
 
-    this.cdr.detectChanges();
+    if (node.children && node.children.length > 0) {
+      for (const n of node.children) {
+        const childNode = this.recursiveNodes(n, (level + 1), createNode);
+        createNode.addChild(childNode);
+      }
+    }
+
+    return createNode;
   }
 }

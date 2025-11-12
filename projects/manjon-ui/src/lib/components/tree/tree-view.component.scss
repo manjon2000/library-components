@@ -1,89 +1,74 @@
-@use '../../../styles/index.scss' as mixin;
+@use "../../../styles/index.scss" as mixin;
+
+:root {
+  --ui-tree-font-family: var(--ui-custom-tree-font-family, var(--font-family));
+  --ui-tree-color-text: var(--ui-custom-tree-color-text, var(--grayscale-black));
+  --ui-tree-color-hover-bg: var(--ui-custom-tree-color-hover-bg, rgba(0, 0, 0, 0.05));
+  --ui-tree-color-border: var(--ui-custom-tree-color-border, var(--grayscale-spacer));
+  --ui-tree-color-icon: var(--ui-custom-tree-color-icon, var(--grayscale-black));
+
+  --ui-tree-font-size: var(--ui-custom-tree-font-size, #{mixin.em(18px)});
+  --ui-tree-padding-x: var(--ui-custom-tree-padding-x, #{mixin.em(4px)});
+  --ui-tree-padding-y: var(--ui-custom-tree-padding-y, #{mixin.em(2px)});
+  --ui-tree-indent-step: var(--ui-custom-tree-indent-step, #{mixin.em(16px)});
+  --ui-tree-border-radius: var(--ui-custom-tree-border-radius, #{mixin.em(4px)});
+
+  --ui-tree-transition: var(--ui-custom-tree-transition, background-color 0.25s ease);
+}
 
 .ui-tree-view {
-    width: fit-content;
+  &__title {
+    font-weight: 600;
+    margin-bottom: mixin.em(8px);
+  }
+
+  &__list,
+  &__list ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__node {
+    background: none;
+    border: none;
+    width: 100%;
+    cursor: pointer;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: mixin.em(6px);
+    color: var(--ui-tree-color-text);
+    padding: var(--ui-tree-padding-y) var(--ui-tree-padding-x);
+    transition: var(--ui-tree-transition);
+    line-height: 1.6;
 
-    padding-left: 1rem;
-
-    &-item {
-        font-weight: 400;
-        font-size: mixin.em(16px);
-        line-height: 148%;
-        color: var(--grayscale-black);
-
-        &-group {
-            display: flex;
-            align-items: center;
-            gap: mixin.em(8px);
-
-            & svg {
-                cursor: pointer;
-            }
-        }
-
-        &-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-
-            &:focus-within {
-                outline-width: 2px;
-                outline-style: solid;
-                outline-color: var(--corporate-purple);
-                outline-offset: 2px;
-            }
-        }
-
-        &-select {
-            font: inherit;
-
-            &:focus-within {
-                outline-width: 2px;
-                outline-style: solid;
-                outline-color: var(--corporate-purple);
-                outline-offset: 1px;
-            }
-        }
-
-        & ul {
-            overflow: hidden;
-            height: 0;
-            animation: collapseAnimation 0.25s ease-in-out forwards;
-
-            @media (prefers-reduced-motion: reduce) {
-                animation: collapseAnimation forwards;
-            }
-        }
-
-        &--expanded {
-            & ul {
-                height: auto;
-                animation: expandAnimation 0.25s ease-in-out forwards;
-
-                @media (prefers-reduced-motion: reduce) {
-                    animation: expandAnimation forwards;
-                }
-            }
-        }
-
-        &--child {
-            padding-left: calc(1rem - 8px);
-            padding-top: 0.25rem;
-            padding-bottom: 0.25rem;
-        }
-        
+    &:hover {
+      background-color: var(--ui-tree-color-hover-bg);
+      border-radius: var(--ui-tree-border-radius);
     }
 
-    &-icon {
-        transition: transform ease-in-out 0.25s;
-        @media (prefers-reduced-motion: reduce) {
-            transition: none;
-        }
-        &--rotate {
-            transform: rotate(90deg);
-        }
+    &__label {
+      font-family: var(--ui-tree-font-family);
+      color: var(--ui-tree-color-text);
+      font-size: var(--ui-tree-font-size);
     }
+
+    &--leaf {
+      cursor: default;
+    }
+
+    &__toggle {
+      width: mixin.em(18px);
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--ui-tree-color-icon);
+      font-size: mixin.em(12px);
+    }
+  }
+
+  /* Indentación dinámica por nivel */
+  [data-level] {
+    padding-left: calc(var(--ui-tree-indent-step) * attr(data-level number));
+  }
 }

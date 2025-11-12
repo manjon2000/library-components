@@ -1,6 +1,64 @@
+# Árbol n-ario
+
+Este tipo de árbol nos permite tener la cantidad de nodos que queramos.
+
+
+```markdown
+           Raíz
+        /    |    \
+     Nodo1 Nodo2  Nodo3
+     /  \     |     | \
+   A1   A2    B1   C1  C2
+
+```
+
+## Representación jerárquica
+
+> Cada nodo tiene una lista de hijos, estructura recursiva.
+
+```yaml
+Nodo:
+  valor: A
+  hijos: [B, C, D]
+```
+```yaml
+Nodo:
+  valor: C
+  hijos: [E, F]
+```
+
+## Recorridos
+
+- Preorden
+- Inorden
+- Postorden
+- Amplitud
+
+```js
+class TreeNode {
+
+  contructor(
+    value,
+    level = 0,
+    parentNode = null
+  ) {
+    
+    this.value = value
+    this.children = []
+    this.level = level
+    this.parentNode = parentNode
+  }
+
+}
+```
+
+
+
+
+
 # Opciones para crear el componente
 
- ## Fábrica de Renderizadores
+## Fábrica de Renderizadores
 
 ### Paso 1: Base para los Renderizadores
 
@@ -136,3 +194,26 @@ export class TreeViewComponent {
     - Un nodo raíz con un renderizado básico.
     - Un hijo con un ícono.
     - Un hijo con una acción adicional.
+
+
+
+
+
+%%[
+  VAR @rowSupermercado, @productName
+  SET @rows = LookupRows("PRODUCTOS_SUPERMERCADO", " CATEGORIA", @interes) 
+  SET @rowCount = ROWCOUNT(@rows)
+
+  IF @rowCount > 0 THEN
+
+   FOR @i = 1 TO @rowCount DO
+    SET @rowSupermercado = Row(@rows, @i);
+    SET @productName = Field(@rowSupermercado, "NOMBRE");
+]%%
+
+  <p>%%=v(@productName)=%%</p>
+
+%%[
+    NEXT @i
+  ENDIF
+]%%
