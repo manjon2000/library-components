@@ -28,6 +28,3 @@ export * from './lib/components/tree/tree-view.component';
 
 // Tree Module
 export * from './lib/components/tree/tree.module';
-
-// TreeView
-export * from './lib/components/tree/tree.component';
