@@ -1,23 +1,20 @@
-import { ChangeDetectorRef, EventEmitter, OnInit } from '@angular/core';
-import { ITreeView, ITreeViewConfiguration, ITreeViewNodes, ITreeViewSelected } from './tree.interface';
+import { ChangeDetectorRef, OnInit } from '@angular/core';
+import { TreeNode } from './tree-node/tree-node';
+import { NodeUI } from './tree.model';
 import * as i0 from "@angular/core";
 export declare class UITreeViewComponent implements OnInit {
     private readonly cdr;
-    config: ITreeViewConfiguration;
-    nodes: ITreeViewNodes[][];
-    items: ITreeView[];
-    outputSelectItem: EventEmitter<ITreeView>;
-    itemSelected: ITreeViewSelected[];
-    withItemsSelected: boolean;
+    set data(nodes: NodeUI[]);
+    get data(): NodeUI[];
+    treeRoots: TreeNode[];
+    private _nodes;
     constructor(cdr: ChangeDetectorRef);
     ngOnInit(): void;
-    selectItem(node: ITreeView): void;
-    isExpanded(node: ITreeViewNodes): void;
-    isNodeSelected(idNode: string): ITreeViewSelected | undefined;
-    private findNode;
-    private processNode;
-    private verifyThisExistElementSelected;
-    private deletedNode;
+    toggle(node: TreeNode): void;
+    onKeydown(event: KeyboardEvent): void;
+    private flattenVisibleNodes;
+    private mountNodes;
+    private recursiveNodes;
     static ɵfac: i0.ɵɵFactoryDeclaration<UITreeViewComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<UITreeViewComponent, "ui-tree-view", never, { "config": { "alias": "config"; "required": false; }; "nodes": { "alias": "nodes"; "required": false; }; "items": { "alias": "items"; "required": false; }; }, { "outputSelectItem": "outputSelectItem"; }, never, never, false, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<UITreeViewComponent, "ui-tree-view", never, { "data": { "alias": "data"; "required": true; }; }, {}, never, never, false, never>;
 }
